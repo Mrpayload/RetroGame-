@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Chroma Carnival — Neon Arcade</title>
+  <title>Retro Galaxy — Neon Arcade</title>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800&display=swap"
     rel="stylesheet">
   <style>
@@ -22,6 +22,11 @@
       cursor: none;
       min-height: 100vh;
       user-select: none
+    }
+
+    body.galaxy-mode {
+      background: #020617;
+      color: #eef6ff
     }
 
     ::-webkit-scrollbar {
@@ -54,6 +59,24 @@
         radial-gradient(circle at 80% 70%, rgba(196, 77, 255, 0.08), transparent 50%),
         radial-gradient(circle at 50% 50%, rgba(77, 201, 246, 0.05), transparent 50%);
       animation: bgOrb 8s ease-in-out infinite alternate
+    }
+
+    body.galaxy-mode .bg {
+      background: radial-gradient(circle at 18% 12%, rgba(77, 201, 246, 0.18), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(196, 77, 255, 0.16), transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(255, 107, 157, 0.1), transparent 34%),
+        linear-gradient(135deg, #020617, #070b24 42%, #140a2e)
+    }
+
+    body.galaxy-mode .bg::before {
+      background: radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.12), transparent 1px),
+        radial-gradient(circle at 42% 18%, rgba(255, 255, 255, 0.09), transparent 1px),
+        radial-gradient(circle at 68% 36%, rgba(255, 255, 255, 0.12), transparent 1px),
+        radial-gradient(circle at 84% 62%, rgba(255, 255, 255, 0.1), transparent 1px),
+        radial-gradient(circle at 30% 74%, rgba(255, 255, 255, 0.08), transparent 1px),
+        radial-gradient(circle at 60% 78%, rgba(77, 201, 246, 0.09), transparent 42%);
+      background-size: 160px 160px, 190px 190px, 220px 220px, 150px 150px, 210px 210px, 100% 100%;
+      opacity: 0.9
     }
 
     @keyframes bgShift {
@@ -201,7 +224,92 @@
       background-size: 300% 100%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: titleShine 4s linear infinite
+      animation: titleShine 4s linear infinite;
+      cursor: pointer;
+      transition: transform 0.25s, filter 0.25s
+    }
+
+    .title:hover {
+      transform: translateY(-2px) scale(1.02);
+      filter: drop-shadow(0 0 12px rgba(77, 201, 246, 0.32))
+    }
+
+    .title:active {
+      transform: scale(0.98)
+    }
+
+    .title-logo {
+      display: inline-grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, #fff, #4dc9f6 20%, #7c3aed 52%, #020617 72%);
+      box-shadow: 0 0 18px rgba(77, 201, 246, 0.45), inset 0 0 10px rgba(255, 255, 255, 0.22);
+      -webkit-text-fill-color: #fff;
+      font-size: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      vertical-align: middle;
+      animation: logoPulse 2.8s ease-in-out infinite;
+      transition: transform 0.25s, box-shadow 0.25s
+    }
+
+    .title-logo::before {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-left-color: rgba(255, 221, 74, 0.95);
+      border-radius: 50%;
+      transform: rotateX(62deg) rotateZ(0deg);
+      animation: logoOrbit 2.4s linear infinite
+    }
+
+    .title-logo::after {
+      content: '';
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      top: 7px;
+      right: 8px;
+      border-radius: 50%;
+      background: #ffdd4a;
+      box-shadow: 0 0 10px rgba(255, 221, 74, 0.9);
+      animation: logoSatellite 2.4s linear infinite
+    }
+
+    .title:hover .title-logo {
+      transform: rotate(-10deg) scale(1.12);
+      box-shadow: 0 0 28px rgba(77, 201, 246, 0.7), 0 0 42px rgba(196, 77, 255, 0.24), inset 0 0 12px rgba(255, 255, 255, 0.3)
+    }
+
+    .title.logo-active {
+      filter: drop-shadow(0 0 16px rgba(255, 221, 74, 0.28)) drop-shadow(0 0 20px rgba(77, 201, 246, 0.22))
+    }
+
+    .title.logo-active .title-logo {
+      animation: logoPulse 1.6s ease-in-out infinite, logoTouchSpin 3.2s linear infinite;
+      box-shadow: 0 0 30px rgba(77, 201, 246, 0.78), 0 0 54px rgba(255, 107, 157, 0.24), inset 0 0 16px rgba(255, 255, 255, 0.34)
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { filter: hue-rotate(0deg); }
+      50% { filter: hue-rotate(35deg); }
+    }
+
+    @keyframes logoOrbit {
+      100% { transform: rotateX(62deg) rotateZ(360deg); }
+    }
+
+    @keyframes logoSatellite {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
+      50% { transform: translate(-22px, 20px) scale(0.75); opacity: 0.65; }
+    }
+
+    @keyframes logoTouchSpin {
+      100% { transform: rotate(360deg); }
     }
 
     @keyframes titleShine {
@@ -347,6 +455,19 @@
       font-weight: 700
     }
 
+    .mobile-tip {
+      display: none;
+      margin: 0 14px 10px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(77, 201, 246, 0.24);
+      background: rgba(77, 201, 246, 0.08);
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.5rem;
+      font-weight: 800;
+      letter-spacing: 0.4px
+    }
+
     .ss-go {
       font-family: 'Fredoka One', cursive;
       font-size: 0.85rem;
@@ -359,6 +480,19 @@
       transition: transform 0.3s, box-shadow 0.3s;
       letter-spacing: 1px;
       box-shadow: 0 0 20px rgba(255, 107, 157, 0.3)
+    }
+
+    .ss-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px
+    }
+
+    .ss-go.secondary {
+      padding: 10px 18px;
+      background: linear-gradient(135deg, rgba(77, 201, 246, 0.9), rgba(124, 58, 237, 0.9));
+      box-shadow: 0 0 18px rgba(77, 201, 246, 0.25)
     }
 
     .ss-go:hover {
@@ -450,7 +584,7 @@
       background: rgba(255, 255, 255, 0.05)
     }
 
-    / .game-card.active {
+    .game-card.active {
       background: rgba(255, 107, 157, 0.08);
       border-color: #ff6b9d;
       box-shadow: 0 0 20px rgba(255, 107, 157, 0.15)
@@ -547,6 +681,20 @@
       backdrop-filter: blur(4px)
     }
 
+    body.galaxy-mode .screen-frame,
+    body.galaxy-mode .instructions-panel,
+    body.galaxy-mode .game-card,
+    body.galaxy-mode .mobile-controls,
+    body.galaxy-mode .mobile-controls {
+      background: rgba(3, 7, 24, 0.86);
+      border-color: rgba(77, 201, 246, 0.28);
+      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.42), 0 0 34px rgba(77, 201, 246, 0.12)
+    }
+
+    body.galaxy-mode .screen-border {
+      background: linear-gradient(135deg, #4dc9f6, #7c3aed, #ff6b9d, #4dc9f6)
+    }
+
     .inst-title {
       font-family: 'Fredoka One', cursive;
       font-size: 0.9rem;
@@ -580,6 +728,219 @@
       box-shadow: 0 10px 34px rgba(0, 0, 0, 0.35), 0 0 28px rgba(196, 77, 255, 0.15);
       backdrop-filter: blur(14px);
       touch-action: none
+    }
+
+    .utility-row {
+      position: relative;
+      z-index: 41;
+      max-width: 680px;
+      margin: 6px auto 0;
+      padding: 4px 8px;
+      border-radius: 14px;
+      background: rgba(13, 2, 33, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(6px);
+      gap: 6px;
+      justify-content: center;
+      display: flex
+    }
+
+    .utility-row .util-btn {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.48rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      height: 28px;
+      padding: 0 14px;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
+      user-select: none;
+      -webkit-user-select: none
+    }
+
+    .utility-row .util-btn:hover {
+      background: rgba(255, 255, 255, 0.07);
+      color: rgba(255, 255, 255, 0.75)
+    }
+
+    .util-btn.is-about {
+      background: rgba(196, 77, 255, 0.14);
+      border-color: rgba(196, 77, 255, 0.3);
+      color: #d7b7ff
+    }
+
+    .util-btn.is-muted {
+      background: rgba(255, 107, 157, 0.18);
+      border-color: rgba(255, 107, 157, 0.35);
+      color: #ff6b9d
+    }
+
+    .util-btn.is-galaxy {
+      background: rgba(77, 201, 246, 0.18);
+      border-color: rgba(77, 201, 246, 0.35);
+      color: #4dc9f6
+    }
+
+    body.galaxy-mode .utility-row {
+      background: rgba(3, 7, 24, 0.55);
+      border-color: rgba(77, 201, 246, 0.18)
+    }
+
+    body.galaxy-mode .util-btn.is-galaxy {
+      background: rgba(77, 201, 246, 0.28);
+      border-color: rgba(77, 201, 246, 0.5);
+      color: #aeefff
+    }
+
+    .about-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(2, 6, 23, 0.68);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s
+    }
+
+    .about-overlay.show {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    .about-card {
+      max-width: 420px;
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(77, 201, 246, 0.28);
+      background: linear-gradient(135deg, rgba(13, 2, 33, 0.96), rgba(2, 6, 23, 0.96));
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.45), 0 0 40px rgba(77, 201, 246, 0.12);
+      text-align: center
+    }
+
+    .about-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.05rem;
+      color: #4dc9f6;
+      margin-bottom: 8px
+    }
+
+    .about-text,
+    .about-credit {
+      font-size: 0.72rem;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.68)
+    }
+
+    .about-credit {
+      margin: 10px 0 14px;
+      color: rgba(255, 221, 74, 0.9)
+    }
+
+    .about-close {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 22px;
+      background: linear-gradient(135deg, #4dc9f6, #7c3aed);
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      cursor: pointer
+    }
+
+    .inst-help-btn {
+      display: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(77, 201, 246, 0.38);
+      background: radial-gradient(circle at 35% 25%, rgba(255,255,255,0.24), rgba(77,201,246,0.22) 36%, rgba(196,77,255,0.2));
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1rem;
+      box-shadow: 0 0 18px rgba(77, 201, 246, 0.2);
+      cursor: pointer
+    }
+
+    .mobile-quick-row {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      margin: 5px auto 6px
+    }
+
+    .quick-fullscreen {
+      display: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(77, 201, 246, 0.38);
+      background: radial-gradient(circle at 35% 25%, rgba(255,255,255,0.24), rgba(77,201,246,0.22) 36%, rgba(196,77,255,0.2));
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.72rem;
+      box-shadow: 0 0 18px rgba(77, 201, 246, 0.2);
+      cursor: pointer
+    }
+
+    .inst-help-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 78;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(2, 6, 23, 0.6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s
+    }
+
+    .inst-help-overlay.show {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    .inst-help-card {
+      width: min(340px, 92vw);
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 107, 157, 0.32);
+      background: linear-gradient(135deg, rgba(13, 2, 33, 0.96), rgba(3, 7, 24, 0.96));
+      box-shadow: 0 12px 42px rgba(0, 0, 0, 0.45), 0 0 32px rgba(255, 107, 157, 0.12);
+      text-align: center
+    }
+
+    .inst-help-title {
+      font-family: 'Fredoka One', cursive;
+      color: #ffdd4a;
+      font-size: 0.9rem;
+      margin-bottom: 8px
+    }
+
+    .inst-help-body {
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.66rem;
+      line-height: 1.55;
+      font-weight: 800;
+      margin-bottom: 12px
+    }
+
+    .inst-help-close {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 20px;
+      background: linear-gradient(135deg, #ff6b9d, #4dc9f6);
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.72rem
     }
 
     .mobile-controls.show {
@@ -667,6 +1028,48 @@
     .touch-small.is-fullscreen {
       background: linear-gradient(135deg, rgba(77, 201, 246, 0.35), rgba(196, 77, 255, 0.25));
       color: #4dc9f6
+    }
+
+    .quick-fullscreen.is-fullscreen {
+      background: radial-gradient(circle at 35% 25%, rgba(255,255,255,0.35), rgba(77,201,246,0.4) 36%, rgba(196,77,255,0.34));
+      color: #4dc9f6;
+      box-shadow: 0 0 22px rgba(77, 201, 246, 0.34)
+    }
+
+    .touch-small.is-muted {
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.25), rgba(255, 221, 74, 0.18));
+      color: #ffdd4a
+    }
+
+    .touch-small.is-galaxy {
+      background: linear-gradient(135deg, rgba(77, 201, 246, 0.32), rgba(124, 58, 237, 0.34));
+      color: #aeefff
+    }
+
+    .mobile-controls[data-layout="action"] {
+      align-items: stretch;
+      justify-content: space-between
+    }
+
+    .mobile-controls[data-layout="action"] .touch-actions {
+      width: 100%;
+      grid-template-columns: minmax(132px, 1fr) repeat(2, 70px);
+      grid-template-rows: repeat(2, 58px);
+      align-items: stretch;
+      justify-content: stretch
+    }
+
+    .mobile-controls[data-layout="action"] .touch-action {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      font-size: 1rem
+    }
+
+    .mobile-controls[data-layout="action"] .touch-small {
+      height: auto
     }
 
     .mobile-controls[data-layout="action"] .touch-dpad {
@@ -767,12 +1170,19 @@
       }
 
       .container {
-        padding: 8px 8px 138px;
+        padding: 2px 2px 112px;
         max-width: 100%
       }
 
       .title {
-        font-size: 1.4rem
+        font-size: 1.25rem;
+        padding-top: 6px
+      }
+
+      .title-logo {
+        width: 34px;
+        height: 34px;
+        font-size: 0.95rem
       }
 
       .title small {
@@ -782,16 +1192,17 @@
 
       .screen-wrap {
         max-width: 100%;
-        margin: 8px auto
+        margin: 2px -4px 6px
       }
 
       .screen-frame {
         border-radius: 14px;
-        padding: 3px
+        padding: 1px
       }
 
       .screen-inner {
-        border-radius: 11px
+        border-radius: 11px;
+        aspect-ratio: 1.12 / 1
       }
 
       .game-hud {
@@ -868,12 +1279,26 @@
         padding: 0 10px
       }
 
+      .mobile-tip {
+        display: block
+      }
+
       .instructions-panel {
-        margin: 6px 0 10px;
-        padding: 9px 10px;
-        border-radius: 16px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(77, 201, 246, 0.035));
-        border-color: rgba(77, 201, 246, 0.24)
+        display: none
+      }
+
+      .inst-help-btn {
+        display: grid;
+        place-items: center
+      }
+
+      .mobile-quick-row {
+        display: flex
+      }
+
+      .quick-fullscreen {
+        display: grid;
+        place-items: center
       }
 
       .inst-title {
@@ -895,6 +1320,7 @@
       .mobile-controls {
         display: flex
       }
+
     }
 
     @media(max-width:500px) {
@@ -946,6 +1372,16 @@
         height: 62px
       }
 
+      .mobile-controls[data-layout="action"] .touch-actions {
+        grid-template-columns: minmax(126px, 1fr) repeat(2, 62px);
+        grid-template-rows: repeat(2, 54px)
+      }
+
+      .mobile-controls[data-layout="action"] .touch-action {
+        width: 100%;
+        height: 100%
+      }
+
       .touch-small {
         height: 40px
       }
@@ -973,7 +1409,7 @@
   <canvas id="cursorCanvas"></canvas>
 
   <div class="container">
-    <div class="title">✦ CHROMA CARNIVAL ✦<small>6 GAMES · CLICK EVERYTHING · NEON FUN</small></div>
+    <div class="title" id="mainTitle"><span class="title-logo">🕹</span>RETRO GALAXY<small>7 GAMES · COSMIC RETRO ARCADE · NEON FUN</small></div>
 
     <div class="screen-wrap">
       <div class="screen-frame">
@@ -987,7 +1423,11 @@
             <div class="ss-title" id="ssTitle">NEON SNAKE</div>
             <div class="ss-inst" id="ssInst">Arrow Keys / WASD to move<br>Eat orbs to grow! Avoid walls<br>★ Golden orb
               = +3 points!</div>
-            <button class="ss-go" id="ssGoBtn">▶ PLAY</button>
+            <div class="mobile-tip" id="mobileTip">Tip: FULL PLAY gives the cleanest mobile arcade view.</div>
+            <div class="ss-actions">
+              <button class="ss-go" id="ssGoBtn">▶ PLAY</button>
+              <button class="ss-go secondary" id="ssFullBtn">⛶ FULL PLAY</button>
+            </div>
           </div>
           <div class="game-over-overlay" id="gameOverOverlay">
             <div class="go-title">GAME OVER</div>
@@ -1009,11 +1449,17 @@
       <div class="game-card" data-game="breakout"><span class="gc-icon">🧱</span><span class="gc-name">BREAKOUT</span>
       </div>
       <div class="game-card" data-game="flappy"><span class="gc-icon">🐤</span><span class="gc-name">FLAPPY</span></div>
+      <div class="game-card" data-game="aliens"><span class="gc-icon">👽</span><span class="gc-name">SLINGSHOT</span></div>
     </div>
 
     <div class="instructions-panel" id="instPanel">
       <div class="inst-title">How to Play</div>
       <div class="inst-text" id="instText">Arrow Keys / WASD to move<br>Eat orbs to grow! Don't hit walls</div>
+    </div>
+
+    <div class="mobile-quick-row">
+      <button class="inst-help-btn" id="instHelpBtn" aria-label="Show instructions">?</button>
+      <button class="quick-fullscreen" id="touchFullscreen" aria-label="Fullscreen">⛶</button>
     </div>
 
     <div class="mobile-controls" id="mobileControls" data-layout="dpad">
@@ -1027,7 +1473,29 @@
         <button class="touch-btn touch-action" data-touch-key=" " id="touchAction" aria-label="Action">A</button>
         <button class="touch-btn touch-small" id="touchPause" aria-label="Pause">PAUSE</button>
         <button class="touch-btn touch-small" id="touchRestart" aria-label="Restart">RETRY</button>
-        <button class="touch-btn touch-small" id="touchFullscreen" aria-label="Fullscreen">FULL</button>
+      </div>
+    </div>
+
+    <div class="utility-row" id="mobileUtility">
+      <button class="util-btn" id="touchAudio" aria-label="Audio">SND</button>
+      <button class="util-btn" id="touchGalaxy" aria-label="Visual Mode">NEBULA</button>
+      <button class="util-btn is-about" id="touchAbout" aria-label="About Retro Galaxy">ABOUT</button>
+    </div>
+
+    <div class="about-overlay" id="aboutOverlay" aria-hidden="true">
+      <div class="about-card">
+        <div class="about-title">RETRO GALAXY</div>
+        <div class="about-text">Retro Galaxy is a cosmic neon arcade with seven fast mini-games built for quick retro fun.</div>
+        <div class="about-credit">Created by Vaishnav<br>vaishnavr1k@gmail.com</div>
+        <button class="about-close" id="aboutClose">CLOSE</button>
+      </div>
+    </div>
+
+    <div class="inst-help-overlay" id="instHelpOverlay" aria-hidden="true">
+      <div class="inst-help-card">
+        <div class="inst-help-title" id="instHelpTitle">HOW TO PLAY</div>
+        <div class="inst-help-body" id="instHelpBody">Arrow Keys / WASD to move<br>Eat orbs to grow! Don't hit walls</div>
+        <button class="inst-help-close" id="instHelpClose">GOT IT</button>
       </div>
     </div>
 
@@ -1568,8 +2036,11 @@
 
     // ==================== SOUND ====================
     let actx = null;
+    let audioMuted = localStorage.getItem('chromaAudioMuted') === '1';
+    let galaxyMode = localStorage.getItem('chromaGalaxyMode') === '1';
     function getAudio() { if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); return actx; }
     function sfx(freq, dur, type, vol) {
+      if (audioMuted) return;
       try {
         const a = getAudio(); const o = a.createOscillator(); const g = a.createGain();
         o.connect(g); g.connect(a.destination); o.type = type || 'square';
@@ -1580,6 +2051,7 @@
       } catch (e) { }
     }
     function playTune(notes) {
+      if (audioMuted) return;
       notes.forEach((n, i) => {
         setTimeout(() => {
           try {
@@ -1595,16 +2067,18 @@
     }
 
     const bgSongs = {
+      cosmic: { step: 420, notes: [[196, 0.7, 'sine', 0.014], [246.94, 0.55, 'triangle', 0.011], [329.63, 0.65, 'sine', 0.012], null, [392, 0.55, 'triangle', 0.01], [329.63, 0.7, 'sine', 0.012], [246.94, 0.6, 'triangle', 0.01], null, [220, 0.8, 'sine', 0.013], [277.18, 0.55, 'triangle', 0.011], [349.23, 0.65, 'sine', 0.012], null], bass: [[49, 1.2, 'sine', 0.012], null, null, null, [65.41, 1.1, 'sine', 0.011], null, null, null, [55, 1.2, 'sine', 0.012], null, null, null] },
       snake: { step: 145, notes: [[392, 0.11, 'triangle', 0.018], [523.25, 0.09, 'sine', 0.014], [659.25, 0.11, 'triangle', 0.018], [783.99, 0.08, 'sine', 0.012], [659.25, 0.1, 'triangle', 0.016], [523.25, 0.08, 'sine', 0.012], [440, 0.11, 'triangle', 0.018], [329.63, 0.1, 'sine', 0.014]], bass: [[98, 0.18, 'sine', 0.012], null, null, null, [123.47, 0.16, 'sine', 0.012], null, null, null] },
       pong: { step: 170, notes: [[261.63, 0.07, 'square', 0.015], null, [392, 0.06, 'square', 0.016], null, [329.63, 0.07, 'square', 0.015], null, [523.25, 0.06, 'square', 0.016], null], bass: [[130.81, 0.12, 'triangle', 0.012], null, [196, 0.1, 'triangle', 0.01], null, [164.81, 0.12, 'triangle', 0.012], null, [261.63, 0.1, 'triangle', 0.01], null] },
       shooter: { step: 115, notes: [[220, 0.08, 'sawtooth', 0.014], [220, 0.06, 'square', 0.012], [329.63, 0.08, 'sawtooth', 0.015], [440, 0.06, 'square', 0.012], [493.88, 0.08, 'sawtooth', 0.015], [440, 0.06, 'square', 0.012], [329.63, 0.08, 'sawtooth', 0.015], [277.18, 0.07, 'square', 0.012]], bass: [[55, 0.2, 'square', 0.01], null, null, null, [73.42, 0.18, 'square', 0.01], null, null, null] },
       dino: { step: 135, notes: [[329.63, 0.08, 'triangle', 0.016], [392, 0.08, 'triangle', 0.016], [493.88, 0.08, 'triangle', 0.017], null, [587.33, 0.09, 'triangle', 0.018], [493.88, 0.07, 'triangle', 0.015], [392, 0.08, 'triangle', 0.016], null], bass: [[82.41, 0.13, 'sine', 0.011], null, [98, 0.12, 'sine', 0.011], null, [110, 0.13, 'sine', 0.011], null, [98, 0.12, 'sine', 0.011], null] },
       breakout: { step: 155, notes: [[523.25, 0.1, 'sine', 0.017], [659.25, 0.09, 'triangle', 0.015], [783.99, 0.1, 'sine', 0.017], [1046.5, 0.08, 'triangle', 0.014], [880, 0.1, 'sine', 0.016], [783.99, 0.08, 'triangle', 0.014], [659.25, 0.1, 'sine', 0.016], [587.33, 0.08, 'triangle', 0.014]], bass: [[130.81, 0.2, 'triangle', 0.011], null, null, null, [146.83, 0.18, 'triangle', 0.011], null, null, null] },
-      flappy: { step: 155, notes: [[783.99, 0.07, 'sine', 0.012], null, [987.77, 0.06, 'triangle', 0.012], [880, 0.07, 'sine', 0.011], null, [1174.66, 0.06, 'triangle', 0.012], [987.77, 0.08, 'sine', 0.011], null, [659.25, 0.07, 'triangle', 0.01], null, [783.99, 0.06, 'sine', 0.011], null], bass: [[196, 0.1, 'sine', 0.007], null, null, null, [246.94, 0.09, 'sine', 0.007], null, null, null, [220, 0.09, 'sine', 0.007], null, null, null] }
+      flappy: { step: 155, notes: [[783.99, 0.07, 'sine', 0.012], null, [987.77, 0.06, 'triangle', 0.012], [880, 0.07, 'sine', 0.011], null, [1174.66, 0.06, 'triangle', 0.012], [987.77, 0.08, 'sine', 0.011], null, [659.25, 0.07, 'triangle', 0.01], null, [783.99, 0.06, 'sine', 0.011], null], bass: [[196, 0.1, 'sine', 0.007], null, null, null, [246.94, 0.09, 'sine', 0.007], null, null, null, [220, 0.09, 'sine', 0.007], null, null, null] },
+      aliens: { step: 160, notes: [[220, 0.12, 'sawtooth', 0.012], [277.18, 0.08, 'triangle', 0.01], [329.63, 0.12, 'sawtooth', 0.012], [440, 0.08, 'triangle', 0.01], [329.63, 0.1, 'sawtooth', 0.011], [277.18, 0.08, 'triangle', 0.01], [246.94, 0.12, 'sawtooth', 0.012], [220, 0.08, 'triangle', 0.01]], bass: [[55, 0.25, 'square', 0.01], null, null, [73.42, 0.2, 'square', 0.008], null, null, [65.41, 0.22, 'square', 0.009], null] }
     };
-    let bgMusicTimer = null, bgMusicToken = 0, bgMusicGain = null;
+    let bgMusicTimer = null, bgMusicToken = 0, bgMusicGain = null, bgMusicName = null, siteAudioUnlocked = false;
     function playBgTone(note, master) {
-      if (!note || !master) return;
+      if (audioMuted || !note || !master) return;
       try {
         const a = getAudio(); const o = a.createOscillator(); const g = a.createGain();
         o.type = note[2] || 'triangle'; o.frequency.setValueAtTime(note[0], a.currentTime);
@@ -1624,12 +2098,15 @@
       bgMusicTimer = setTimeout(() => scheduleBgMusic(game, step + 1, token), song.step);
     }
     function startBgMusic(game) {
+      if (bgMusicGain && bgMusicName === game) return;
       stopBgMusic();
+      if (audioMuted) return;
       const song = bgSongs[game];
       if (!song) return;
       try {
         const a = getAudio(); if (a.state === 'suspended') a.resume();
         bgMusicGain = a.createGain(); bgMusicGain.gain.setValueAtTime(paused ? 0 : 1, a.currentTime); bgMusicGain.connect(a.destination);
+        bgMusicName = game;
         const token = ++bgMusicToken; scheduleBgMusic(game, 0, token);
       } catch (e) { }
     }
@@ -1637,10 +2114,24 @@
       bgMusicToken++;
       if (bgMusicTimer) { clearTimeout(bgMusicTimer); bgMusicTimer = null; }
       if (bgMusicGain) { try { bgMusicGain.disconnect(); } catch (e) { } bgMusicGain = null; }
+      bgMusicName = null;
     }
     function setBgMusicPaused(isPaused) {
       if (!bgMusicGain || !actx) return;
       try { bgMusicGain.gain.cancelScheduledValues(actx.currentTime); bgMusicGain.gain.setTargetAtTime(isPaused ? 0 : 1, actx.currentTime, 0.04); } catch (e) { }
+    }
+
+    const gameStartTunes = {
+      snake: [[523.25, 0.035, 0.06, 0], [659.25, 0.04, 0.06, 70], [783.99, 0.045, 0.08, 150]],
+      pong: [[261.63, 0.04, 0.05, 0], [392, 0.04, 0.05, 90], [523.25, 0.045, 0.07, 180]],
+      shooter: [[220, 0.045, 0.05, 0], [440, 0.05, 0.05, 80], [880, 0.05, 0.08, 160]],
+      dino: [[329.63, 0.04, 0.05, 0], [493.88, 0.04, 0.05, 90], [659.25, 0.045, 0.08, 180]],
+      breakout: [[523.25, 0.04, 0.05, 0], [783.99, 0.04, 0.05, 75], [1046.5, 0.045, 0.08, 160]],
+      flappy: [[783.99, 0.035, 0.05, 0], [987.77, 0.035, 0.05, 85], [1174.66, 0.04, 0.08, 170]],
+      aliens: [[220, 0.04, 0.06, 0], [440, 0.04, 0.06, 80], [880, 0.05, 0.09, 160]]
+    };
+    function playGameStartSound(game) {
+      if (gameStartTunes[game]) playTune(gameStartTunes[game]);
     }
 
     // ==================== CANVAS ====================
@@ -1652,19 +2143,32 @@
     const gameOverEl = document.getElementById('gameOverOverlay');
     const goScoreEl = document.getElementById('goScore');
     const goHighEl = document.getElementById('goHigh');
+    const mainTitle = document.getElementById('mainTitle');
     const startScreen = document.getElementById('startScreen');
     const ssIcon = document.getElementById('ssIcon');
     const ssTitle = document.getElementById('ssTitle');
     const ssInst = document.getElementById('ssInst');
+    const mobileTip = document.getElementById('mobileTip');
     const ssGoBtn = document.getElementById('ssGoBtn');
+    const ssFullBtn = document.getElementById('ssFullBtn');
     const goRestartBtn = document.getElementById('goRestartBtn');
     const mobileControls = document.getElementById('mobileControls');
     const touchAction = document.getElementById('touchAction');
     const touchPause = document.getElementById('touchPause');
     const touchRestart = document.getElementById('touchRestart');
     const touchFullscreen = document.getElementById('touchFullscreen');
+    const touchAudio = document.getElementById('touchAudio');
+    const touchGalaxy = document.getElementById('touchGalaxy');
+    const touchAbout = document.getElementById('touchAbout');
+    const aboutOverlay = document.getElementById('aboutOverlay');
+    const aboutClose = document.getElementById('aboutClose');
+    const instHelpBtn = document.getElementById('instHelpBtn');
+    const instHelpOverlay = document.getElementById('instHelpOverlay');
+    const instHelpTitle = document.getElementById('instHelpTitle');
+    const instHelpBody = document.getElementById('instHelpBody');
+    const instHelpClose = document.getElementById('instHelpClose');
     let CW, CH;
-    const DESKTOP_CANVAS_W = 684, DESKTOP_CANVAS_H = 513;
+    const DESKTOP_CANVAS_W = 684, DESKTOP_CANVAS_H = 610;
 
     function useDesktopCanvasRatio() {
       return window.matchMedia('(pointer: coarse)').matches && window.innerWidth <= 768;
@@ -1684,8 +2188,9 @@
     let currentGame = 'snake', gameLoop = null, cleanup = null, paused = false, gameActive = false;
     let keys = {}, score = 0;
     let shooterTouch = { active: false, x: 0, y: 0, fire: false };
+    let breakoutTouch = { active: false, x: 0 };
     let highScores = JSON.parse(localStorage.getItem('chromaScores') || '{}');
-    let lastTime = 0, cursorTime = 0;
+    let lastTime = 0, cursorTime = 0, lastHapticAt = 0;
 
     const gameInfo = {
       snake: { name: 'NEON SNAKE', icon: '🐍', inst: 'Arrow Keys / WASD to move\nEat orbs to grow! Don\'t hit walls\n★ Golden orb = +3 points!' },
@@ -1693,11 +2198,12 @@
       shooter: { name: 'GALAXY SHOOTER', icon: '👾', inst: 'Arrow Keys / WASD to move\nSPACE to shoot • Stage difficulty rises\nPower-ups: RAPID, SPREAD, SHIELD, BOMB, LIFE' },
       dino: { name: 'RAINBOW RUNNER', icon: '🏃', inst: 'SPACE / ↑ / W to jump\nDodge cacti & birds\nCollect stars for +25 points!' },
       breakout: { name: 'CRYSTAL BREAKOUT', icon: '🧱', inst: '← → / A D to move paddle\nBreak all crystals to win!\n3 lives • Ball speeds up' },
-      flappy: { name: 'RAINBOW BIRD', icon: '🐤', inst: 'SPACE / ↑ / W to flap\nFly through pipe gaps\nDon\'t hit pipes or ground!' }
+      flappy: { name: 'RAINBOW BIRD', icon: '🐤', inst: 'SPACE / ↑ / W to flap\nFly through pipe gaps\nDon\'t hit pipes or ground!' },
+      aliens: { name: 'ALIEN SLINGSHOT', icon: '👽', inst: 'DRAG & RELEASE on screen to launch aliens!\n4 ALIEN TYPES with unique physics\nDestroy all enemy pods to clear the level!' }
     };
 
-    const mobileLayouts = { snake: 'dpad', pong: 'vertical', shooter: 'dpad', dino: 'action', breakout: 'horizontal', flappy: 'action' };
-    const mobileActionText = { snake: 'A', pong: 'A', shooter: 'FIRE', dino: 'JUMP', breakout: 'A', flappy: 'FLAP' };
+    const mobileLayouts = { snake: 'dpad', pong: 'vertical', shooter: 'dpad', dino: 'action', breakout: 'horizontal', flappy: 'action', aliens: 'action' };
+    const mobileActionText = { snake: 'A', pong: 'A', shooter: 'FIRE', dino: 'JUMP', breakout: 'A', flappy: 'FLAP', aliens: 'DRAG' };
     const touchAliases = { ArrowUp: ['ArrowUp', 'w', 'up'], ArrowDown: ['ArrowDown', 's', 'down'], ArrowLeft: ['ArrowLeft', 'a', 'left'], ArrowRight: ['ArrowRight', 'd', 'right'], ' ': [' '] };
 
     const mobileInst = {
@@ -1705,8 +2211,9 @@
       pong: 'Use ↑ ↓ buttons to move paddle<br>First to 5 wins! Ball speeds up',
       shooter: 'Drag inside the game to move anywhere<br>Hold FIRE or tap the game to shoot<br>Collect power-ups and clear each stage!',
       dino: 'Tap JUMP or the game to jump<br>Dodge cacti & birds<br>Collect stars for +25 points!',
-      breakout: 'Use ← → buttons to move paddle<br>Break all crystals to win!<br>3 lives • Ball speeds up',
-      flappy: 'Tap FLAP or the game to flap<br>Fly through pipe gaps<br>Don\'t hit pipes or ground!'
+      breakout: 'Drag on the game or use ← → buttons<br>Break all crystals to win!<br>3 lives • Ball speeds up',
+      flappy: 'Tap FLAP or the game to flap<br>Fly through pipe gaps<br>Don\'t hit pipes or ground!',
+      aliens: 'Drag & release on the screen to launch aliens!<br>4 ALIEN TYPES with unique physics<br>Destroy all enemy pods to clear the level!'
     };
 
     function isMobileControls() { return window.matchMedia('(pointer: coarse)').matches && window.innerWidth <= 768; }
@@ -1721,7 +2228,12 @@
       flappyAction: 16,
       pause: [22, 35, 22],
       restart: 32,
-      fullscreen: [18, 24, 18]
+      fullscreen: [18, 24, 18],
+      galaxy: [16, 18, 16],
+      score: 10,
+      power: [12, 18, 24],
+      damage: 28,
+      gameOver: [35, 45, 35]
     };
     function haptic(pattern) {
       if (!isMobileControls() || !navigator.vibrate) return;
@@ -1730,6 +2242,12 @@
     function hapticForTouchKey(key) {
       if (key === ' ') haptic(hapticPatterns[currentGame + 'Action'] || 12);
       else haptic(hapticPatterns.move);
+    }
+    function hapticEvent(pattern, gap) {
+      const now = performance.now();
+      if (now - lastHapticAt < (gap || 180)) return;
+      lastHapticAt = now;
+      haptic(pattern);
     }
 
     function updateMobileControls() {
@@ -1744,6 +2262,7 @@
     function clearInputState() {
       keys = {};
       shooterTouch = { active: false, x: 0, y: 0, fire: false };
+      breakoutTouch = { active: false, x: 0 };
       document.querySelectorAll('.touch-btn.pressed').forEach(btn => btn.classList.remove('pressed'));
     }
 
@@ -1754,6 +2273,14 @@
       shooterTouch.active = true; shooterTouch.fire = true;
       shooterTouch.x = (t.clientX - r.left) * (CW / r.width);
       shooterTouch.y = (t.clientY - r.top) * (CH / r.height);
+    }
+
+    function setBreakoutTouchFromEvent(e) {
+      const t = e.changedTouches && e.changedTouches[0];
+      if (!t) return;
+      const r = canvas.getBoundingClientRect();
+      breakoutTouch.active = true;
+      breakoutTouch.x = (t.clientX - r.left) * (CW / r.width);
     }
 
     function clearTouchKeySoon(key) {
@@ -1777,22 +2304,84 @@
     function getFullscreenElement() { return document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement; }
     function updateFullscreenButton() {
       const active = !!getFullscreenElement();
-      touchFullscreen.textContent = active ? 'EXIT' : 'FULL';
+      touchFullscreen.textContent = active ? '×' : '⛶';
       touchFullscreen.classList.toggle('is-fullscreen', active);
     }
-    function toggleFullscreen() {
+    function requestFullscreenMode() {
       const el = document.documentElement;
-      const active = getFullscreenElement();
       try {
-        if (active) {
+        const request = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+        if (request && !getFullscreenElement()) request.call(el);
+      } catch (e) { }
+      localStorage.setItem('chromaFullscreenHintSeen', '1');
+      setTimeout(updateFullscreenButton, 120);
+    }
+
+    function toggleFullscreen() {
+      try {
+        if (getFullscreenElement()) {
           const exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
           if (exit) exit.call(document);
-        } else {
-          const request = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
-          if (request) request.call(el);
-        }
+        } else requestFullscreenMode();
       } catch (e) { }
       setTimeout(updateFullscreenButton, 120);
+    }
+
+    function updateAudioButton() {
+      touchAudio.textContent = audioMuted ? 'MUTE' : 'SND';
+      touchAudio.classList.toggle('is-muted', audioMuted);
+    }
+    function toggleAudio() {
+      audioMuted = !audioMuted;
+      localStorage.setItem('chromaAudioMuted', audioMuted ? '1' : '0');
+      updateAudioButton();
+      if (audioMuted) stopBgMusic();
+      else ensureActiveMusic();
+    }
+
+    function ensureCosmicMusic() {
+      if (!audioMuted && siteAudioUnlocked) startBgMusic('cosmic');
+    }
+
+    function ensureActiveMusic() {
+      if (audioMuted || !siteAudioUnlocked) return;
+      if (gameActive && startScreen.classList.contains('hide') && !gameOverEl.classList.contains('show')) startBgMusic(currentGame);
+      else startBgMusic('cosmic');
+    }
+
+    function updateGalaxyButton() {
+      document.body.classList.toggle('galaxy-mode', galaxyMode);
+      touchGalaxy.textContent = galaxyMode ? 'GALAXY' : 'NEBULA';
+      touchGalaxy.classList.toggle('is-galaxy', galaxyMode);
+    }
+    function toggleGalaxyMode() {
+      galaxyMode = !galaxyMode;
+      localStorage.setItem('chromaGalaxyMode', galaxyMode ? '1' : '0');
+      updateGalaxyButton();
+    }
+
+    function showAbout() {
+      aboutOverlay.classList.add('show');
+      aboutOverlay.setAttribute('aria-hidden', 'false');
+    }
+    function hideAbout() {
+      aboutOverlay.classList.remove('show');
+      aboutOverlay.setAttribute('aria-hidden', 'true');
+    }
+
+    function showInstructionHelp() {
+      const info = gameInfo[currentGame];
+      const inst = isMobileControls() && mobileInst[currentGame] ? mobileInst[currentGame] : info.inst.replace(/\n/g, '<br>');
+      instHelpTitle.textContent = info.name;
+      instHelpBody.innerHTML = inst;
+      instHelpOverlay.classList.add('show');
+      instHelpOverlay.setAttribute('aria-hidden', 'false');
+      ensureActiveMusic();
+    }
+
+    function hideInstructionHelp() {
+      instHelpOverlay.classList.remove('show');
+      instHelpOverlay.setAttribute('aria-hidden', 'true');
     }
 
     function updateHS(name) {
@@ -1807,7 +2396,9 @@
       gameOverEl.classList.add('show');
       goScoreEl.textContent = 'Score: ' + sc;
       goHighEl.textContent = isNew ? '✦ NEW HIGH SCORE!' : 'Best: ' + getHS(currentGame);
-      stopBgMusic();
+      hapticEvent(hapticPatterns.gameOver, 0);
+      gameActive = false;
+      startBgMusic('cosmic');
       playTune([[330, 0.06, 0.08, 0], [260, 0.06, 0.08, 120], [200, 0.08, 0.15, 240]]);
     }
 
@@ -1817,9 +2408,11 @@
       clearInputState();
       ssIcon.textContent = info.icon; ssTitle.textContent = info.name;
       ssInst.innerHTML = inst; startScreen.classList.remove('hide');
+      mobileTip.style.display = isMobileControls() && localStorage.getItem('chromaFullscreenHintSeen') !== '1' ? 'block' : 'none';
       document.getElementById('instText').innerHTML = inst;
       updateMobileControls();
-      gameOverEl.classList.remove('show'); gameActive = false; paused = false; stopBgMusic(); updatePauseButton();
+      gameOverEl.classList.remove('show'); gameActive = false; paused = false; setBgMusicPaused(false); updatePauseButton();
+      ensureCosmicMusic();
     }
 
     function refreshInstructionText() {
@@ -1827,21 +2420,28 @@
       const inst = isMobileControls() && mobileInst[currentGame] ? mobileInst[currentGame] : info.inst.replace(/\n/g, '<br>');
       ssInst.innerHTML = inst;
       document.getElementById('instText').innerHTML = inst;
+      if (instHelpOverlay.classList.contains('show')) showInstructionHelp();
     }
 
     function startGameplay() {
       startScreen.classList.add('hide'); gameOverEl.classList.remove('show');
-      ssGoBtn.blur(); goRestartBtn.blur();
+      ssGoBtn.blur(); ssFullBtn.blur(); goRestartBtn.blur();
       clearInputState();
       updateMobileControls();
       if (cleanup) cleanup(); if (gameLoop) cancelAnimationFrame(gameLoop);
       paused = false; gameActive = true; lastTime = 0;
       updatePauseButton();
-      const games = { snake: initSnake, pong: initPong, shooter: initShooter, dino: initDino, breakout: initBreakout, flappy: initFlappy };
+      const games = { snake: initSnake, pong: initPong, shooter: initShooter, dino: initDino, breakout: initBreakout, flappy: initFlappy, aliens: initAliens };
       if (games[currentGame]) cleanup = games[currentGame]();
       scoreEl.textContent = '0'; highScoreEl.textContent = getHS(currentGame);
       sfx(660, 0.08, 'square', 0.06);
       startBgMusic(currentGame);
+      playGameStartSound(currentGame);
+    }
+
+    function startFullscreenGameplay() {
+      requestFullscreenMode();
+      startGameplay();
     }
 
     // ==================== GAME SELECT ====================
@@ -1860,15 +2460,31 @@
     });
 
     ssGoBtn.addEventListener('click', startGameplay);
+    ssFullBtn.addEventListener('click', startFullscreenGameplay);
     goRestartBtn.addEventListener('click', startGameplay);
+
+    mainTitle.addEventListener('pointerdown', e => {
+      e.preventDefault();
+      mainTitle.classList.toggle('logo-active');
+      siteAudioUnlocked = true;
+      ensureActiveMusic();
+      cursorBurst(e.clientX || window.innerWidth / 2, e.clientY || 80, 24);
+      hapticEvent(hapticPatterns.power, 0);
+      sfx(620, 0.08, 'triangle', 0.045);
+    });
 
     document.addEventListener('keydown', e => {
       keys[e.key] = true;
       if (e.key === ' ') e.preventDefault();
-      const map = { '1': 'snake', '2': 'pong', '3': 'shooter', '4': 'dino', '5': 'breakout', '6': 'flappy' };
+      const map = { '1': 'snake', '2': 'pong', '3': 'shooter', '4': 'dino', '5': 'breakout', '6': 'flappy', '7': 'aliens' };
       if (map[e.key]) {
         document.querySelectorAll('.game-card').forEach(c => {
           if (c.dataset.game === map[e.key]) c.click();
+        });
+      }
+      if (e.key === '7') {
+        document.querySelectorAll('.game-card').forEach(c => {
+          if (c.dataset.game === 'aliens') c.click();
         });
       }
       if (e.key === 'r' || e.key === 'R') {
@@ -1905,12 +2521,27 @@
     touchPause.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(hapticPatterns.pause); togglePause(); });
     touchRestart.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(hapticPatterns.restart); startGameplay(); });
     touchFullscreen.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(hapticPatterns.fullscreen); toggleFullscreen(); });
+    touchAudio.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(12); toggleAudio(); });
+    touchGalaxy.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(hapticPatterns.galaxy); toggleGalaxyMode(); });
+    touchAbout.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(10); showAbout(); });
+    aboutClose.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); hideAbout(); });
+    aboutOverlay.addEventListener('pointerdown', e => { if (e.target === aboutOverlay) hideAbout(); });
+    instHelpBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); haptic(10); showInstructionHelp(); });
+    instHelpClose.addEventListener('click', hideInstructionHelp);
+    instHelpOverlay.addEventListener('click', e => { if (e.target === instHelpOverlay) hideInstructionHelp(); });
     document.addEventListener('fullscreenchange', updateFullscreenButton);
     document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+    updateAudioButton();
+    updateGalaxyButton();
+
+    function startSiteAudioOnce() { siteAudioUnlocked = true; ensureActiveMusic(); }
+    document.addEventListener('pointerdown', startSiteAudioOnce, { once: true });
+    document.addEventListener('keydown', startSiteAudioOnce, { once: true });
 
     canvas.addEventListener('touchstart', e => {
       e.preventDefault();
       if (currentGame === 'shooter') setShooterTouchFromEvent(e);
+      if (currentGame === 'breakout') setBreakoutTouchFromEvent(e);
       if (currentGame === 'dino' || currentGame === 'flappy' || currentGame === 'shooter') {
         hapticForTouchKey(' ');
         setTouchKey(' ', true);
@@ -1919,11 +2550,13 @@
     canvas.addEventListener('touchend', e => {
       e.preventDefault();
       if (currentGame === 'shooter') { shooterTouch.active = false; shooterTouch.fire = false; }
+      if (currentGame === 'breakout') breakoutTouch.active = false;
       clearTouchKeySoon(' ');
     }, { passive: false });
     canvas.addEventListener('touchmove', e => {
       e.preventDefault();
       if (currentGame === 'shooter') setShooterTouchFromEvent(e);
+      if (currentGame === 'breakout') setBreakoutTouchFromEvent(e);
     }, { passive: false });
 
     // ==================== DECOR ====================
@@ -1956,13 +2589,13 @@
     // click background for sparks
     document.addEventListener('click', e => {
       retroTryHit(e.clientX, e.clientY);
-      if (e.target.closest('.game-card') || e.target.closest('.deco') || e.target.closest('.ss-go') || e.target.closest('.go-restart') || e.target.closest('.orb') || e.target.closest('.mobile-controls')) return;
+      if (e.target.closest('.title') || e.target.closest('.game-card') || e.target.closest('.deco') || e.target.closest('.ss-go') || e.target.closest('.go-restart') || e.target.closest('.about-overlay') || e.target.closest('.inst-help-overlay') || e.target.closest('.mobile-quick-row') || e.target.closest('.orb') || e.target.closest('.mobile-controls') || e.target.closest('.utility-row')) return;
       cursorBurst(e.clientX, e.clientY, 15);
       sfx(500 + Math.random() * 200, 0.04, 'sine', 0.04);
     });
 
     document.addEventListener('touchstart', e => {
-      if (e.target.closest('.game-card') || e.target.closest('.deco') || e.target.closest('.ss-go') || e.target.closest('.go-restart') || e.target.closest('.orb') || e.target.closest('.mobile-controls')) return;
+      if (e.target.closest('.title') || e.target.closest('.game-card') || e.target.closest('.deco') || e.target.closest('.ss-go') || e.target.closest('.go-restart') || e.target.closest('.about-overlay') || e.target.closest('.inst-help-overlay') || e.target.closest('.mobile-quick-row') || e.target.closest('.orb') || e.target.closest('.mobile-controls') || e.target.closest('.utility-row')) return;
       const t = e.changedTouches && e.changedTouches[0];
       if (!t) return;
       retroTryHit(t.clientX, t.clientY);
@@ -1997,6 +2630,7 @@
           snake.unshift(h);
           if (h.x === food.x && h.y === food.y) {
             sc++; score = sc; scoreEl.textContent = sc;
+            hapticEvent(hapticPatterns.score);
             moveInterval = Math.max(0.06, moveInterval - 0.004); sfx(660, 0.04, 'sine', 0.05); popups.push({ x: h.x * g + g / 2, y: h.y * g + g / 2, t: '+1', life: 1, c: '255,107,157' });
             food = { x: Math.floor(Math.random() * cols), y: Math.floor(Math.random() * rows) };
             if (Math.random() > 0.85) pFood = { x: Math.floor(Math.random() * cols), y: Math.floor(Math.random() * rows), life: 18 };
@@ -2005,6 +2639,7 @@
             pFood.life--;
             if (snake[0].x === pFood.x && snake[0].y === pFood.y) {
               sc += 3; score = sc; scoreEl.textContent = sc; moveInterval = Math.max(0.04, moveInterval - 0.012);
+              hapticEvent(hapticPatterns.power, 0);
               sfx(880, 0.06, 'sine', 0.06); popups.push({ x: pFood.x * g + g / 2, y: pFood.y * g + g / 2, t: '+3', life: 1, c: '255,221,74' }); pFood = null;
             } else if (pFood.life <= 0) pFood = null;
           }
@@ -2215,7 +2850,7 @@
         bullets.forEach(b => {
           enemies.forEach(e => {
             if (!b.hit && !e.hit && b.x < e.x + e.w && b.x + b.w > e.x && b.y < e.y + e.h && b.y + b.h > e.y) {
-              e.hp--; if (e.hp <= 0) { e.hit = true; sc += 10; score = sc; scoreEl.textContent = sc; sfx(660, 0.03, 'sine', 0.04); }
+              e.hp--; if (e.hp <= 0) { e.hit = true; sc += 10; score = sc; scoreEl.textContent = sc; hapticEvent(hapticPatterns.score, 120); sfx(660, 0.03, 'sine', 0.04); }
               b.hit = true;
             }
           })
@@ -2223,8 +2858,8 @@
         bullets = bullets.filter(b => !b.hit); enemies = enemies.filter(e => !e.hit);
         enemies.forEach(e => {
           if (!e.hit && px < e.x + e.w && px + 32 > e.x && py < e.y + e.h && py + 24 > e.y) {
-            if (shield) { shield = false; e.hit = true; sfx(760, 0.06, 'triangle', 0.06); return; }
-            lives--; e.hit = true; sfx(220, 0.1, 'sawtooth', 0.06);
+            if (shield) { shield = false; e.hit = true; hapticEvent(hapticPatterns.power, 0); sfx(760, 0.06, 'triangle', 0.06); return; }
+            lives--; e.hit = true; hapticEvent(hapticPatterns.damage, 0); sfx(220, 0.1, 'sawtooth', 0.06);
             if (lives <= 0) { alive = false; const nw = updateHS('shooter'); showGameOver(sc, nw); return; }
           }
         });
@@ -2240,6 +2875,7 @@
               enemies = []; sfx(180, 0.12, 'sawtooth', 0.07);
             }
             if (p.type === 'life') lives = Math.min(5, lives + 1);
+            hapticEvent(hapticPatterns.power, 0);
             sfx(880, 0.06, 'sine', 0.06); p.hit = true;
           }
         });
@@ -2306,7 +2942,7 @@
         const spawnInterval = Math.max(0.85, 1.55 - difficulty * 0.55);
         dvy += 900 * dt; dy += dvy * dt;
         if (dy > CH - 44) { dy = CH - 44; dvy = 0; jumping = false; }
-        if ((keys[' '] || keys['ArrowUp'] || keys['w']) && !jumping) { dvy = -500; jumping = true; sfx(330, 0.03, 'sine', 0.04); }
+        if ((keys[' '] || keys['ArrowUp'] || keys['w']) && !jumping) { dvy = -500; jumping = true; hapticEvent(hapticPatterns.score, 160); sfx(330, 0.03, 'sine', 0.04); }
 
         spawnT += dt;
         if (spawnT > spawnInterval) {
@@ -2332,7 +2968,7 @@
         coins.forEach(c => {
           const dx = 41 - c.x, cy = (dy + 15) - c.y;
           if (Math.sqrt(dx * dx + cy * cy) < c.r + 16) {
-            c.hit = true; sc += 25; sfx(760, 0.05, 'sine', 0.05);
+            c.hit = true; sc += 25; hapticEvent(hapticPatterns.power, 0); sfx(760, 0.05, 'sine', 0.05);
           }
         });
         distance += runSpeed * dt;
@@ -2412,8 +3048,11 @@
         const dt = Math.min((timestamp - lastTime) / 1000, 0.05); lastTime = timestamp;
         if (!gameActive) return;
 
-        if (keys['ArrowLeft'] || keys['a']) px = Math.max(0, px - 500 * dt);
-        if (keys['ArrowRight'] || keys['d']) px = Math.min(CW - pw, px + 500 * dt);
+        if (breakoutTouch.active) px = Math.max(0, Math.min(CW - pw, breakoutTouch.x - pw / 2));
+        else {
+          if (keys['ArrowLeft'] || keys['a']) px = Math.max(0, px - 500 * dt);
+          if (keys['ArrowRight'] || keys['d']) px = Math.min(CW - pw, px + 500 * dt);
+        }
         const prevBx = bx, prevBy = by;
         bx += bvx * dt; by += bvy * dt;
         if (bx <= br || bx >= CW - br) bvx *= -1;
@@ -2422,16 +3061,19 @@
           by = paddleY - br;
           bvy = -Math.abs(bvy); const off = (bx - (px + pw / 2)) / (pw / 2);
           bvx += off * 150; if (Math.abs(bvx) > 450) bvx = (bvx > 0 ? 450 : -450);
+          hapticEvent(hapticPatterns.score, 120);
           sfx(440, 0.03, 'sine', 0.04);
         }
         if (by > CH) {
           lives--; if (lives <= 0) { alive = false; const nw = updateHS('breakout'); showGameOver(sc, nw); return; }
+          hapticEvent(hapticPatterns.damage, 0);
           bx = CW / 2; by = CH - 50; bvx = (Math.random() > 0.5 ? 200 : -200); bvy = -280; sfx(220, 0.08, 'sawtooth', 0.05);
         }
         bricks.forEach(b => {
           if (!b.hit && bx > b.x && bx < b.x + b.w && by > b.y && by < b.y + b.h) {
             b.hp--; if (b.hp <= 0) b.hit = true;
             bvy *= -1; sc += 10; score = sc; scoreEl.textContent = sc;
+            hapticEvent(hapticPatterns.score, 90);
             sfx(660, 0.03, 'sine', 0.04);
           }
         });
@@ -2480,7 +3122,7 @@
 
         bvy += 700 * dt; by += bvy * dt;
         const flapDown = keys[' '] || keys['ArrowUp'] || keys['w'];
-        if (flapDown && !wasFlap) { bvy = -380; sfx(440, 0.03, 'sine', 0.04); }
+        if (flapDown && !wasFlap) { bvy = -380; hapticEvent(hapticPatterns.score, 140); sfx(440, 0.03, 'sine', 0.04); }
         wasFlap = flapDown;
         if (by > CH - 30 || by < -10) { alive = false; const nw = updateHS('flappy'); showGameOver(sc, nw); return; }
         spawnT += dt;
@@ -2494,6 +3136,7 @@
         pipes.forEach(p => {
           if (!p.scored && p.x + gw < bx) {
             sc += 10; score = sc; scoreEl.textContent = sc; p.scored = true;
+            hapticEvent(hapticPatterns.power, 0);
             sfx(660, 0.04, 'sine', 0.05);
           }
           if (bx > p.x && bx < p.x + gw && (by < p.y || by > p.y + gap)) {
@@ -2533,6 +3176,203 @@
       return () => { alive = false; cancelAnimationFrame(gameLoop); };
     }
 
+    // ==================== ALIEN SLINGSHOT (dt) ====================
+    function initAliens() {
+      const slingX = 80, slingY = CH - 45;
+      const gravity = 420;
+      const alienTypes = [
+        { name: 'BALANCED', color: '#2ecc71', glow: '#2ecc71', mass: 1, bounce: 0.4, radius: 12, grad: '#1a6e3a' },
+        { name: 'HEAVY', color: '#ff6b9d', glow: '#ff6b9d', mass: 2.2, bounce: 0.15, radius: 16, grad: '#8b1a3a' },
+        { name: 'LIGHT', color: '#ffdd4a', glow: '#ffdd4a', mass: 0.5, bounce: 0.65, radius: 10, grad: '#8b751a' },
+        { name: 'GRAVITY', color: '#c44dff', glow: '#c44dff', mass: 1, bounce: 0.35, radius: 13, grad: '#5a1a8b' }
+      ];
+      let typeIdx = 0;
+      let proj = null, trail = [];
+      let dragging = false, dragCur = null;
+      let blocks = [];
+      let sc = 0, alive = true, canLaunch = true, cooldown = 0;
+      let stars = [];
+
+      function generateBlocks() {
+        blocks = [];
+        const configs = [
+          { x: CW * 0.5, y: CH * 0.1, cols: 6, rows: 5, bw: 26, bh: 14 },
+          { x: CW * 0.72, y: CH * 0.35, cols: 4, rows: 4, bw: 26, bh: 14 },
+          { x: CW * 0.56, y: CH * 0.55, cols: 5, rows: 3, bw: 26, bh: 14 },
+        ];
+        const colors = ['#ff6b9d', '#c44dff', '#4dc9f6', '#ffdd4a', '#2ecc71'];
+        const gap = 2;
+        configs.forEach((cfg, ci) => {
+          for (let r = 0; r < cfg.rows; r++) {
+            for (let c = 0; c < cfg.cols; c++) {
+              blocks.push({
+                x: cfg.x + c * (cfg.bw + gap), y: cfg.y + r * (cfg.bh + gap),
+                w: cfg.bw, h: cfg.bh, color: colors[(r + ci) % colors.length],
+                hp: r === 0 ? 2 : 1, hit: false
+              });
+            }
+          }
+        });
+      }
+
+      generateBlocks();
+      for (let i = 0; i < 40; i++) stars.push({ x: Math.random() * CW, y: Math.random() * CH, s: 0.5 + Math.random() * 1.2, b: 0.3 + Math.random() * 0.7 });
+
+      function getAlien() { return alienTypes[typeIdx % alienTypes.length]; }
+      function nextType() { typeIdx++; canLaunch = true; }
+
+      function update(ts) {
+        if (!alive || !gameActive) return;
+        if (paused) { gameLoop = requestAnimationFrame(update); return; }
+        if (!lastTime) lastTime = ts;
+        const dt = Math.min((ts - lastTime) / 1000, 0.05); lastTime = ts;
+        if (!gameActive) return;
+
+        if (proj) {
+          const t = proj.t;
+          proj.vy += gravity * t.mass * dt;
+          if (t.name === 'GRAVITY') {
+            let near = null, nd = Infinity;
+            blocks.forEach(b => {
+              if (b.hit) return;
+              const cx = b.x + b.w / 2, cy = b.y + b.h / 2;
+              const dx = cx - proj.x, dy = cy - proj.y, d = Math.sqrt(dx * dx + dy * dy);
+              if (d < nd && d > 0) { nd = d; near = { dx, dy, d }; }
+            });
+            if (near && nd < 150) { const p = 120 / near.d; proj.vx += near.dx / near.d * p * dt; proj.vy += near.dy / near.d * p * dt; }
+          }
+          proj.x += proj.vx * dt; proj.y += proj.vy * dt;
+          trail.push({ x: proj.x, y: proj.y, life: 1, c: t.color });
+          trail.forEach(tr => tr.life -= dt * 1.5);
+          trail = trail.filter(tr => tr.life > 0).slice(-30);
+          const r2 = t.radius;
+          if (proj.x < r2) { proj.x = r2; proj.vx = Math.abs(proj.vx) * t.bounce; }
+          if (proj.x > CW - r2) { proj.x = CW - r2; proj.vx = -Math.abs(proj.vx) * t.bounce; }
+          if (proj.y < r2) { proj.y = r2; proj.vy = Math.abs(proj.vy) * t.bounce; }
+          let changed = false;
+          blocks.forEach(b => {
+            if (b.hit) return;
+            if (proj.x + r2 > b.x && proj.x - r2 < b.x + b.w && proj.y + r2 > b.y && proj.y - r2 < b.y + b.h) {
+              b.hp--; changed = true;
+              if (b.hp <= 0) { b.hit = true; sc += 10; score = sc; scoreEl.textContent = sc; }
+              hapticEvent(hapticPatterns.score, 100); sfx(660, 0.03, 'sine', 0.04);
+              const cx = b.x + b.w / 2, cy = b.y + b.h / 2;
+              const dx = proj.x - cx, dy = proj.y - cy;
+              if (Math.abs(dx / (b.w / 2)) > Math.abs(dy / (b.h / 2))) proj.vx *= -t.bounce;
+              else proj.vy *= -t.bounce;
+              if (proj.x > cx) proj.x = b.x + b.w + r2; else proj.x = b.x - r2;
+            }
+          });
+          if (changed) blocks = blocks.filter(b => !b.hit);
+          if (blocks.length === 0) {
+            sc += 50; score = sc; const nw = updateHS('aliens'); showGameOver(sc, nw); alive = false; return;
+          }
+          if (proj.y > CH + 30 || proj.x < -30 || proj.x > CW + 30) {
+            proj = null; trail = []; cooldown = 0.6; canLaunch = false;
+            if (blocks.length === 0) { sc += 50; score = sc; const nw = updateHS('aliens'); showGameOver(sc, nw); alive = false; return; }
+          }
+        } else if (!canLaunch) {
+          cooldown -= dt;
+          if (cooldown <= 0) { canLaunch = true; nextType(); }
+        }
+
+        ctx.fillStyle = '#0a0515'; ctx.fillRect(0, 0, CW, CH);
+        stars.forEach(s => {
+          ctx.fillStyle = `rgba(255,255,255,${s.b * (0.4 + Math.sin(ts * 0.001 + s.x) * 0.2)})`;
+          ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI * 2); ctx.fill();
+        });
+        const sby = slingY - 20;
+        blocks.forEach(b => {
+          ctx.fillStyle = b.color; ctx.shadowColor = b.color; ctx.shadowBlur = 6;
+          ctx.fillRect(b.x, b.y, b.w, b.h); ctx.shadowBlur = 0;
+          ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.fillRect(b.x + 2, b.y + 2, b.w - 4, 3);
+          if (b.hp > 1) { ctx.fillStyle = '#fff'; ctx.font = '7px "Fredoka One"'; ctx.textAlign = 'center'; ctx.fillText(b.hp, b.x + b.w / 2, b.y + b.h / 2 + 2); }
+        });
+        ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(slingX - 16, slingY); ctx.lineTo(slingX, sby); ctx.lineTo(slingX + 16, slingY); ctx.stroke();
+        const type = getAlien();
+        if (canLaunch && !proj) {
+          const pulse = Math.sin(ts * 0.003) * 0.1 + 0.9;
+          let ax = slingX, ay = sby;
+          if (dragging && dragCur) {
+            ax = dragCur.x; ay = dragCur.y;
+            ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 2.5;
+            ctx.beginPath(); ctx.moveTo(slingX - 8, sby - 4); ctx.lineTo(ax, ay); ctx.moveTo(slingX + 8, sby - 4); ctx.lineTo(ax, ay); ctx.stroke();
+          }
+          ctx.shadowColor = type.glow; ctx.shadowBlur = 12 * pulse;
+          ctx.fillStyle = type.color;
+          ctx.beginPath(); ctx.arc(ax, ay, type.radius * pulse, 0, Math.PI * 2); ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = 'rgba(255,255,255,0.3)';
+          ctx.beginPath(); ctx.arc(ax - 3 * pulse, ay - 3 * pulse, 2.5 * pulse, 0, Math.PI * 2); ctx.fill();
+          ctx.font = '7px "Nunito"'; ctx.textAlign = 'center'; ctx.fillStyle = type.color;
+          ctx.fillText(type.name, slingX, sby - type.radius - 8);
+        }
+        if (proj) {
+          trail.forEach(tr => {
+            ctx.fillStyle = tr.c + Math.floor(tr.life * 0.4 * 255).toString(16).padStart(2, '0');
+            ctx.beginPath(); ctx.arc(tr.x, tr.y, proj.t.radius * 0.5 * tr.life, 0, Math.PI * 2); ctx.fill();
+          });
+          const r2 = proj.t.radius;
+          ctx.shadowColor = proj.t.glow; ctx.shadowBlur = 18;
+          ctx.fillStyle = proj.t.color;
+          ctx.beginPath(); ctx.arc(proj.x, proj.y, r2, 0, Math.PI * 2); ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = 'rgba(255,255,255,0.35)';
+          ctx.beginPath(); ctx.arc(proj.x - 3, proj.y - 3, r2 * 0.3, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#fff';
+          const es = Math.max(2, r2 * 0.25);
+          ctx.beginPath(); ctx.arc(proj.x - 3, proj.y - 3, es, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(proj.x + 3, proj.y - 3, es, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#111';
+          ctx.beginPath(); ctx.arc(proj.x - 2, proj.y - 3, es * 0.5, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(proj.x + 4, proj.y - 3, es * 0.5, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.font = '9px "Nunito"'; ctx.fillStyle = 'rgba(255,255,255,0.12)'; ctx.textAlign = 'right';
+        ctx.fillText('PODS: ' + blocks.length, CW - 8, 16);
+        ctx.textAlign = 'left'; ctx.fillStyle = 'rgba(255,255,255,0.08)';
+        ctx.fillText('NEXT: ' + alienTypes[(typeIdx + 1) % alienTypes.length].name, 8, 16);
+        gameLoop = requestAnimationFrame(update);
+      }
+
+      const pd = e => {
+        if (!canLaunch || proj || !gameActive || paused) return;
+        const r = canvas.getBoundingClientRect();
+        dragCur = { x: (e.clientX - r.left) * (CW / r.width), y: (e.clientY - r.top) * (CH / r.height) };
+        dragging = true;
+        try { e.target.setPointerCapture(e.pointerId); } catch (ex) {}
+      };
+      const pm = e => {
+        if (!dragging) return;
+        const r = canvas.getBoundingClientRect();
+        dragCur = { x: (e.clientX - r.left) * (CW / r.width), y: (e.clientY - r.top) * (CH / r.height) };
+      };
+      const pu = e => {
+        if (!dragging || !canLaunch || proj) { dragging = false; return; }
+        const r = canvas.getBoundingClientRect();
+        const x = (e.clientX - r.left) * (CW / r.width), y = (e.clientY - r.top) * (CH / r.height);
+        const slingAimX = slingX, slingAimY = slingY - 20;
+        const dx = slingAimX - x, dy = slingAimY - y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist > 15) {
+          const power = Math.min(dist / 6, 7);
+          const t = getAlien();
+          proj = { x: slingAimX, y: slingAimY, vx: dx / dist * power * 120, vy: dy / dist * power * 120, t };
+          canLaunch = false; dragging = false; dragCur = null;
+          hapticEvent(hapticPatterns.shooterAction, 0);
+          playTune([[440, 0.03, 0.05, 0], [660, 0.03, 0.05, 50]]);
+        }
+        dragging = false;
+      };
+      canvas.addEventListener('pointerdown', pd);
+      canvas.addEventListener('pointermove', pm);
+      canvas.addEventListener('pointerup', pu);
+      canvas.addEventListener('pointercancel', pu);
+
+      gameLoop = requestAnimationFrame(update);
+      return () => { alive = false; cancelAnimationFrame(gameLoop); canvas.removeEventListener('pointerdown', pd); canvas.removeEventListener('pointermove', pm); canvas.removeEventListener('pointerup', pu); canvas.removeEventListener('pointercancel', pu); };
+    }
+
     // ==================== CURSOR ANIMATION LOOP ====================
     function cursorLoop(timestamp) {
       if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -2551,9 +3391,9 @@
     showStart();
     setTimeout(() => { playTune([[440, 0.06, 0.1, 0], [660, 0.06, 0.1, 130], [880, 0.08, 0.15, 260]]); }, 500);
 
-    console.log('🌈 CHROMA CARNIVAL — 6 NEON GAMES');
-    console.log('🐍 Snake | 🏓 Pong | 👾 Shooter | 🏃 Dino | 🧱 Breakout | 🐤 Flappy');
-    console.log('⌨️ 1-6=Switch  P=Pause  R=Restart  Click anywhere for sparks!');
+    console.log('🌈 RETRO GALAXY — 7 NEON GAMES');
+    console.log('🐍 Snake | 🏓 Pong | 👾 Shooter | 🏃 Dino | 🧱 Breakout | 🐤 Flappy | 👽 Alien Slingshot');
+    console.log('⌨️ 1-7=Switch  P=Pause  R=Restart  Click anywhere for sparks!');
   </script>
 </body>
 
