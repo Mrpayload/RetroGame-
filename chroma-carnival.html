@@ -840,13 +840,22 @@ const touchAction=document.getElementById('touchAction');
 const touchPause=document.getElementById('touchPause');
 const touchRestart=document.getElementById('touchRestart');
 let CW,CH;
+const DESKTOP_CANVAS_W=684,DESKTOP_CANVAS_H=513;
+
+function useDesktopCanvasRatio(){
+  return window.matchMedia('(pointer: coarse)').matches&&window.innerWidth<=768;
+}
 
 function resizeCanvas(){
   const r=canvas.parentElement.getBoundingClientRect();
-  canvas.width=r.width*0.96;canvas.height=r.height*0.96;
+  if(useDesktopCanvasRatio()){
+    canvas.width=DESKTOP_CANVAS_W;canvas.height=DESKTOP_CANVAS_H;
+  }else{
+    canvas.width=r.width*0.96;canvas.height=r.height*0.96;
+  }
   CW=canvas.width;CH=canvas.height;
 }
-resizeCanvas();window.addEventListener('resize',resizeCanvas);
+resizeCanvas();window.addEventListener('resize',resizeCanvas);window.addEventListener('orientationchange',resizeCanvas);
 
 let currentGame='snake',gameLoop=null,cleanup=null,paused=false,gameActive=false;
 let keys={},score=0;
