@@ -225,7 +225,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: titleShine 4s linear infinite;
-      cursor: pointer;
+      cursor: none;
       transition: transform 0.25s, filter 0.25s
     }
 
@@ -360,7 +360,14 @@
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
-      z-index: 5
+      z-index: 5;
+      transition: opacity 0.3s, filter 0.3s
+    }
+
+    .screen-frame:hover .screen-border {
+      opacity: 0.88;
+      filter: brightness(1.5);
+      animation-duration: 3s
     }
 
     @keyframes borderGlow {
@@ -529,6 +536,13 @@
       -webkit-text-fill-color: transparent
     }
 
+    .game-over-overlay.is-win .go-title {
+      background: linear-gradient(90deg, #ffdd4a, #4dc9f6, #2ecc71);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 14px rgba(77, 201, 246, 0.3))
+    }
+
     .go-score {
       font-size: 0.8rem;
       color: rgba(255, 255, 255, 0.4);
@@ -652,6 +666,73 @@
       white-space: nowrap
     }
 
+    /* stat beads */
+    .stat-beads {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 10px 0 6px
+    }
+
+    .bead {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      padding: 5px 12px;
+      cursor: none;
+      transition: transform 0.25s, background 0.25s, border-color 0.25s, box-shadow 0.25s;
+      user-select: none;
+      -webkit-user-select: none;
+      position: relative
+    }
+
+    .bead:hover {
+      transform: translateY(-2px) scale(1.04);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12)
+    }
+
+    .bead:active {
+      transform: scale(0.96)
+    }
+
+    .bead .bead-icon {
+      font-size: 0.85rem;
+      line-height: 1
+    }
+
+    .bead .bead-label {
+      font-size: 0.45rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.2);
+      letter-spacing: 0.3px
+    }
+
+    .bead .bead-val {
+      font-size: 0.5rem;
+      font-weight: 800;
+      min-width: 14px;
+      text-align: center;
+      font-family: 'Fredoka One', cursive;
+      color: rgba(255, 221, 74, 0.7);
+      transition: color 0.2s
+    }
+
+    .bead:hover .bead-val {
+      color: #ffdd4a
+    }
+
+    .bead[data-stat="clicks"] { border-color: rgba(255, 107, 157, 0.15) }
+    .bead[data-stat="clicks"]:hover { border-color: rgba(255, 107, 157, 0.35); box-shadow: 0 0 12px rgba(255, 107, 157, 0.1) }
+    .bead[data-stat="plays"] { border-color: rgba(77, 201, 246, 0.15) }
+    .bead[data-stat="plays"]:hover { border-color: rgba(77, 201, 246, 0.35); box-shadow: 0 0 12px rgba(77, 201, 246, 0.1) }
+    .bead[data-stat="streak"] { border-color: rgba(255, 221, 74, 0.15) }
+    .bead[data-stat="streak"]:hover { border-color: rgba(255, 221, 74, 0.35); box-shadow: 0 0 12px rgba(255, 221, 74, 0.1) }
+
     /* footer */
     .footer {
       text-align: center;
@@ -772,6 +853,77 @@
       background: rgba(196, 77, 255, 0.14);
       border-color: rgba(196, 77, 255, 0.3);
       color: #d7b7ff
+    }
+
+    .util-btn.is-full {
+      background: rgba(255, 221, 74, 0.14);
+      border-color: rgba(255, 221, 74, 0.3);
+      color: #ffdd4a
+    }
+
+    /* desktop utils bar */
+    .desktop-utils {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      margin: 5px auto 8px;
+      padding: 3px 6px;
+      max-width: 420px;
+      border-radius: 12px;
+      background: rgba(13, 2, 33, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(6px)
+    }
+
+    .desktop-utils .d-btn {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      color: rgba(255, 255, 255, 0.45);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.45rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      height: 26px;
+      padding: 0 12px;
+      cursor: none;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
+      user-select: none;
+      -webkit-user-select: none
+    }
+
+    .desktop-utils .d-btn:hover {
+      background: rgba(255, 255, 255, 0.07);
+      color: rgba(255, 255, 255, 0.72)
+    }
+
+    .desktop-utils .d-btn.is-muted {
+      background: rgba(255, 107, 157, 0.18);
+      border-color: rgba(255, 107, 157, 0.35);
+      color: #ff6b9d
+    }
+
+    .desktop-utils .d-btn.is-galaxy {
+      background: rgba(77, 201, 246, 0.18);
+      border-color: rgba(77, 201, 246, 0.35);
+      color: #4dc9f6
+    }
+
+    .desktop-utils .d-btn.is-full {
+      background: rgba(255, 221, 74, 0.18);
+      border-color: rgba(255, 221, 74, 0.35);
+      color: #ffdd4a
+    }
+
+    body.galaxy-mode .desktop-utils {
+      background: rgba(3, 7, 24, 0.5);
+      border-color: rgba(77, 201, 246, 0.15)
+    }
+
+    body.galaxy-mode .desktop-utils .d-btn.is-galaxy {
+      background: rgba(77, 201, 246, 0.28);
+      border-color: rgba(77, 201, 246, 0.5);
+      color: #aeefff
     }
 
     .util-btn.is-muted {
@@ -1012,6 +1164,33 @@
       background: linear-gradient(135deg, #ff6b9d, #c44dff)
     }
 
+    .alien-drag-pad {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 116px;
+      border: 1px solid rgba(77, 201, 246, 0.32);
+      border-radius: 24px;
+      background: radial-gradient(circle at 50% 35%, rgba(77, 201, 246, 0.18), rgba(196, 77, 255, 0.16) 42%, rgba(255, 107, 157, 0.08));
+      color: rgba(255, 255, 255, 0.72);
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+      text-align: center;
+      box-shadow: inset 0 0 28px rgba(77, 201, 246, 0.08), 0 8px 24px rgba(0, 0, 0, 0.24);
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    .alien-drag-pad.is-dragging {
+      border-color: rgba(255, 221, 74, 0.58);
+      color: #ffdd4a;
+      box-shadow: inset 0 0 38px rgba(255, 221, 74, 0.12), 0 0 24px rgba(255, 221, 74, 0.2)
+    }
+
     .touch-small {
       height: 44px;
       border-radius: 15px;
@@ -1074,6 +1253,34 @@
 
     .mobile-controls[data-layout="action"] .touch-dpad {
       display: none
+    }
+
+    .mobile-controls[data-layout="aliens"] {
+      align-items: stretch;
+      justify-content: center
+    }
+
+    .mobile-controls[data-layout="aliens"] .touch-dpad,
+    .mobile-controls[data-layout="aliens"] .touch-action {
+      display: none
+    }
+
+    .mobile-controls[data-layout="aliens"] .touch-actions {
+      width: 100%;
+      grid-template-columns: minmax(180px, 1fr) repeat(2, 70px);
+      grid-template-rows: repeat(2, 58px);
+      align-items: stretch;
+      justify-content: stretch
+    }
+
+    .mobile-controls[data-layout="aliens"] .alien-drag-pad {
+      display: flex;
+      grid-column: 1;
+      grid-row: 1 / span 2
+    }
+
+    .mobile-controls[data-layout="aliens"] .touch-small {
+      height: auto
     }
 
     .mobile-controls[data-layout="horizontal"] .touch-up,
@@ -1163,6 +1370,31 @@
       pointer-events: none
     }
 
+    /* shooting stars */
+    .shooting-star {
+      position: fixed;
+      z-index: 9998;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 221, 74, 0.5);
+      pointer-events: auto;
+      cursor: none;
+      will-change: transform, opacity
+    }
+
+    .shooting-star::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 100%;
+      width: 50px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5));
+      transform: translateY(-50%)
+    }
+
     @media(max-width:768px) {
       body {
         cursor: auto;
@@ -1191,8 +1423,9 @@
       }
 
       .screen-wrap {
-        max-width: 100%;
-        margin: 2px -4px 6px
+        max-width: none;
+        width: calc(100% + 4px);
+        margin: 2px -2px 6px
       }
 
       .screen-frame {
@@ -1312,6 +1545,8 @@
         color: rgba(255, 255, 255, 0.62)
       }
 
+      .desktop-utils,
+      .stat-beads,
       .decor-row,
       .footer {
         display: none
@@ -1382,6 +1617,16 @@
         height: 100%
       }
 
+      .mobile-controls[data-layout="aliens"] .touch-actions {
+        grid-template-columns: minmax(118px, 1fr) repeat(2, 62px);
+        grid-template-rows: repeat(2, 54px)
+      }
+
+      .mobile-controls[data-layout="aliens"] .alien-drag-pad {
+        min-height: 108px;
+        font-size: 0.72rem
+      }
+
       .touch-small {
         height: 40px
       }
@@ -1391,7 +1636,54 @@
       #cursorCanvas {
         display: none
       }
+
+      .desktop-utils,
+      .stat-beads {
+        display: none
+      }
+
+      .container {
+        padding: 2px 2px 112px;
+        max-width: 100%
+      }
+
+      .screen-wrap {
+        max-width: none;
+        width: calc(100% + 4px);
+        margin: 2px -2px 6px
+      }
+
+      .screen-frame {
+        border-radius: 14px;
+        padding: 1px
+      }
+
+      .screen-inner {
+        border-radius: 11px;
+        aspect-ratio: 1.12 / 1
+      }
+
+      .instructions-panel {
+        display: none
+      }
+
+      .mobile-controls {
+        display: flex
+      }
     }
+
+    html:fullscreen .screen-wrap,
+    html:-webkit-full-screen .screen-wrap {
+      width: min(calc(100% + 4px), calc((100vh - 132px) * 1.12));
+      max-width: calc(100vw - 4px);
+      margin: 2px auto 6px
+    }
+
+    html:fullscreen .screen-inner,
+    html:-webkit-full-screen .screen-inner {
+      aspect-ratio: 1.12 / 1
+    }
+
   </style>
 </head>
 
@@ -1410,6 +1702,13 @@
 
   <div class="container">
     <div class="title" id="mainTitle"><span class="title-logo">🕹</span>RETRO GALAXY<small>7 GAMES · COSMIC RETRO ARCADE · NEON FUN</small></div>
+
+    <div class="desktop-utils" id="desktopUtils">
+      <button class="d-btn" id="deskAudio" aria-label="Audio">SND</button>
+      <button class="d-btn" id="deskGalaxy" aria-label="Visual Mode">NEBULA</button>
+      <button class="d-btn is-about" id="deskAbout" aria-label="About Retro Galaxy">ABOUT</button>
+      <button class="d-btn" id="deskFullscreen" aria-label="Fullscreen">⛶ FULL</button>
+    </div>
 
     <div class="screen-wrap">
       <div class="screen-frame">
@@ -1430,7 +1729,7 @@
             </div>
           </div>
           <div class="game-over-overlay" id="gameOverOverlay">
-            <div class="go-title">GAME OVER</div>
+            <div class="go-title" id="goTitle">GAME OVER</div>
             <div class="go-score" id="goScore">Score: 0</div>
             <div class="go-high" id="goHigh">NEW HIGH SCORE!</div>
             <button class="go-restart" id="goRestartBtn">⟳ RETRY</button>
@@ -1452,6 +1751,12 @@
       <div class="game-card" data-game="aliens"><span class="gc-icon">👽</span><span class="gc-name">SLINGSHOT</span></div>
     </div>
 
+    <div class="stat-beads" id="statBeads">
+      <div class="bead" data-stat="clicks"><span class="bead-icon">✨</span><span class="bead-label">Clicks</span><span class="bead-val" id="beadClicks">0</span></div>
+      <div class="bead" data-stat="plays"><span class="bead-icon">🎮</span><span class="bead-label">Plays</span><span class="bead-val" id="beadPlays">0</span></div>
+      <div class="bead" data-stat="streak"><span class="bead-icon">🔥</span><span class="bead-label">Streak</span><span class="bead-val" id="beadStreak">0</span></div>
+    </div>
+
     <div class="instructions-panel" id="instPanel">
       <div class="inst-title">How to Play</div>
       <div class="inst-text" id="instText">Arrow Keys / WASD to move<br>Eat orbs to grow! Don't hit walls</div>
@@ -1471,6 +1776,7 @@
       </div>
       <div class="touch-actions">
         <button class="touch-btn touch-action" data-touch-key=" " id="touchAction" aria-label="Action">A</button>
+        <div class="alien-drag-pad" id="alienDragPad" role="button" aria-label="Alien Slingshot drag pad">DRAG PAD</div>
         <button class="touch-btn touch-small" id="touchPause" aria-label="Pause">PAUSE</button>
         <button class="touch-btn touch-small" id="touchRestart" aria-label="Restart">RETRY</button>
       </div>
@@ -1506,6 +1812,10 @@
       <div class="deco" data-item="wheel"><span>🎡</span><span class="d-label">Spin</span></div>
       <div class="deco" data-item="horse"><span>🎠</span><span class="d-label">Ride</span></div>
       <div class="deco" data-item="tent"><span>🎪</span><span class="d-label">Show</span></div>
+      <div class="deco" data-item="ufo"><span>🛸</span><span class="d-label">Beam</span></div>
+      <div class="deco" data-item="meteor"><span>☄️</span><span class="d-label">Zoom</span></div>
+      <div class="deco" data-item="planet"><span>🪐</span><span class="d-label">Orbit</span></div>
+      <div class="deco" data-item="satellite"><span>🛰️</span><span class="d-label">Ping</span></div>
     </div>
 
     <div class="footer">
@@ -1554,6 +1864,46 @@
       return el;
     }
     for (let i = 0; i < 10; i++)setTimeout(spawnOrb, i * 200);
+
+    // ==================== SHOOTING STARS ====================
+    let starSpawnTimer = null;
+    function spawnShootingStar() {
+      if (window.matchMedia('(pointer: coarse)').matches) { starSpawnTimer = setTimeout(spawnShootingStar, 5000); return; }
+      const star = document.createElement('div');
+      star.className = 'shooting-star';
+      const startX = 50 + Math.random() * (window.innerWidth - 100);
+      const startY = 20 + Math.random() * (window.innerHeight * 0.35);
+      const dx = -(200 + Math.random() * 350);
+      const dy = 200 + Math.random() * 350;
+      const dur = 1200 + Math.random() * 1800;
+      star.style.left = startX + 'px';
+      star.style.top = startY + 'px';
+      star.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (this.dataset.hit) return;
+        this.dataset.hit = '1';
+        cursorBurst(e.clientX, e.clientY, 14);
+        sfx(700 + Math.random() * 400, 0.05, 'sine', 0.05);
+        const ft = document.createElement('div'); ft.className = 'd-msg';
+        ft.textContent = '⭐ +1 Star!';
+        const rect = this.getBoundingClientRect();
+        ft.style.left = rect.left + 'px'; ft.style.top = rect.top + 'px';
+        ft.style.transform = 'translateX(-50%)'; ft.style.color = 'rgba(255,221,74,0.9)';
+        document.body.appendChild(ft);
+        requestAnimationFrame(() => { ft.style.top = (rect.top - 30) + 'px'; ft.style.opacity = '0'; });
+        setTimeout(() => ft.remove(), 700);
+        this.style.opacity = '0';
+        setTimeout(() => this.remove(), 200);
+      });
+      document.body.appendChild(star);
+      const anim = star.animate([
+        { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+        { transform: `translate(${dx}px, ${dy}px) scale(0.3)`, opacity: 0 }
+      ], { duration: dur, easing: 'ease-out', fill: 'forwards' });
+      anim.onfinish = () => { if (star.parentNode) star.remove(); };
+      starSpawnTimer = setTimeout(spawnShootingStar, 3000 + Math.random() * 4000);
+    }
+    if (!window.matchMedia('(pointer: coarse)').matches) setTimeout(spawnShootingStar, 2000);
 
     // ==================== RETRO BG ENGINE ====================
     const retroCanvas = document.getElementById('retroBgCanvas');
@@ -1961,7 +2311,7 @@
     function cursorBurst(x, y, n) {
       for (let i = 0; i < (n || 15); i++) {
         const angle = Math.random() * Math.PI * 2;
-        const spd = 50 + Math.random() * 100;
+        const spd = 95 + Math.random() * 160;
         cursorTrail.push({
           x, y, vx: Math.cos(angle) * spd, vy: Math.sin(angle) * spd,
           life: 1, size: 3 + Math.random() * 4,
@@ -1971,18 +2321,18 @@
     }
 
     function updateCursor(dt) {
-      const stiff = 12, damp = 7;
+      const stiff = 38, damp = 13.4;
       const ax = (cursorTarget.x - cursorCurrent.x) * stiff - cursorVel.x * damp;
       const ay = (cursorTarget.y - cursorCurrent.y) * stiff - cursorVel.y * damp;
       cursorVel.x += ax * dt; cursorVel.y += ay * dt;
       cursorCurrent.x += cursorVel.x * dt;
       cursorCurrent.y += cursorVel.y * dt;
 
-      if (Math.random() > 0.65) {
+      if (Math.random() > 0.68) {
         cursorTrail.push({
           x: cursorCurrent.x + Math.random() * 4 - 2,
           y: cursorCurrent.y + Math.random() * 4 - 2,
-          vx: Math.random() * 6 - 3, vy: Math.random() * 6 - 3,
+          vx: Math.random() * 8 - 4, vy: Math.random() * 8 - 4,
           life: 0.7, size: 1.5 + Math.random() * 2,
           hue: (Date.now() * 0.05 + Math.random() * 30) % 360,
           decay: 0.015 + Math.random() * 0.012
@@ -1991,9 +2341,9 @@
 
       cursorTrail.forEach(p => {
         p.x += p.vx * dt; p.y += p.vy * dt;
-        p.life -= p.decay; p.vx *= 0.97; p.vy *= 0.97; p.size *= 0.995;
+        p.life -= p.decay; p.vx *= 0.94; p.vy *= 0.94; p.size *= 0.992;
       });
-      while (cursorTrail.length > 60) cursorTrail.shift();
+      while (cursorTrail.length > 70) cursorTrail.shift();
     }
 
     function drawCursor() {
@@ -2051,7 +2401,7 @@
       } catch (e) { }
     }
     function playTune(notes) {
-      if (audioMuted) return;
+      if (audioMuted || document.hidden || !pageFocused) return;
       notes.forEach((n, i) => {
         setTimeout(() => {
           try {
@@ -2076,7 +2426,7 @@
       flappy: { step: 155, notes: [[783.99, 0.07, 'sine', 0.012], null, [987.77, 0.06, 'triangle', 0.012], [880, 0.07, 'sine', 0.011], null, [1174.66, 0.06, 'triangle', 0.012], [987.77, 0.08, 'sine', 0.011], null, [659.25, 0.07, 'triangle', 0.01], null, [783.99, 0.06, 'sine', 0.011], null], bass: [[196, 0.1, 'sine', 0.007], null, null, null, [246.94, 0.09, 'sine', 0.007], null, null, null, [220, 0.09, 'sine', 0.007], null, null, null] },
       aliens: { step: 160, notes: [[220, 0.12, 'sawtooth', 0.012], [277.18, 0.08, 'triangle', 0.01], [329.63, 0.12, 'sawtooth', 0.012], [440, 0.08, 'triangle', 0.01], [329.63, 0.1, 'sawtooth', 0.011], [277.18, 0.08, 'triangle', 0.01], [246.94, 0.12, 'sawtooth', 0.012], [220, 0.08, 'triangle', 0.01]], bass: [[55, 0.25, 'square', 0.01], null, null, [73.42, 0.2, 'square', 0.008], null, null, [65.41, 0.22, 'square', 0.009], null] }
     };
-    let bgMusicTimer = null, bgMusicToken = 0, bgMusicGain = null, bgMusicName = null, siteAudioUnlocked = false;
+    let bgMusicTimer = null, bgMusicToken = 0, bgMusicGain = null, bgMusicName = null, siteAudioUnlocked = false, pageFocused = true;
     function playBgTone(note, master) {
       if (audioMuted || !note || !master) return;
       try {
@@ -2100,7 +2450,7 @@
     function startBgMusic(game) {
       if (bgMusicGain && bgMusicName === game) return;
       stopBgMusic();
-      if (audioMuted) return;
+      if (audioMuted || document.hidden || !pageFocused || !gameActive || !startScreen.classList.contains('hide') || gameOverEl.classList.contains('show')) return;
       const song = bgSongs[game];
       if (!song) return;
       try {
@@ -2119,6 +2469,14 @@
     function setBgMusicPaused(isPaused) {
       if (!bgMusicGain || !actx) return;
       try { bgMusicGain.gain.cancelScheduledValues(actx.currentTime); bgMusicGain.gain.setTargetAtTime(isPaused ? 0 : 1, actx.currentTime, 0.04); } catch (e) { }
+    }
+
+    function syncBgMusicState() {
+      if (audioMuted || document.hidden || !pageFocused || !gameActive || paused || !startScreen.classList.contains('hide') || gameOverEl.classList.contains('show')) {
+        stopBgMusic();
+        return;
+      }
+      if (siteAudioUnlocked) startBgMusic(currentGame);
     }
 
     const gameStartTunes = {
@@ -2141,6 +2499,7 @@
     const highScoreEl = document.getElementById('highScoreDisplay');
     const gameNameEl = document.getElementById('gameNameDisplay');
     const gameOverEl = document.getElementById('gameOverOverlay');
+    const goTitleEl = document.getElementById('goTitle');
     const goScoreEl = document.getElementById('goScore');
     const goHighEl = document.getElementById('goHigh');
     const mainTitle = document.getElementById('mainTitle');
@@ -2154,6 +2513,7 @@
     const goRestartBtn = document.getElementById('goRestartBtn');
     const mobileControls = document.getElementById('mobileControls');
     const touchAction = document.getElementById('touchAction');
+    const alienDragPad = document.getElementById('alienDragPad');
     const touchPause = document.getElementById('touchPause');
     const touchRestart = document.getElementById('touchRestart');
     const touchFullscreen = document.getElementById('touchFullscreen');
@@ -2171,7 +2531,7 @@
     const DESKTOP_CANVAS_W = 684, DESKTOP_CANVAS_H = 610;
 
     function useDesktopCanvasRatio() {
-      return window.matchMedia('(pointer: coarse)').matches && window.innerWidth <= 768;
+      return window.matchMedia('(pointer: coarse)').matches;
     }
 
     function resizeCanvas() {
@@ -2183,7 +2543,8 @@
       }
       CW = canvas.width; CH = canvas.height;
     }
-    resizeCanvas(); window.addEventListener('resize', () => { resizeCanvas(); refreshInstructionText(); }); window.addEventListener('orientationchange', () => { resizeCanvas(); refreshInstructionText(); });
+    function handleViewportChange() { resizeCanvas(); refreshInstructionText(); }
+    resizeCanvas(); window.addEventListener('resize', handleViewportChange); window.addEventListener('orientationchange', handleViewportChange);
 
     let currentGame = 'snake', gameLoop = null, cleanup = null, paused = false, gameActive = false;
     let keys = {}, score = 0;
@@ -2202,7 +2563,7 @@
       aliens: { name: 'ALIEN SLINGSHOT', icon: '👽', inst: 'DRAG & RELEASE on screen to launch aliens!\n4 ALIEN TYPES with unique physics\nDestroy all enemy pods to clear the level!' }
     };
 
-    const mobileLayouts = { snake: 'dpad', pong: 'vertical', shooter: 'dpad', dino: 'action', breakout: 'horizontal', flappy: 'action', aliens: 'action' };
+    const mobileLayouts = { snake: 'dpad', pong: 'vertical', shooter: 'dpad', dino: 'action', breakout: 'horizontal', flappy: 'action', aliens: 'aliens' };
     const mobileActionText = { snake: 'A', pong: 'A', shooter: 'FIRE', dino: 'JUMP', breakout: 'A', flappy: 'FLAP', aliens: 'DRAG' };
     const touchAliases = { ArrowUp: ['ArrowUp', 'w', 'up'], ArrowDown: ['ArrowDown', 's', 'down'], ArrowLeft: ['ArrowLeft', 'a', 'left'], ArrowRight: ['ArrowRight', 'd', 'right'], ' ': [' '] };
 
@@ -2213,7 +2574,7 @@
       dino: 'Tap JUMP or the game to jump<br>Dodge cacti & birds<br>Collect stars for +25 points!',
       breakout: 'Drag on the game or use ← → buttons<br>Break all crystals to win!<br>3 lives • Ball speeds up',
       flappy: 'Tap FLAP or the game to flap<br>Fly through pipe gaps<br>Don\'t hit pipes or ground!',
-      aliens: 'Drag & release on the screen to launch aliens!<br>4 ALIEN TYPES with unique physics<br>Destroy all enemy pods to clear the level!'
+      aliens: 'Use the DRAG PAD like a mouse pad<br>Hold, drag, and release to launch aliens<br>4 ALIEN TYPES with unique physics!'
     };
 
     function isMobileControls() { return window.matchMedia('(pointer: coarse)').matches && window.innerWidth <= 768; }
@@ -2291,8 +2652,8 @@
     function togglePause() {
       if (gameActive && !gameOverEl.classList.contains('show') && startScreen.classList.contains('hide')) {
         paused = !paused; clearInputState(); sfx(paused ? 330 : 440, 0.06, 'sine', 0.05);
-        setBgMusicPaused(paused);
         updatePauseButton();
+        syncBgMusicState();
       }
     }
 
@@ -2306,6 +2667,7 @@
       const active = !!getFullscreenElement();
       touchFullscreen.textContent = active ? '×' : '⛶';
       touchFullscreen.classList.toggle('is-fullscreen', active);
+      if (deskFullscreen) { deskFullscreen.classList.toggle('is-full', active); }
     }
     function requestFullscreenMode() {
       const el = document.documentElement;
@@ -2330,6 +2692,7 @@
     function updateAudioButton() {
       touchAudio.textContent = audioMuted ? 'MUTE' : 'SND';
       touchAudio.classList.toggle('is-muted', audioMuted);
+      if (deskAudio) { deskAudio.textContent = audioMuted ? 'MUTE' : 'SND'; deskAudio.classList.toggle('is-muted', audioMuted); }
     }
     function toggleAudio() {
       audioMuted = !audioMuted;
@@ -2344,15 +2707,14 @@
     }
 
     function ensureActiveMusic() {
-      if (audioMuted || !siteAudioUnlocked) return;
-      if (gameActive && startScreen.classList.contains('hide') && !gameOverEl.classList.contains('show')) startBgMusic(currentGame);
-      else startBgMusic('cosmic');
+      syncBgMusicState();
     }
 
     function updateGalaxyButton() {
       document.body.classList.toggle('galaxy-mode', galaxyMode);
       touchGalaxy.textContent = galaxyMode ? 'GALAXY' : 'NEBULA';
       touchGalaxy.classList.toggle('is-galaxy', galaxyMode);
+      if (deskGalaxy) { deskGalaxy.textContent = galaxyMode ? 'GALAXY' : 'NEBULA'; deskGalaxy.classList.toggle('is-galaxy', galaxyMode); }
     }
     function toggleGalaxyMode() {
       galaxyMode = !galaxyMode;
@@ -2393,13 +2755,26 @@
     function getHS(name) { return highScores[name.toLowerCase()] || 0; }
 
     function showGameOver(sc, isNew) {
+      gameOverEl.classList.remove('is-win');
+      goTitleEl.textContent = 'GAME OVER';
       gameOverEl.classList.add('show');
       goScoreEl.textContent = 'Score: ' + sc;
       goHighEl.textContent = isNew ? '✦ NEW HIGH SCORE!' : 'Best: ' + getHS(currentGame);
       hapticEvent(hapticPatterns.gameOver, 0);
       gameActive = false;
-      startBgMusic('cosmic');
+      stopBgMusic();
       playTune([[330, 0.06, 0.08, 0], [260, 0.06, 0.08, 120], [200, 0.08, 0.15, 240]]);
+    }
+
+    function showGameWin(sc, isNew) {
+      gameOverEl.classList.add('show', 'is-win');
+      goTitleEl.textContent = 'YOU WIN';
+      goScoreEl.textContent = 'Score: ' + sc;
+      goHighEl.textContent = isNew ? '✦ NEW HIGH SCORE!' : 'Best: ' + getHS(currentGame);
+      hapticEvent(hapticPatterns.power, 0);
+      gameActive = false;
+      stopBgMusic();
+      playTune([[659.25, 0.06, 0.08, 0], [783.99, 0.06, 0.08, 110], [987.77, 0.08, 0.12, 220], [1318.51, 0.1, 0.14, 340]]);
     }
 
     function showStart() {
@@ -2411,8 +2786,8 @@
       mobileTip.style.display = isMobileControls() && localStorage.getItem('chromaFullscreenHintSeen') !== '1' ? 'block' : 'none';
       document.getElementById('instText').innerHTML = inst;
       updateMobileControls();
-      gameOverEl.classList.remove('show'); gameActive = false; paused = false; setBgMusicPaused(false); updatePauseButton();
-      ensureCosmicMusic();
+      gameOverEl.classList.remove('show', 'is-win'); gameActive = false; paused = false; setBgMusicPaused(false); updatePauseButton();
+      stopBgMusic();
     }
 
     function refreshInstructionText() {
@@ -2424,12 +2799,13 @@
     }
 
     function startGameplay() {
-      startScreen.classList.add('hide'); gameOverEl.classList.remove('show');
+      startScreen.classList.add('hide'); gameOverEl.classList.remove('show', 'is-win');
       ssGoBtn.blur(); ssFullBtn.blur(); goRestartBtn.blur();
       clearInputState();
       updateMobileControls();
       if (cleanup) cleanup(); if (gameLoop) cancelAnimationFrame(gameLoop);
       paused = false; gameActive = true; lastTime = 0;
+      beadPlays++; document.getElementById('beadPlays').textContent = beadPlays;
       updatePauseButton();
       const games = { snake: initSnake, pong: initPong, shooter: initShooter, dino: initDino, breakout: initBreakout, flappy: initFlappy, aliens: initAliens };
       if (games[currentGame]) cleanup = games[currentGame]();
@@ -2441,7 +2817,10 @@
 
     function startFullscreenGameplay() {
       requestFullscreenMode();
-      startGameplay();
+      setTimeout(() => {
+        resizeCanvas();
+        startGameplay();
+      }, 220);
     }
 
     // ==================== GAME SELECT ====================
@@ -2454,7 +2833,12 @@
         if (cleanup) cleanup(); if (gameLoop) cancelAnimationFrame(gameLoop);
         updateMobileControls();
         showStart();
-        if (isMobileControls()) card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        if (isMobileControls()) {
+          const strip = document.getElementById('gameCards');
+          const target = card.offsetLeft - (strip.clientWidth - card.offsetWidth) / 2;
+          const max = strip.scrollWidth - strip.clientWidth;
+          strip.scrollTo({ left: Math.max(0, Math.min(target, max)), behavior: 'smooth' });
+        }
         sfx(440, 0.06, 'sine', 0.05);
       });
     });
@@ -2525,16 +2909,29 @@
     touchGalaxy.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(hapticPatterns.galaxy); toggleGalaxyMode(); });
     touchAbout.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(10); showAbout(); });
     aboutClose.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); hideAbout(); });
+
+    // desktop utils
+    const deskAudio = document.getElementById('deskAudio');
+    const deskGalaxy = document.getElementById('deskGalaxy');
+    const deskAbout = document.getElementById('deskAbout');
+    const deskFullscreen = document.getElementById('deskFullscreen');
+    deskAudio.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleAudio(); deskAudio.textContent = audioMuted ? 'MUTE' : 'SND'; deskAudio.classList.toggle('is-muted', audioMuted); });
+    deskGalaxy.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleGalaxyMode(); deskGalaxy.textContent = galaxyMode ? 'GALAXY' : 'NEBULA'; deskGalaxy.classList.toggle('is-galaxy', galaxyMode); });
+    deskAbout.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); showAbout(); });
+    deskFullscreen.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleFullscreen(); deskFullscreen.classList.toggle('is-full', !!getFullscreenElement()); });
     aboutOverlay.addEventListener('pointerdown', e => { if (e.target === aboutOverlay) hideAbout(); });
     instHelpBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); haptic(10); showInstructionHelp(); });
     instHelpClose.addEventListener('click', hideInstructionHelp);
     instHelpOverlay.addEventListener('click', e => { if (e.target === instHelpOverlay) hideInstructionHelp(); });
-    document.addEventListener('fullscreenchange', updateFullscreenButton);
-    document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+    document.addEventListener('fullscreenchange', () => { updateFullscreenButton(); setTimeout(handleViewportChange, 120); });
+    document.addEventListener('webkitfullscreenchange', () => { updateFullscreenButton(); setTimeout(handleViewportChange, 120); });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) stopBgMusic(); else syncBgMusicState(); });
+    window.addEventListener('blur', () => { pageFocused = false; stopBgMusic(); });
+    window.addEventListener('focus', () => { pageFocused = true; syncBgMusicState(); });
     updateAudioButton();
     updateGalaxyButton();
 
-    function startSiteAudioOnce() { siteAudioUnlocked = true; ensureActiveMusic(); }
+    function startSiteAudioOnce() { siteAudioUnlocked = true; }
     document.addEventListener('pointerdown', startSiteAudioOnce, { once: true });
     document.addEventListener('keydown', startSiteAudioOnce, { once: true });
 
@@ -2568,14 +2965,31 @@
         cotton: ['🍭 So sweet! Sticky!', '🍭 Cotton candy fluff!', '🍭 Sugar rush!'],
         wheel: ['🎡 *creak* Spinning!', '🎡 Great view up here!', '🎡 Round and round!'],
         horse: ['🎠 *music plays* Whee!', '🎠 Going up and down!', '🎠 Grab the gold ring!'],
-        tent: ['🎪 Step right up!', '🎪 Greatest show!', '🎪 Lions and tigers!']
+        tent: ['🎪 Step right up!', '🎪 Greatest show!', '🎪 Lions and tigers!'],
+        ufo: ['🛸 Tractor beam online!', '🛸 Alien signal locked!', '🛸 Cosmic scan complete!'],
+        meteor: ['☄️ Meteor rush!', '☄️ Hot streak!', '☄️ Space rock ricochet!'],
+        planet: ['🪐 Orbit engaged!', '🪐 Ring spin bonus!', '🪐 Gravity feels weird!'],
+        satellite: ['🛰️ Signal ping!', '🛰️ Deep-space relay!', '🛰️ Transmission received!']
+      };
+      const decorFx = {
+        balloon: { freq: 520, spread: 180, burst: 8, type: 'sine' },
+        bear: { freq: 340, spread: 120, burst: 9, type: 'triangle' },
+        cotton: { freq: 620, spread: 220, burst: 10, type: 'sine' },
+        wheel: { freq: 280, spread: 180, burst: 12, type: 'triangle' },
+        horse: { freq: 450, spread: 240, burst: 11, type: 'square' },
+        tent: { freq: 390, spread: 280, burst: 12, type: 'sawtooth' },
+        ufo: { freq: 740, spread: 260, burst: 16, type: 'sine' },
+        meteor: { freq: 220, spread: 420, burst: 18, type: 'sawtooth' },
+        planet: { freq: 310, spread: 160, burst: 14, type: 'triangle' },
+        satellite: { freq: 880, spread: 180, burst: 13, type: 'square' }
       };
       const msgList = msgs[t] || ['✨ Magic!'];
+      const fx = decorFx[t] || { freq: 400, spread: 300, burst: 8, type: 'sine' };
       item.addEventListener('click', function (e) {
         e.stopPropagation();
         const m = msgList[Math.floor(Math.random() * msgList.length)];
-        sfx(400 + Math.random() * 300, 0.06, 'sine', 0.05);
-        cursorBurst(e.clientX, e.clientY, 8);
+        sfx(fx.freq + Math.random() * fx.spread, 0.06, fx.type, 0.05);
+        cursorBurst(e.clientX, e.clientY, fx.burst);
         const ft = document.createElement('div'); ft.className = 'd-msg';
         ft.textContent = m;
         const rect = this.getBoundingClientRect();
@@ -2586,21 +3000,70 @@
       });
     });
 
+    // stat beads click handler
+    let beadClicks = 0, beadPlays = 0, beadStreak = 0, beadLastClick = 0;
+    document.querySelectorAll('.bead').forEach(b => {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const stat = this.dataset.stat;
+        if (stat === 'clicks') { beadClicks++; document.getElementById('beadClicks').textContent = beadClicks; }
+        else if (stat === 'plays') { beadPlays++; document.getElementById('beadPlays').textContent = beadPlays; }
+        else if (stat === 'streak') {
+          const now = Date.now();
+          if (now - beadLastClick > 2000) beadStreak = 1; else beadStreak++;
+          beadLastClick = now;
+          document.getElementById('beadStreak').textContent = beadStreak;
+        }
+        const val = { clicks: beadClicks, plays: beadPlays, streak: beadStreak }[stat];
+        cursorBurst(e.clientX, e.clientY, 10);
+        sfx(520 + Math.random() * 280, 0.04, 'sine', 0.04);
+        const ft = document.createElement('div'); ft.className = 'd-msg';
+        ft.textContent = stat === 'streak' ? '+' + val + '🔥' : '+1';
+        const rect = this.getBoundingClientRect();
+        ft.style.left = rect.left + rect.width / 2 + 'px'; ft.style.top = rect.top + 'px';
+        ft.style.transform = 'translateX(-50%)'; ft.style.color = '#ffdd4a';
+        document.body.appendChild(ft);
+        requestAnimationFrame(() => { ft.style.top = (rect.top - 28) + 'px'; ft.style.opacity = '0'; });
+        setTimeout(() => ft.remove(), 700);
+        if (val % 10 === 0) {
+          sfx(880, 0.1, 'sine', 0.06);
+          cursorBurst(e.clientX, e.clientY, 20);
+        }
+      });
+    });
+
     // click background for sparks
     document.addEventListener('click', e => {
       retroTryHit(e.clientX, e.clientY);
-      if (e.target.closest('.title') || e.target.closest('.game-card') || e.target.closest('.deco') || e.target.closest('.ss-go') || e.target.closest('.go-restart') || e.target.closest('.about-overlay') || e.target.closest('.inst-help-overlay') || e.target.closest('.mobile-quick-row') || e.target.closest('.orb') || e.target.closest('.mobile-controls') || e.target.closest('.utility-row')) return;
+      if (e.target.closest('.title') || e.target.closest('.game-card') || e.target.closest('.deco') || e.target.closest('.ss-go') || e.target.closest('.go-restart') || e.target.closest('.about-overlay') || e.target.closest('.inst-help-overlay') || e.target.closest('.mobile-quick-row') || e.target.closest('.orb') || e.target.closest('.mobile-controls') || e.target.closest('.utility-row') || e.target.closest('.desktop-utils') || e.target.closest('.stat-beads') || e.target.closest('.bead') || e.target.closest('.shooting-star')) return;
       cursorBurst(e.clientX, e.clientY, 15);
       sfx(500 + Math.random() * 200, 0.04, 'sine', 0.04);
     });
 
     document.addEventListener('touchstart', e => {
-      if (e.target.closest('.title') || e.target.closest('.game-card') || e.target.closest('.deco') || e.target.closest('.ss-go') || e.target.closest('.go-restart') || e.target.closest('.about-overlay') || e.target.closest('.inst-help-overlay') || e.target.closest('.mobile-quick-row') || e.target.closest('.orb') || e.target.closest('.mobile-controls') || e.target.closest('.utility-row')) return;
+      if (e.target.closest('.title') || e.target.closest('.game-card') || e.target.closest('.deco') || e.target.closest('.ss-go') || e.target.closest('.go-restart') || e.target.closest('.about-overlay') || e.target.closest('.inst-help-overlay') || e.target.closest('.mobile-quick-row') || e.target.closest('.orb') || e.target.closest('.mobile-controls') || e.target.closest('.utility-row') || e.target.closest('.desktop-utils') || e.target.closest('.stat-beads') || e.target.closest('.bead') || e.target.closest('.shooting-star')) return;
       const t = e.changedTouches && e.changedTouches[0];
       if (!t) return;
       retroTryHit(t.clientX, t.clientY);
       cursorBurst(t.clientX, t.clientY, 12);
     }, { passive: true });
+
+    // ==================== SCREEN BORDER HOVER GLOW ====================
+    (function initBorderGlow() {
+      const sf = document.querySelector('.screen-frame');
+      const sb = document.querySelector('.screen-border');
+      if (!sf || !sb) return;
+      sf.addEventListener('mousemove', e => {
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+        const r = sf.getBoundingClientRect();
+        const px = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+        const py = ((e.clientY - r.top) / r.height * 100).toFixed(1);
+        sb.style.backgroundPosition = `${px}% ${py}%`;
+      });
+      sf.addEventListener('mouseleave', () => {
+        sb.style.backgroundPosition = '';
+      });
+    })();
 
     // ==================== SNAKE (dt) ====================
     function initSnake() {
@@ -3178,7 +3641,9 @@
 
     // ==================== ALIEN SLINGSHOT (dt) ====================
     function initAliens() {
-      const slingX = 80, slingY = CH - 45;
+      const slingX = 88, slingY = CH - 34;
+      const slingTopY = slingY - 38;
+      const maxPull = Math.min(105, Math.max(74, CW * 0.15));
       const gravity = 420;
       const alienTypes = [
         { name: 'BALANCED', color: '#2ecc71', glow: '#2ecc71', mass: 1, bounce: 0.4, radius: 12, grad: '#1a6e3a' },
@@ -3188,7 +3653,7 @@
       ];
       let typeIdx = 0;
       let proj = null, trail = [];
-      let dragging = false, dragCur = null;
+      let dragging = false, dragCur = null, dragPower = 0, lastPullLevel = 0, dragOrigin = null;
       let blocks = [];
       let sc = 0, alive = true, canLaunch = true, cooldown = 0;
       let stars = [];
@@ -3220,6 +3685,72 @@
 
       function getAlien() { return alienTypes[typeIdx % alienTypes.length]; }
       function nextType() { typeIdx++; canLaunch = true; }
+
+      function finishWin() {
+        if (!alive) return;
+        sc += 50;
+        score = sc;
+        scoreEl.textContent = sc;
+        const nw = updateHS('aliens');
+        alive = false;
+        canLaunch = false;
+        dragging = false;
+        dragCur = null;
+        dragOrigin = null;
+        proj = null;
+        trail = [];
+        alienDragPad.classList.remove('is-dragging');
+        showGameWin(sc, nw);
+      }
+
+      function pointerPoint(e) {
+        const r = canvas.getBoundingClientRect();
+        return { x: (e.clientX - r.left) * (CW / r.width), y: (e.clientY - r.top) * (CH / r.height) };
+      }
+
+      function clampPull(p) {
+        const dx = p.x - slingX, dy = p.y - slingTopY;
+        const d = Math.sqrt(dx * dx + dy * dy) || 1;
+        const pull = Math.min(d, maxPull);
+        dragPower = pull / maxPull;
+        return { x: slingX + dx / d * pull, y: slingTopY + dy / d * pull };
+      }
+
+      function drawAlienOrb(x, y, type, pulse) {
+        ctx.shadowColor = type.glow; ctx.shadowBlur = 14 * pulse;
+        ctx.fillStyle = type.color;
+        ctx.beginPath(); ctx.arc(x, y, type.radius * pulse, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = type.grad;
+        ctx.beginPath(); ctx.arc(x + type.radius * 0.18, y + type.radius * 0.2, type.radius * 0.58 * pulse, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.beginPath(); ctx.arc(x - type.radius * 0.32, y - type.radius * 0.3, type.radius * 0.23, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x + type.radius * 0.22, y - type.radius * 0.3, type.radius * 0.23, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#101018';
+        ctx.beginPath(); ctx.arc(x - type.radius * 0.25, y - type.radius * 0.29, type.radius * 0.11, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x + type.radius * 0.29, y - type.radius * 0.29, type.radius * 0.11, 0, Math.PI * 2); ctx.fill();
+      }
+
+      function drawAimGuide(type) {
+        if (!dragging || !dragCur) return;
+        const dx = slingX - dragCur.x, dy = slingTopY - dragCur.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const power = Math.min(dist / 6, 7);
+        let vx = dx / dist * power * 120, vy = dy / dist * power * 120;
+        let x = slingX, y = slingTopY;
+        ctx.save();
+        for (let i = 1; i <= 13; i++) {
+          const t = i * 0.09;
+          const px = x + vx * t;
+          const py = y + vy * t + 0.5 * gravity * type.mass * t * t;
+          if (px < 0 || px > CW || py < 0 || py > CH) break;
+          ctx.globalAlpha = Math.max(0.12, 0.56 - i * 0.035);
+          ctx.fillStyle = type.color;
+          ctx.shadowColor = type.glow; ctx.shadowBlur = 5;
+          ctx.beginPath(); ctx.arc(px, py, Math.max(2, 5 - i * 0.22), 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.restore();
+      }
 
       function update(ts) {
         if (!alive || !gameActive) return;
@@ -3265,11 +3796,11 @@
           });
           if (changed) blocks = blocks.filter(b => !b.hit);
           if (blocks.length === 0) {
-            sc += 50; score = sc; const nw = updateHS('aliens'); showGameOver(sc, nw); alive = false; return;
+            finishWin(); return;
           }
           if (proj.y > CH + 30 || proj.x < -30 || proj.x > CW + 30) {
             proj = null; trail = []; cooldown = 0.6; canLaunch = false;
-            if (blocks.length === 0) { sc += 50; score = sc; const nw = updateHS('aliens'); showGameOver(sc, nw); alive = false; return; }
+            if (blocks.length === 0) { finishWin(); return; }
           }
         } else if (!canLaunch) {
           cooldown -= dt;
@@ -3281,30 +3812,41 @@
           ctx.fillStyle = `rgba(255,255,255,${s.b * (0.4 + Math.sin(ts * 0.001 + s.x) * 0.2)})`;
           ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI * 2); ctx.fill();
         });
-        const sby = slingY - 20;
+        const sby = slingTopY;
         blocks.forEach(b => {
           ctx.fillStyle = b.color; ctx.shadowColor = b.color; ctx.shadowBlur = 6;
           ctx.fillRect(b.x, b.y, b.w, b.h); ctx.shadowBlur = 0;
           ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.fillRect(b.x + 2, b.y + 2, b.w - 4, 3);
           if (b.hp > 1) { ctx.fillStyle = '#fff'; ctx.font = '7px "Fredoka One"'; ctx.textAlign = 'center'; ctx.fillText(b.hp, b.x + b.w / 2, b.y + b.h / 2 + 2); }
         });
-        ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 3;
-        ctx.beginPath(); ctx.moveTo(slingX - 16, slingY); ctx.lineTo(slingX, sby); ctx.lineTo(slingX + 16, slingY); ctx.stroke();
         const type = getAlien();
+        ctx.save();
+        ctx.lineCap = 'round';
+        ctx.shadowColor = 'rgba(196,77,255,0.9)'; ctx.shadowBlur = 15;
+        ctx.strokeStyle = 'rgba(255,255,255,0.22)'; ctx.lineWidth = 8;
+        ctx.beginPath(); ctx.moveTo(slingX - 28, slingY); ctx.lineTo(slingX - 10, sby); ctx.lineTo(slingX, slingY + 10); ctx.lineTo(slingX + 10, sby); ctx.lineTo(slingX + 28, slingY); ctx.stroke();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#5a2f9a'; ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.moveTo(slingX - 28, slingY); ctx.lineTo(slingX - 10, sby); ctx.moveTo(slingX + 28, slingY); ctx.lineTo(slingX + 10, sby); ctx.stroke();
+        ctx.fillStyle = 'rgba(77,201,246,0.12)'; ctx.shadowColor = '#4dc9f6'; ctx.shadowBlur = 12;
+        ctx.beginPath(); ctx.arc(slingX, sby, maxPull, Math.PI, Math.PI * 2); ctx.strokeStyle = 'rgba(77,201,246,0.16)'; ctx.lineWidth = 1.5; ctx.stroke();
+        ctx.shadowBlur = 0;
+        ctx.restore();
+        drawAimGuide(type);
         if (canLaunch && !proj) {
           const pulse = Math.sin(ts * 0.003) * 0.1 + 0.9;
           let ax = slingX, ay = sby;
           if (dragging && dragCur) {
             ax = dragCur.x; ay = dragCur.y;
-            ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 2.5;
-            ctx.beginPath(); ctx.moveTo(slingX - 8, sby - 4); ctx.lineTo(ax, ay); ctx.moveTo(slingX + 8, sby - 4); ctx.lineTo(ax, ay); ctx.stroke();
+            ctx.strokeStyle = `rgba(255,221,74,${0.25 + dragPower * 0.45})`; ctx.lineWidth = 5;
+            ctx.shadowColor = type.glow; ctx.shadowBlur = 10 + dragPower * 18;
+            ctx.beginPath(); ctx.moveTo(slingX - 12, sby - 3); ctx.lineTo(ax, ay); ctx.moveTo(slingX + 12, sby - 3); ctx.lineTo(ax, ay); ctx.stroke();
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = 'rgba(255,255,255,0.12)'; ctx.fillRect(slingX - 32, slingY + 16, 64, 5);
+            ctx.fillStyle = type.color; ctx.shadowColor = type.glow; ctx.shadowBlur = 8;
+            ctx.fillRect(slingX - 32, slingY + 16, 64 * dragPower, 5); ctx.shadowBlur = 0;
           }
-          ctx.shadowColor = type.glow; ctx.shadowBlur = 12 * pulse;
-          ctx.fillStyle = type.color;
-          ctx.beginPath(); ctx.arc(ax, ay, type.radius * pulse, 0, Math.PI * 2); ctx.fill();
-          ctx.shadowBlur = 0;
-          ctx.fillStyle = 'rgba(255,255,255,0.3)';
-          ctx.beginPath(); ctx.arc(ax - 3 * pulse, ay - 3 * pulse, 2.5 * pulse, 0, Math.PI * 2); ctx.fill();
+          drawAlienOrb(ax, ay, type, pulse);
           ctx.font = '7px "Nunito"'; ctx.textAlign = 'center'; ctx.fillStyle = type.color;
           ctx.fillText(type.name, slingX, sby - type.radius - 8);
         }
@@ -3314,19 +3856,7 @@
             ctx.beginPath(); ctx.arc(tr.x, tr.y, proj.t.radius * 0.5 * tr.life, 0, Math.PI * 2); ctx.fill();
           });
           const r2 = proj.t.radius;
-          ctx.shadowColor = proj.t.glow; ctx.shadowBlur = 18;
-          ctx.fillStyle = proj.t.color;
-          ctx.beginPath(); ctx.arc(proj.x, proj.y, r2, 0, Math.PI * 2); ctx.fill();
-          ctx.shadowBlur = 0;
-          ctx.fillStyle = 'rgba(255,255,255,0.35)';
-          ctx.beginPath(); ctx.arc(proj.x - 3, proj.y - 3, r2 * 0.3, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = '#fff';
-          const es = Math.max(2, r2 * 0.25);
-          ctx.beginPath(); ctx.arc(proj.x - 3, proj.y - 3, es, 0, Math.PI * 2); ctx.fill();
-          ctx.beginPath(); ctx.arc(proj.x + 3, proj.y - 3, es, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = '#111';
-          ctx.beginPath(); ctx.arc(proj.x - 2, proj.y - 3, es * 0.5, 0, Math.PI * 2); ctx.fill();
-          ctx.beginPath(); ctx.arc(proj.x + 4, proj.y - 3, es * 0.5, 0, Math.PI * 2); ctx.fill();
+          drawAlienOrb(proj.x, proj.y, proj.t, 1);
         }
         ctx.font = '9px "Nunito"'; ctx.fillStyle = 'rgba(255,255,255,0.12)'; ctx.textAlign = 'right';
         ctx.fillText('PODS: ' + blocks.length, CW - 8, 16);
@@ -3337,40 +3867,55 @@
 
       const pd = e => {
         if (!canLaunch || proj || !gameActive || paused) return;
-        const r = canvas.getBoundingClientRect();
-        dragCur = { x: (e.clientX - r.left) * (CW / r.width), y: (e.clientY - r.top) * (CH / r.height) };
+        e.preventDefault();
+        dragOrigin = pointerPoint(e);
+        dragCur = { x: slingX, y: slingTopY };
+        dragPower = 0;
+        lastPullLevel = 0;
         dragging = true;
+        alienDragPad.classList.toggle('is-dragging', e.currentTarget === alienDragPad);
+        hapticEvent([10, 16, 10], 0);
         try { e.target.setPointerCapture(e.pointerId); } catch (ex) {}
       };
       const pm = e => {
-        if (!dragging) return;
-        const r = canvas.getBoundingClientRect();
-        dragCur = { x: (e.clientX - r.left) * (CW / r.width), y: (e.clientY - r.top) * (CH / r.height) };
+        if (!dragging || !dragOrigin) return;
+        e.preventDefault();
+        const pt = pointerPoint(e);
+        const dx = pt.x - dragOrigin.x, dy = pt.y - dragOrigin.y;
+        dragCur = clampPull({ x: slingX + dx, y: slingTopY + dy });
+        const level = Math.floor(dragPower * 4);
+        if (level > lastPullLevel) { hapticEvent(8, 80); lastPullLevel = level; }
       };
       const pu = e => {
-        if (!dragging || !canLaunch || proj) { dragging = false; return; }
-        const r = canvas.getBoundingClientRect();
-        const x = (e.clientX - r.left) * (CW / r.width), y = (e.clientY - r.top) * (CH / r.height);
-        const slingAimX = slingX, slingAimY = slingY - 20;
-        const dx = slingAimX - x, dy = slingAimY - y;
+        if (!dragging || !canLaunch || proj) { dragging = false; dragOrigin = null; alienDragPad.classList.remove('is-dragging'); return; }
+        e.preventDefault();
+        const pt = pointerPoint(e);
+        const pdx = pt.x - dragOrigin.x, pdy = pt.y - dragOrigin.y;
+        dragCur = clampPull({ x: slingX + pdx, y: slingTopY + pdy });
+        const aimX = slingX, aimY = slingTopY;
+        const dx = aimX - dragCur.x, dy = aimY - dragCur.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist > 15) {
           const power = Math.min(dist / 6, 7);
           const t = getAlien();
-          proj = { x: slingAimX, y: slingAimY, vx: dx / dist * power * 120, vy: dy / dist * power * 120, t };
-          canLaunch = false; dragging = false; dragCur = null;
-          hapticEvent(hapticPatterns.shooterAction, 0);
+          proj = { x: aimX, y: aimY, vx: dx / dist * power * 120, vy: dy / dist * power * 120, t };
+          canLaunch = false; dragging = false; dragCur = null; dragOrigin = null;
+          hapticEvent([18, 22, 34], 0);
           playTune([[440, 0.03, 0.05, 0], [660, 0.03, 0.05, 50]]);
         }
-        dragging = false;
+        dragPower = 0; dragging = false; dragOrigin = null; alienDragPad.classList.remove('is-dragging');
       };
       canvas.addEventListener('pointerdown', pd);
       canvas.addEventListener('pointermove', pm);
       canvas.addEventListener('pointerup', pu);
       canvas.addEventListener('pointercancel', pu);
+      alienDragPad.addEventListener('pointerdown', pd);
+      alienDragPad.addEventListener('pointermove', pm);
+      alienDragPad.addEventListener('pointerup', pu);
+      alienDragPad.addEventListener('pointercancel', pu);
 
       gameLoop = requestAnimationFrame(update);
-      return () => { alive = false; cancelAnimationFrame(gameLoop); canvas.removeEventListener('pointerdown', pd); canvas.removeEventListener('pointermove', pm); canvas.removeEventListener('pointerup', pu); canvas.removeEventListener('pointercancel', pu); };
+      return () => { alive = false; cancelAnimationFrame(gameLoop); alienDragPad.classList.remove('is-dragging'); canvas.removeEventListener('pointerdown', pd); canvas.removeEventListener('pointermove', pm); canvas.removeEventListener('pointerup', pu); canvas.removeEventListener('pointercancel', pu); alienDragPad.removeEventListener('pointerdown', pd); alienDragPad.removeEventListener('pointermove', pm); alienDragPad.removeEventListener('pointerup', pu); alienDragPad.removeEventListener('pointercancel', pu); };
     }
 
     // ==================== CURSOR ANIMATION LOOP ====================
@@ -3389,7 +3934,6 @@
 
     // ==================== BOOT ====================
     showStart();
-    setTimeout(() => { playTune([[440, 0.06, 0.1, 0], [660, 0.06, 0.1, 130], [880, 0.08, 0.15, 260]]); }, 500);
 
     console.log('🌈 RETRO GALAXY — 7 NEON GAMES');
     console.log('🐍 Snake | 🏓 Pong | 👾 Shooter | 🏃 Dino | 🧱 Breakout | 🐤 Flappy | 👽 Alien Slingshot');
