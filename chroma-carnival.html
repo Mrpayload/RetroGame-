@@ -907,7 +907,7 @@
       justify-content: center;
       margin: 5px auto 8px;
       padding: 3px 6px;
-      max-width: 420px;
+      max-width: 520px;
       border-radius: 12px;
       background: rgba(13, 2, 33, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.05);
@@ -1091,6 +1091,36 @@
       color: #fff;
       font-family: 'Fredoka One', cursive;
       font-size: 0.7rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 18px rgba(77, 201, 246, 0.2);
+      cursor: none
+    }
+
+    .quick-face {
+      display: none;
+      height: 32px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 221, 74, 0.38);
+      background: radial-gradient(circle at 35% 25%, rgba(255,255,255,0.22), rgba(255,221,74,0.2) 36%, rgba(255,107,157,0.18));
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.66rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 18px rgba(255, 221, 74, 0.18);
+      cursor: none
+    }
+
+    .quick-light {
+      display: none;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(77, 201, 246, 0.38);
+      background: radial-gradient(circle at 35% 25%, rgba(255,255,255,0.24), rgba(77,201,246,0.22) 36%, rgba(196,77,255,0.2));
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.62rem;
       letter-spacing: 0.5px;
       box-shadow: 0 0 18px rgba(77, 201, 246, 0.2);
       cursor: none
@@ -1594,6 +1624,11 @@
         place-items: center
       }
 
+      .quick-face {
+        display: grid;
+        place-items: center
+      }
+
       .inst-title {
         font-size: 0.72rem;
         margin-bottom: 4px
@@ -1693,8 +1728,10 @@
     }
 
     @media(pointer:coarse) {
-      #cursorCanvas {
-        display: none
+      #cursorCanvas,
+      body.theme-minimal,
+      body.theme-minimal-light {
+        cursor: auto
       }
 
       .desktop-utils,
@@ -1725,6 +1762,18 @@
 
       .instructions-panel {
         display: none
+      }
+
+      .mobile-quick-row {
+        display: flex
+      }
+
+      .inst-help-btn,
+      .quick-fullscreen,
+      .quick-games,
+      .quick-face {
+        display: grid;
+        place-items: center
       }
 
       .mobile-controls {
@@ -1890,10 +1939,877 @@
       }
     }
 
+    /* ===== MINIMALIST FACE — same games, completely different shell ===== */
+    body.theme-minimal {
+      background: #0a0c10;
+      color: #e8eaed;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif
+    }
+
+    body.theme-minimal ::-webkit-scrollbar {
+      width: 4px
+    }
+
+    body.theme-minimal ::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    body.theme-minimal ::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px
+    }
+
+    body.theme-minimal ::selection {
+      background: rgba(244,246,248,0.12)
+    }
+
+    body.theme-minimal .bg {
+      background: #0a0c10;
+      animation: none
+    }
+
+    body.theme-minimal .bg::before,
+    body.theme-minimal .bg-shapes,
+    body.theme-minimal #retroBgCanvas,
+    body.theme-minimal .orbs,
+    body.theme-minimal .sparkles,
+    body.theme-minimal .shooting-star,
+    body.theme-minimal #cursorCanvas {
+      display: none
+    }
+
+    body.theme-minimal .container {
+      max-width: 980px;
+      padding: 18px 22px 24px;
+      border: 0.5px solid rgba(255,255,255,0.04);
+      border-radius: 0;
+      margin: 12px auto
+    }
+
+    body.theme-minimal .title {
+      background: none;
+      -webkit-background-clip: initial;
+      background-clip: initial;
+      -webkit-text-fill-color: currentColor;
+      color: #e8eaed;
+      animation: none;
+      cursor: default;
+      font-family: inherit;
+      font-size: clamp(1.2rem, 2.4vw, 1.65rem);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      padding: 8px 0 0;
+      transition: none;
+      text-align: left;
+      display: flex;
+      align-items: center
+    }
+
+    body.theme-minimal .title::after {
+      content: '';
+      flex: 1;
+      height: 0.5px;
+      background: rgba(255,255,255,0.06);
+      margin-left: 14px
+    }
+
+    body.theme-minimal .title:hover,
+    body.theme-minimal .title:active,
+    body.theme-minimal .title.logo-active {
+      transform: none;
+      filter: none
+    }
+
+    body.theme-minimal .title-logo {
+      font-size: 0;
+      width: 6px;
+      height: 6px;
+      min-width: 6px;
+      margin-right: 10px;
+      background: rgba(255,255,255,0.25);
+      border: none;
+      box-shadow: none;
+      animation: none;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      -webkit-text-fill-color: transparent;
+      overflow: hidden
+    }
+
+    body.theme-minimal .title-logo::before,
+    body.theme-minimal .title-logo::after {
+      display: none
+    }
+
+    body.theme-minimal .title small {
+      display: block;
+      margin-top: 2px;
+      background: none;
+      -webkit-background-clip: initial;
+      background-clip: initial;
+      -webkit-text-fill-color: rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.2);
+      animation: none;
+      font-family: inherit;
+      font-size: 0.52rem;
+      font-weight: 400;
+      letter-spacing: 0.04em
+    }
+
+    body.theme-minimal .desktop-utils,
+    body.theme-minimal .utility-row {
+      max-width: none;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      backdrop-filter: none;
+      gap: 2px;
+      padding: 2px 0
+    }
+
+    body.theme-minimal .desktop-utils .d-btn,
+    body.theme-minimal .utility-row .util-btn,
+    body.theme-minimal .inst-help-btn,
+    body.theme-minimal .quick-fullscreen,
+    body.theme-minimal .quick-games,
+    body.theme-minimal .quick-face {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.3);
+      box-shadow: none;
+      font-family: inherit;
+      font-weight: 500;
+      font-size: 0.45rem;
+      letter-spacing: 0.02em;
+      cursor: default;
+      padding: 4px 8px;
+      border-radius: 4px;
+      height: auto;
+      transition: background 0.12s, color 0.12s
+    }
+
+    body.theme-minimal .desktop-utils .d-btn:hover,
+    body.theme-minimal .utility-row .util-btn:hover,
+    body.theme-minimal .inst-help-btn:hover,
+    body.theme-minimal .quick-fullscreen:hover,
+    body.theme-minimal .quick-games:hover,
+    body.theme-minimal .quick-face:hover {
+      background: rgba(255,255,255,0.06);
+      color: #e8eaed;
+      transform: none;
+      box-shadow: none
+    }
+
+    body.theme-minimal .desktop-utils .d-btn:active,
+    body.theme-minimal .utility-row .util-btn:active {
+      background: rgba(255,255,255,0.1)
+    }
+
+    body.theme-minimal .desktop-utils .d-btn.is-muted,
+    body.theme-minimal .desktop-utils .d-btn.is-galaxy,
+    body.theme-minimal .desktop-utils .d-btn.is-full,
+    body.theme-minimal .desktop-utils .d-btn.is-minimal,
+    body.theme-minimal .util-btn.is-muted,
+    body.theme-minimal .util-btn.is-galaxy,
+    body.theme-minimal .util-btn.is-full,
+    body.theme-minimal .quick-fullscreen.is-fullscreen,
+    body.theme-minimal .quick-face.is-minimal {
+      background: rgba(244,246,248,0.12);
+      color: #e8eaed;
+      animation: none;
+      box-shadow: none;
+      border: none
+    }
+
+    body.theme-minimal .screen-wrap {
+      margin-top: 10px
+    }
+
+    body.theme-minimal .screen-frame {
+      background: #0f1217;
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 18px;
+      padding: 6px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28)
+    }
+
+    body.theme-minimal .screen-frame.cursor-near {
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28)
+    }
+
+    body.theme-minimal .screen-border,
+    body.theme-minimal .screen-inner::after,
+    body.theme-minimal .screen-frame::before {
+      display: none
+    }
+
+    body.theme-minimal .screen-inner {
+      background: #080a0d;
+      border: 1px solid rgba(255,255,255,0.03);
+      border-radius: 13px;
+      box-shadow: none
+    }
+
+    body.theme-minimal .game-hud {
+      background: linear-gradient(180deg, rgba(8, 10, 13, 0.95), rgba(8, 10, 13, 0));
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.03em;
+      font-size: 0.55rem;
+      font-weight: 500;
+      padding: 5px 10px
+    }
+
+    body.theme-minimal #gameNameDisplay {
+      color: rgba(255,255,255,0.5)
+    }
+
+    body.theme-minimal .start-screen,
+    body.theme-minimal .game-over-overlay {
+      background: rgba(8, 10, 13, 0.9)
+    }
+
+    body.theme-minimal .ss-icon {
+      background: transparent;
+      border: none;
+      box-shadow: none
+    }
+
+    body.theme-minimal .ss-title,
+    body.theme-minimal .go-title,
+    body.theme-minimal .game-over-overlay.is-win .go-title,
+    body.theme-minimal .about-title,
+    body.theme-minimal .inst-help-title,
+    body.theme-minimal .inst-title {
+      background: none;
+      -webkit-background-clip: initial;
+      background-clip: initial;
+      -webkit-text-fill-color: currentColor;
+      color: #e8eaed;
+      filter: none;
+      font-family: inherit;
+      font-weight: 600;
+      letter-spacing: 0
+    }
+
+    body.theme-minimal .ss-inst,
+    body.theme-minimal .mobile-tip,
+    body.theme-minimal .inst-text,
+    body.theme-minimal .inst-help-body,
+    body.theme-minimal .about-text,
+    body.theme-minimal .go-score {
+      color: rgba(255,255,255,0.45);
+      font-weight: 400
+    }
+
+    body.theme-minimal .go-high,
+    body.theme-minimal .about-credit {
+      color: rgba(255,255,255,0.6)
+    }
+
+    body.theme-minimal .ss-go,
+    body.theme-minimal .go-restart,
+    body.theme-minimal .about-close,
+    body.theme-minimal .inst-help-close,
+    body.theme-minimal .mode-btn.active {
+      background: rgba(244,246,248,0.1);
+      border: none;
+      color: #e8eaed;
+      box-shadow: none;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: default;
+      border-radius: 6px;
+      transition: background 0.12s, color 0.12s
+    }
+
+    body.theme-minimal .ss-go:hover,
+    body.theme-minimal .go-restart:hover,
+    body.theme-minimal .about-close:hover,
+    body.theme-minimal .inst-help-close:hover {
+      background: rgba(244,246,248,0.16);
+      color: #fff;
+      transform: none;
+      box-shadow: none
+    }
+
+    body.theme-minimal .ss-go.secondary,
+    body.theme-minimal .mode-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.3);
+      box-shadow: none;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: default;
+      border-radius: 6px;
+      transition: background 0.12s, color 0.12s
+    }
+
+    body.theme-minimal .ss-go.secondary:hover,
+    body.theme-minimal .mode-btn:hover {
+      background: rgba(255,255,255,0.06);
+      color: #e8eaed
+    }
+
+    body.theme-minimal .game-cards {
+      gap: 6px;
+      margin-top: 10px;
+      padding: 0
+    }
+
+    body.theme-minimal .game-card,
+    body.theme-minimal .gc-count {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.25);
+      box-shadow: none;
+      border-radius: 0;
+      cursor: default;
+      animation: none;
+      padding: 4px 0;
+      transition: color 0.12s
+    }
+
+    body.theme-minimal .game-card:hover {
+      transform: none;
+      background: none;
+      border-color: none;
+      color: #e8eaed;
+      box-shadow: none
+    }
+
+    body.theme-minimal .game-card.active {
+      background: none;
+      border-color: none;
+      color: #e8eaed;
+      box-shadow: none;
+      animation: none
+    }
+
+    body.theme-minimal .game-card::after {
+      display: none
+    }
+
+    body.theme-minimal .game-card .gc-icon {
+      display: none
+    }
+
+    body.theme-minimal .game-card .gc-name {
+      color: inherit;
+      font-size: 0.5rem;
+      font-weight: 500;
+      letter-spacing: 0.03em
+    }
+
+    body.theme-minimal .game-card.active .gc-name {
+      color: #e8eaed;
+      -webkit-text-fill-color: #e8eaed;
+      font-weight: 600
+    }
+
+    body.theme-minimal .instructions-panel,
+    body.theme-minimal .mobile-controls,
+    body.theme-minimal .about-card,
+    body.theme-minimal .inst-help-card {
+      background: #0f1217;
+      border: 1px solid rgba(255,255,255,0.04);
+      box-shadow: none;
+      backdrop-filter: none;
+      border-radius: 10px
+    }
+
+    body.theme-minimal .inst-title {
+      font-family: inherit;
+      color: #e8eaed
+    }
+
+    body.theme-minimal .touch-btn,
+    body.theme-minimal .touch-small,
+    body.theme-minimal .alien-drag-pad {
+      background: #171c24;
+      border: 1px solid #303845;
+      color: #e5e7eb;
+      box-shadow: none;
+      text-shadow: none;
+      font-family: inherit;
+      cursor: default
+    }
+
+    body.theme-minimal .touch-action {
+      background: rgba(244,246,248,0.1);
+      border-color: transparent;
+      color: #e8eaed
+    }
+
+    body.theme-minimal .touch-btn.pressed,
+    body.theme-minimal .touch-small.is-paused,
+    body.theme-minimal .touch-small.is-fullscreen,
+    body.theme-minimal .touch-small.is-muted,
+    body.theme-minimal .touch-small.is-galaxy,
+    body.theme-minimal .alien-drag-pad.is-dragging {
+      background: rgba(244,246,248,0.12);
+      border-color: transparent;
+      color: #e8eaed;
+      box-shadow: none
+    }
+
+    body.theme-minimal .stat-beads,
+    body.theme-minimal .decor-row {
+      display: none
+    }
+
+    body.theme-minimal .footer {
+      display: block;
+      text-align: left;
+      padding: 8px 0 4px;
+      font-size: 0.4rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.12);
+      letter-spacing: 0.02em;
+      line-height: 1.6
+    }
+
+    body.theme-minimal .minimal-mote {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: auto;
+      cursor: default;
+      z-index: 5;
+      transition: transform 0.4s ease, background 0.4s ease, opacity 0.4s ease;
+      will-change: transform
+    }
+
+    body.theme-minimal .minimal-mote:hover {
+      transform: scale(1.8);
+      background: rgba(244, 246, 248, 0.25) !important;
+      border-color: rgba(244, 246, 248, 0.35) !important
+    }
+
+    body.theme-minimal .minimal-mote.rippling {
+      animation: minimalMoteRipple 0.7s ease-out forwards;
+      pointer-events: none
+    }
+
+    body.theme-minimal .minimal-speck {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 4;
+      animation: speckPulse 4s ease-in-out infinite alternate
+    }
+
+    @keyframes minimalMoteRipple {
+      0% { transform: scale(1); opacity: 0.35 }
+      100% { transform: scale(3.5); opacity: 0 }
+    }
+
+    @keyframes minimalMoteDrift {
+      0%, 100% { transform: translate(0, 0) }
+      25% { transform: translate(6px, -4px) }
+      50% { transform: translate(-3px, 6px) }
+      75% { transform: translate(5px, -2px) }
+    }
+
+    @keyframes speckPulse {
+      0% { opacity: 0; transform: scale(0.4) }
+      50% { opacity: 0.06; transform: scale(1) }
+      100% { opacity: 0.02; transform: scale(0.6) }
+    }
+
+    body.theme-minimal .keycap {
+      background: transparent;
+      border: 0.5px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.2);
+      -webkit-text-fill-color: rgba(255,255,255,0.2);
+      font-family: inherit;
+      font-weight: 500;
+      min-width: 14px;
+      padding: 0 5px
+    }
+
+    body.theme-minimal .keycap.flash {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.15);
+      color: #e8eaed;
+      -webkit-text-fill-color: #e8eaed
+    }
+
+    @media(max-width:768px) {
+      body.theme-minimal .container {
+        padding: 6px 8px 112px;
+        border: none;
+        margin: 0
+      }
+
+      body.theme-minimal .title {
+        font-size: 1rem;
+        letter-spacing: 0;
+        padding-top: 6px
+      }
+
+      body.theme-minimal .title::after {
+        display: none
+      }
+
+      body.theme-minimal .title-logo {
+        width: 5px;
+        height: 5px;
+        min-width: 5px;
+        margin-right: 7px
+      }
+
+      body.theme-minimal .title small {
+        font-size: 0.4rem;
+        letter-spacing: 0.08em
+      }
+
+      body.theme-minimal .screen-frame {
+        border-radius: 14px;
+        padding: 4px
+      }
+
+      body.theme-minimal .screen-inner {
+        border-radius: 11px
+      }
+
+      body.theme-minimal .game-cards {
+        margin: 8px -2px 6px;
+        padding: 2px 2px 6px;
+        gap: 6px
+      }
+
+      body.theme-minimal .game-card {
+        min-width: 82px;
+        padding: 6px 8px
+      }
+
+      body.theme-minimal .mobile-quick-row {
+        gap: 5px;
+        margin-top: 5px
+      }
+
+      body.theme-minimal .quick-games,
+      body.theme-minimal .quick-face,
+      body.theme-minimal .quick-light {
+        height: 28px;
+        padding: 0 10px
+      }
+    }
+
+    /* ===== MINIMAL LIGHT MODE — white variant ===== */
+    body.theme-minimal-light {
+      background: #f5f6f8;
+      color: #1a1c20;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif
+    }
+
+    body.theme-minimal-light ::-webkit-scrollbar { width: 4px }
+    body.theme-minimal-light ::-webkit-scrollbar-track { background: transparent }
+    body.theme-minimal-light ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius: 2px }
+    body.theme-minimal-light ::selection { background: rgba(0,0,0,0.06) }
+
+    body.theme-minimal-light,
+    body.theme-minimal-light .bg { background: #f5f6f8; animation: none }
+    body.theme-minimal-light .bg::before,
+    body.theme-minimal-light .container { max-width: 980px; padding: 18px 22px 24px; border: 0.5px solid rgba(0,0,0,0.04); border-radius: 0; margin: 12px auto }
+
+    body.theme-minimal-light .title {
+      background: none; -webkit-text-fill-color: #1a1c20; color: #1a1c20;
+      animation: none; cursor: default;
+      font-family: inherit;
+      font-size: clamp(1.2rem, 2.4vw, 1.65rem); font-weight: 600;
+      letter-spacing: -0.01em; padding: 8px 0 0; transition: none;
+      text-align: left; display: flex; align-items: center
+    }
+    body.theme-minimal-light .title::after {
+      content: '';
+      flex: 1;
+      height: 0.5px;
+      background: rgba(0,0,0,0.06);
+      margin-left: 14px
+    }
+    body.theme-minimal-light .title:hover,
+    body.theme-minimal-light .title:active,
+    body.theme-minimal-light .title.logo-active { transform: none; filter: none }
+
+    body.theme-minimal-light .title-logo {
+      font-size: 0;
+      width: 6px; height: 6px; min-width: 6px;
+      margin-right: 10px;
+      background: rgba(0,0,0,0.2);
+      border: none;
+      box-shadow: none;
+      animation: none;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      -webkit-text-fill-color: transparent;
+      overflow: hidden
+    }
+    body.theme-minimal-light .title-logo::before,
+    body.theme-minimal-light .title-logo::after { display: none }
+
+    body.theme-minimal-light .title small {
+      display: block; margin-top: 2px;
+      background: none; -webkit-background-clip: initial;
+      -webkit-text-fill-color: rgba(0,0,0,0.2); color: rgba(0,0,0,0.2);
+      animation: none; font-family: inherit;
+      font-size: 0.52rem; font-weight: 400; letter-spacing: 0.04em
+    }
+
+    body.theme-minimal-light .desktop-utils,
+    body.theme-minimal-light .utility-row {
+      max-width: none; background: transparent; border: none;
+      box-shadow: none; backdrop-filter: none; gap: 2px; padding: 2px 0
+    }
+
+    body.theme-minimal-light .desktop-utils .d-btn,
+    body.theme-minimal-light .utility-row .util-btn,
+    body.theme-minimal-light .inst-help-btn,
+    body.theme-minimal-light .quick-fullscreen,
+    body.theme-minimal-light .quick-games,
+    body.theme-minimal-light .quick-face {
+      background: transparent; border: none;
+      color: rgba(0,0,0,0.3); box-shadow: none;
+      font-family: inherit; font-weight: 500;
+      font-size: 0.45rem; letter-spacing: 0.02em;
+      cursor: default; padding: 4px 8px;
+      border-radius: 4px; height: auto;
+      transition: background 0.12s, color 0.12s
+    }
+    body.theme-minimal-light .desktop-utils .d-btn:hover,
+    body.theme-minimal-light .utility-row .util-btn:hover,
+    body.theme-minimal-light .inst-help-btn:hover,
+    body.theme-minimal-light .quick-fullscreen:hover,
+    body.theme-minimal-light .quick-games:hover,
+    body.theme-minimal-light .quick-face:hover {
+      background: rgba(0,0,0,0.04); color: #1a1c20;
+      transform: none; box-shadow: none
+    }
+    body.theme-minimal-light .desktop-utils .d-btn:active,
+    body.theme-minimal-light .utility-row .util-btn:active {
+      background: rgba(0,0,0,0.08)
+    }
+
+    body.theme-minimal-light .desktop-utils .d-btn.is-muted,
+    body.theme-minimal-light .desktop-utils .d-btn.is-galaxy,
+    body.theme-minimal-light .desktop-utils .d-btn.is-full,
+    body.theme-minimal-light .desktop-utils .d-btn.is-minimal,
+    body.theme-minimal-light .util-btn.is-muted,
+    body.theme-minimal-light .util-btn.is-galaxy,
+    body.theme-minimal-light .util-btn.is-full,
+    body.theme-minimal-light .quick-fullscreen.is-fullscreen,
+    body.theme-minimal-light .quick-face.is-minimal {
+      background: rgba(0,0,0,0.08); color: #1a1c20;
+      animation: none; box-shadow: none; border: none
+    }
+
+    body.theme-minimal-light .screen-frame {
+      background: #fff; border: 1px solid rgba(0,0,0,0.04);
+      border-radius: 18px; padding: 6px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.04)
+    }
+    body.theme-minimal-light .screen-frame.cursor-near { box-shadow: 0 4px 24px rgba(0,0,0,0.04) }
+    body.theme-minimal-light .screen-border,
+    body.theme-minimal-light .screen-inner::after,
+    body.theme-minimal-light .screen-frame::before { display: none }
+
+    body.theme-minimal-light .screen-inner {
+      background: #fff; border: 1px solid rgba(0,0,0,0.03);
+      border-radius: 13px; box-shadow: none
+    }
+
+    body.theme-minimal-light .game-hud {
+      background: linear-gradient(180deg, rgba(245,246,248,0.95), rgba(245,246,248,0));
+      color: rgba(0,0,0,0.35); letter-spacing: 0.03em;
+      font-size: 0.55rem; font-weight: 500; padding: 5px 10px
+    }
+    body.theme-minimal-light #gameNameDisplay { color: rgba(0,0,0,0.5) }
+
+    body.theme-minimal-light .start-screen,
+    body.theme-minimal-light .game-over-overlay { background: rgba(245,246,248,0.9) }
+
+    body.theme-minimal-light .ss-icon {
+      background: transparent; border: none; box-shadow: none
+    }
+
+    body.theme-minimal-light .ss-title,
+    body.theme-minimal-light .go-title,
+    body.theme-minimal-light .game-over-overlay.is-win .go-title,
+    body.theme-minimal-light .about-title,
+    body.theme-minimal-light .inst-help-title,
+    body.theme-minimal-light .inst-title {
+      background: none; color: #1a1c20; filter: none;
+      font-family: inherit; font-weight: 600; letter-spacing: 0
+    }
+
+    body.theme-minimal-light .ss-inst,
+    body.theme-minimal-light .mobile-tip,
+    body.theme-minimal-light .inst-text,
+    body.theme-minimal-light .inst-help-body,
+    body.theme-minimal-light .about-text,
+    body.theme-minimal-light .go-score { color: rgba(0,0,0,0.45); font-weight: 400 }
+
+    body.theme-minimal-light .go-high,
+    body.theme-minimal-light .about-credit { color: rgba(0,0,0,0.55) }
+
+    body.theme-minimal-light .ss-go,
+    body.theme-minimal-light .go-restart,
+    body.theme-minimal-light .about-close,
+    body.theme-minimal-light .inst-help-close,
+    body.theme-minimal-light .mode-btn.active {
+      background: rgba(0,0,0,0.06); border: none;
+      color: #1a1c20; box-shadow: none;
+      font-family: inherit; font-weight: 500; cursor: default;
+      border-radius: 6px; transition: background 0.12s, color 0.12s
+    }
+
+    body.theme-minimal-light .ss-go:hover,
+    body.theme-minimal-light .go-restart:hover,
+    body.theme-minimal-light .about-close:hover,
+    body.theme-minimal-light .inst-help-close:hover {
+      background: rgba(0,0,0,0.1); color: #000;
+      transform: none; box-shadow: none
+    }
+
+    body.theme-minimal-light .ss-go.secondary,
+    body.theme-minimal-light .mode-btn {
+      background: transparent; border: none;
+      color: rgba(0,0,0,0.3); box-shadow: none;
+      font-family: inherit; font-weight: 500; cursor: default;
+      border-radius: 6px; transition: background 0.12s, color 0.12s
+    }
+
+    body.theme-minimal-light .ss-go.secondary:hover,
+    body.theme-minimal-light .mode-btn:hover {
+      background: rgba(0,0,0,0.04); color: #1a1c20
+    }
+
+    body.theme-minimal-light .game-cards { gap: 6px; margin-top: 10px; padding: 0 }
+
+    body.theme-minimal-light .game-card,
+    body.theme-minimal-light .gc-count {
+      background: transparent; border: none;
+      color: rgba(0,0,0,0.25); box-shadow: none;
+      border-radius: 0; cursor: default; animation: none;
+      padding: 4px 0; transition: color 0.12s
+    }
+    body.theme-minimal-light .game-card:hover {
+      transform: none; background: none; border-color: none;
+      color: #1a1c20; box-shadow: none
+    }
+    body.theme-minimal-light .game-card.active {
+      background: none; border-color: none;
+      color: #1a1c20; box-shadow: none; animation: none
+    }
+    body.theme-minimal-light .game-card::after { display: none }
+    body.theme-minimal-light .game-card .gc-icon { display: none }
+    body.theme-minimal-light .game-card .gc-name {
+      font-size: 0.5rem; font-weight: 500;
+      letter-spacing: 0.03em; color: inherit
+    }
+    body.theme-minimal-light .game-card.active .gc-name {
+      color: #1a1c20; -webkit-text-fill-color: #1a1c20;
+      font-weight: 600
+    }
+
+    body.theme-minimal-light .instructions-panel,
+    body.theme-minimal-light .mobile-controls,
+    body.theme-minimal-light .about-card,
+    body.theme-minimal-light .inst-help-card {
+      background: #fff; border: 1px solid rgba(0,0,0,0.04);
+      box-shadow: none; backdrop-filter: none;
+      border-radius: 10px
+    }
+
+    body.theme-minimal-light .inst-title {
+      font-family: inherit; color: #1a1c20
+    }
+
+    body.theme-minimal-light .touch-btn,
+    body.theme-minimal-light .touch-small,
+    body.theme-minimal-light .alien-drag-pad {
+      background: #f0f2f5; border: 1px solid #d0d4db;
+      color: #3a3d45; box-shadow: none; text-shadow: none;
+      font-family: inherit; cursor: default
+    }
+    body.theme-minimal-light .touch-action {
+      background: rgba(0,0,0,0.06); border-color: transparent; color: #1a1c20
+    }
+    body.theme-minimal-light .touch-btn.pressed,
+    body.theme-minimal-light .touch-small.is-paused,
+    body.theme-minimal-light .touch-small.is-fullscreen,
+    body.theme-minimal-light .touch-small.is-muted,
+    body.theme-minimal-light .touch-small.is-galaxy,
+    body.theme-minimal-light .alien-drag-pad.is-dragging {
+      background: rgba(0,0,0,0.08); border-color: transparent;
+      color: #1a1c20; box-shadow: none
+    }
+
+    body.theme-minimal-light .stat-beads,
+    body.theme-minimal-light .decor-row { display: none }
+
+    body.theme-minimal-light .footer {
+      display: block;
+      text-align: left;
+      padding: 8px 0 4px;
+      font-size: 0.4rem;
+      font-weight: 400;
+      color: rgba(0,0,0,0.15);
+      letter-spacing: 0.02em;
+      line-height: 1.6
+    }
+
+    body.theme-minimal-light .minimal-mote {
+      background: rgba(0,0,0,0.035) !important;
+      border: 1px solid rgba(0,0,0,0.06) !important
+    }
+    body.theme-minimal-light .minimal-mote:hover {
+      background: rgba(0,0,0,0.12) !important;
+      border-color: rgba(0,0,0,0.18) !important
+    }
+
+    body.theme-minimal-light .minimal-speck {
+      background: rgba(0,0,0,0.03) !important
+    }
+
+    body.theme-minimal-light .keycap {
+      background: transparent;
+      border: 0.5px solid rgba(0,0,0,0.08);
+      color: rgba(0,0,0,0.2);
+      -webkit-text-fill-color: rgba(0,0,0,0.2);
+      font-family: inherit; font-weight: 500;
+      min-width: 14px; padding: 0 5px
+    }
+    body.theme-minimal-light .keycap.flash {
+      background: rgba(0,0,0,0.08);
+      border-color: rgba(0,0,0,0.12);
+      color: #1a1c20;
+      -webkit-text-fill-color: #1a1c20
+    }
+
+    /* show light toggle only in minimal mode */
+    #deskLight { display: none }
+    body.theme-minimal #deskLight { display: inline-flex }
+    .quick-light { display: none }
+    body.theme-minimal .quick-light { display: grid; place-items: center }
+
+    /* custom cursor for minimal face */
+    body.theme-minimal {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='6' fill='none' stroke='rgba(255,255,255,0.8)' stroke-width='2'/%3E%3C/svg%3E") 12 12, auto
+    }
+    body.theme-minimal-light {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='6' fill='none' stroke='rgba(0,0,0,0.6)' stroke-width='2'/%3E%3C/svg%3E") 12 12, auto
+    }
+
   </style>
 </head>
 
 <body>
+  <script>
+    try { if (localStorage.getItem('chromaMinimalFace') === '1') { document.body.classList.add('theme-minimal'); if (localStorage.getItem('chromaMinimalLight') === '1') document.body.classList.add('theme-minimal-light'); } } catch (e) { }
+  </script>
 
   <div class="bg"></div>
   <div class="bg-shapes">
@@ -1912,6 +2828,8 @@
     <div class="desktop-utils" id="desktopUtils">
       <button class="d-btn" id="deskAudio" aria-label="Audio">🔊 SND</button>
       <button class="d-btn" id="deskGalaxy" aria-label="Visual Mode">🌌 NEBULA</button>
+      <button class="d-btn" id="deskFace" aria-label="Switch Website Face">◇ FACE</button>
+      <button class="d-btn" id="deskLight" aria-label="Toggle Light Mode">☀ LIGHT</button>
       <button class="d-btn is-about" id="deskAbout" aria-label="About Retro Galaxy">ℹ️ ABOUT</button>
       <button class="d-btn" id="deskFullscreen" aria-label="Fullscreen">⛶ FULL</button>
     </div>
@@ -1976,6 +2894,8 @@
     <div class="mobile-quick-row">
       <button class="inst-help-btn" id="instHelpBtn" aria-label="Show instructions">?</button>
       <button class="quick-games" id="gamesBtn" aria-label="Pick a game">GAMES</button>
+      <button class="quick-face" id="touchFace" aria-label="Switch Website Face">FACE</button>
+      <button class="quick-light" id="touchLight" aria-label="Toggle Light Mode">LIGHT</button>
       <button class="quick-fullscreen" id="touchFullscreen" aria-label="Fullscreen">⛶</button>
     </div>
 
@@ -2039,22 +2959,27 @@
   <script>
     // ==================== SPARKLE FIELD ====================
     const sparkContainer = document.getElementById('sparkles');
-    for (let i = 0; i < 50; i++) {
-      const s = document.createElement('div'); s.className = 'spark';
-      s.style.left = Math.random() * 100 + '%'; s.style.top = Math.random() * 100 + '%';
-      s.style.animationDelay = Math.random() * 3 + 's'; s.style.animationDuration = (2 + Math.random() * 3) + 's';
-      const colors = ['#ff6b9d', '#c44dff', '#4dc9f6', '#ffdd4a', '#2ecc71'];
-      s.style.background = colors[i % colors.length];
-      s.style.boxShadow = `0 0 4px ${colors[i % colors.length]}`;
-      s.style.width = s.style.height = (1.5 + Math.random() * 2) + 'px';
-      sparkContainer.appendChild(s);
+    function seedSparkles() {
+      if (isMinimalFaceActive() || sparkContainer.children.length) return;
+      for (let i = 0; i < 50; i++) {
+        const s = document.createElement('div'); s.className = 'spark';
+        s.style.left = Math.random() * 100 + '%'; s.style.top = Math.random() * 100 + '%';
+        s.style.animationDelay = Math.random() * 3 + 's'; s.style.animationDuration = (2 + Math.random() * 3) + 's';
+        const colors = ['#ff6b9d', '#c44dff', '#4dc9f6', '#ffdd4a', '#2ecc71'];
+        s.style.background = colors[i % colors.length];
+        s.style.boxShadow = `0 0 4px ${colors[i % colors.length]}`;
+        s.style.width = s.style.height = (1.5 + Math.random() * 2) + 'px';
+        sparkContainer.appendChild(s);
+      }
     }
 
     // ==================== FLOATING ORBS ====================
     const orbContainer = document.getElementById('orbs');
     const orbColors = ['rgba(255,107,157,', 'rgba(196,77,255,', 'rgba(77,201,246,', 'rgba(255,221,74,', 'rgba(46,204,113,'];
     let orbs = [];
+    let orbSpawnTimers = [];
     function spawnOrb() {
+      if (isMinimalFaceActive()) return null;
       const el = document.createElement('div'); el.className = 'orb';
       const size = 30 + Math.random() * 50; const i = Math.floor(Math.random() * orbColors.length);
       el.style.width = size + 'px'; el.style.height = size + 'px';
@@ -2069,18 +2994,30 @@
         this.classList.add('orb-popped');
         sfx(400 + Math.random() * 400, 0.08, 'sine', 0.06);
         cursorBurst(e.clientX || e.pageX, e.clientY || e.pageY, 12);
-        setTimeout(() => { this.remove(); spawnOrb(); }, 600);
+        orbSpawnTimers.push(setTimeout(() => { this.remove(); spawnOrb(); }, 600));
       });
       orbContainer.appendChild(el);
       orbs.push(el);
       return el;
     }
-    for (let i = 0; i < 10; i++)setTimeout(spawnOrb, i * 200);
+    function seedOrbs() {
+      if (isMinimalFaceActive()) return;
+      for (let i = orbs.length; i < 10; i++)orbSpawnTimers.push(setTimeout(spawnOrb, i * 200));
+    }
 
     // ==================== SHOOTING STARS ====================
     let starSpawnTimer = null;
+    function stopShootingStars() {
+      if (starSpawnTimer) { clearTimeout(starSpawnTimer); starSpawnTimer = null; }
+      document.querySelectorAll('.shooting-star').forEach(star => star.remove());
+    }
+    function scheduleShootingStar(delay) {
+      if (window.matchMedia('(pointer: coarse)').matches || isMinimalFaceActive()) return;
+      if (starSpawnTimer) clearTimeout(starSpawnTimer);
+      starSpawnTimer = setTimeout(spawnShootingStar, delay || 2000);
+    }
     function spawnShootingStar() {
-      if (window.matchMedia('(pointer: coarse)').matches) { starSpawnTimer = setTimeout(spawnShootingStar, 5000); return; }
+      if (isMinimalFaceActive() || window.matchMedia('(pointer: coarse)').matches) { starSpawnTimer = null; return; }
       const star = document.createElement('div');
       star.className = 'shooting-star';
       const startX = 50 + Math.random() * (window.innerWidth - 100);
@@ -2113,9 +3050,8 @@
         { transform: `translate(${dx}px, ${dy}px) scale(0.3)`, opacity: 0 }
       ], { duration: dur, easing: 'ease-out', fill: 'forwards' });
       anim.onfinish = () => { if (star.parentNode) star.remove(); };
-      starSpawnTimer = setTimeout(spawnShootingStar, 3000 + Math.random() * 4000);
+      scheduleShootingStar(3000 + Math.random() * 4000);
     }
-    if (!window.matchMedia('(pointer: coarse)').matches) setTimeout(spawnShootingStar, 2000);
 
     // ==================== RETRO BG ENGINE ====================
     const retroCanvas = document.getElementById('retroBgCanvas');
@@ -2493,9 +3429,24 @@
     }
 
     let retroLast = 0;
+    let retroLoopActive = false;
+    function isMinimalFaceActive() {
+      return document.body.classList.contains('theme-minimal');
+    }
+    function startRetroLoop() {
+      if (retroLoopActive || isMinimalFaceActive()) return;
+      retroLoopActive = true;
+      retroLast = 0;
+      requestAnimationFrame(retroLoop);
+    }
     function retroLoop(ts) {
+      if (!retroLoopActive) return;
       if (!retroLast) retroLast = ts;
       const dt = Math.min((ts - retroLast) / 1000, 0.05); retroLast = ts;
+      if (isMinimalFaceActive()) {
+        retroLoopActive = false;
+        return;
+      }
       retroUpdate(dt, ts);
       retroDraw(ts);
       requestAnimationFrame(retroLoop);
@@ -2505,7 +3456,7 @@
     window.addEventListener('resize', retroResize);
       document.addEventListener('mousemove', e => {
         retroState.mouse.x = e.clientX; retroState.mouse.y = e.clientY;
-        if (!window.matchMedia('(pointer: coarse)').matches) {
+        if (!isMinimalFaceActive() && !window.matchMedia('(pointer: coarse)').matches) {
           document.querySelectorAll('.orb').forEach(orb => {
             const r = orb.getBoundingClientRect();
             const ox = r.left + r.width/2, oy = r.top + r.height/2;
@@ -2522,7 +3473,7 @@
           });
         }
       });
-    requestAnimationFrame(retroLoop);
+    startRetroLoop();
 
     // ==================== CURSOR ====================
     const cCanvas = document.getElementById('cursorCanvas');
@@ -2543,6 +3494,7 @@
     });
 
     document.addEventListener('click', e => {
+      if (isMinimalFaceActive()) return;
       cursorBurst(e.clientX, e.clientY, 20);
     });
 
@@ -2639,8 +3591,22 @@
 
     // ==================== SOUND ====================
     let actx = null;
-    let audioMuted = localStorage.getItem('chromaAudioMuted') === '1';
-    let galaxyMode = localStorage.getItem('chromaGalaxyMode') === '1';
+    function readStoredFlag(key) {
+      try { return localStorage.getItem(key) === '1'; } catch (e) { return false; }
+    }
+    function writeStoredFlag(key, value) {
+      try { localStorage.setItem(key, value ? '1' : '0'); } catch (e) { }
+    }
+    function readStoredJson(key, fallback) {
+      try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); } catch (e) { return fallback; }
+    }
+    function writeStoredJson(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { }
+    }
+    let audioMuted = readStoredFlag('chromaAudioMuted');
+    let galaxyMode = readStoredFlag('chromaGalaxyMode');
+    let minimalFace = readStoredFlag('chromaMinimalFace');
+    let minimalLight = readStoredFlag('chromaMinimalLight');
     function getAudio() { if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); return actx; }
     function sfx(freq, dur, type, vol) {
       if (audioMuted) return;
@@ -2770,6 +3736,8 @@
     const touchPause = document.getElementById('touchPause');
     const touchRestart = document.getElementById('touchRestart');
     const touchFullscreen = document.getElementById('touchFullscreen');
+    const touchFace = document.getElementById('touchFace');
+    const touchLight = document.getElementById('touchLight');
     const touchAudio = document.getElementById('touchAudio');
     const touchGalaxy = document.getElementById('touchGalaxy');
     const touchAbout = document.getElementById('touchAbout');
@@ -2805,8 +3773,8 @@
     let keys = {}, score = 0;
     let shooterTouch = { active: false, x: 0, y: 0, fire: false };
     let breakoutTouch = { active: false, x: 0 };
-    let snakeClassic = localStorage.getItem('chromaSnakeClassic') === '1';
-    let highScores = JSON.parse(localStorage.getItem('chromaScores') || '{}');
+    let snakeClassic = readStoredFlag('chromaSnakeClassic');
+    let highScores = readStoredJson('chromaScores', {});
     let lastTime = 0, cursorTime = 0, lastHapticAt = 0;
 
     const gameInfo = {
@@ -2923,7 +3891,7 @@
       const active = !!getFullscreenElement();
       touchFullscreen.textContent = active ? '×' : '⛶';
       touchFullscreen.classList.toggle('is-fullscreen', active);
-      if (deskFullscreen) { deskFullscreen.classList.toggle('is-full', active); }
+      if (deskFullscreen) { deskFullscreen.textContent = deskLabel('⛶', active ? 'FULL' : 'FULL', minimalFace); deskFullscreen.classList.toggle('is-full', active); }
     }
     function requestFullscreenMode() {
       const el = document.documentElement;
@@ -2931,7 +3899,7 @@
         const request = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
         if (request && !getFullscreenElement()) request.call(el);
       } catch (e) { }
-      localStorage.setItem('chromaFullscreenHintSeen', '1');
+      writeStoredFlag('chromaFullscreenHintSeen', true);
       setTimeout(updateFullscreenButton, 120);
     }
 
@@ -2945,14 +3913,17 @@
       setTimeout(updateFullscreenButton, 120);
     }
 
+    function deskLabel(emoji, text, isMin) {
+      return isMin ? text : emoji + ' ' + text;
+    }
     function updateAudioButton() {
       touchAudio.textContent = audioMuted ? 'MUTE' : 'SND';
       touchAudio.classList.toggle('is-muted', audioMuted);
-      if (deskAudio) { deskAudio.textContent = audioMuted ? '🔊 MUTE' : '🔊 SND'; deskAudio.classList.toggle('is-muted', audioMuted); }
+      if (deskAudio) { deskAudio.textContent = deskLabel('🔊', audioMuted ? 'MUTE' : 'SND', minimalFace); deskAudio.classList.toggle('is-muted', audioMuted); }
     }
     function toggleAudio() {
       audioMuted = !audioMuted;
-      localStorage.setItem('chromaAudioMuted', audioMuted ? '1' : '0');
+      writeStoredFlag('chromaAudioMuted', audioMuted);
       updateAudioButton();
       if (audioMuted) stopBgMusic();
       else ensureActiveMusic();
@@ -2970,12 +3941,102 @@
       document.body.classList.toggle('galaxy-mode', galaxyMode);
       touchGalaxy.textContent = galaxyMode ? 'GALAXY' : 'NEBULA';
       touchGalaxy.classList.toggle('is-galaxy', galaxyMode);
-      if (deskGalaxy) { deskGalaxy.textContent = galaxyMode ? '🌌 GALAXY' : '🌌 NEBULA'; deskGalaxy.classList.toggle('is-galaxy', galaxyMode); }
+      if (deskGalaxy) { deskGalaxy.textContent = deskLabel('🌌', galaxyMode ? 'GALAXY' : 'NEBULA', minimalFace); deskGalaxy.classList.toggle('is-galaxy', galaxyMode); }
     }
     function toggleGalaxyMode() {
       galaxyMode = !galaxyMode;
-      localStorage.setItem('chromaGalaxyMode', galaxyMode ? '1' : '0');
+      writeStoredFlag('chromaGalaxyMode', galaxyMode);
       updateGalaxyButton();
+    }
+
+    function updateFaceButton() {
+      document.body.classList.toggle('theme-minimal', minimalFace);
+      if (!minimalFace) document.body.classList.remove('theme-minimal-light');
+      touchFace.textContent = minimalFace ? 'RETRO' : 'FACE';
+      touchFace.classList.toggle('is-minimal', minimalFace);
+      if (deskFace) { deskFace.textContent = deskLabel('◇', minimalFace ? 'RETRO' : 'FACE', minimalFace); deskFace.classList.toggle('is-minimal', minimalFace); }
+      if (minimalFace) updateLightButton();
+      updateAudioButton();
+      updateGalaxyButton();
+      updateFullscreenButton();
+    }
+    function toggleFaceMode() {
+      minimalFace = !minimalFace;
+      writeStoredFlag('chromaMinimalFace', minimalFace);
+      if (!minimalFace) document.body.classList.remove('theme-minimal-light');
+      updateFaceButton();
+      syncFaceDecorativeLoops();
+    }
+
+    function updateLightButton() {
+      document.body.classList.toggle('theme-minimal-light', minimalFace && minimalLight);
+      touchLight.textContent = minimalLight ? 'DARK' : 'LIGHT';
+      if (deskLight) deskLight.textContent = deskLabel(minimalLight ? '🌙' : '☀', minimalLight ? 'DARK' : 'LIGHT', minimalFace);
+    }
+    function toggleLightMode() {
+      if (!minimalFace) return;
+      minimalLight = !minimalLight;
+      writeStoredFlag('chromaMinimalLight', minimalLight);
+      updateLightButton();
+    }
+
+    // ===== MINIMAL MOTES & SPECKS =====
+    let moteTimers = [];
+    function spawnMote() {
+      if (!isMinimalFaceActive()) return null;
+      const el = document.createElement('div'); el.className = 'minimal-mote';
+      const size = 4 + Math.random() * 8;
+      const driftDur = 10 + Math.random() * 12;
+      el.style.width = size + 'px'; el.style.height = size + 'px';
+      el.style.left = (2 + Math.random() * 84) + '%';
+      el.style.top = (5 + Math.random() * 75) + '%';
+      const alpha = 0.02 + Math.random() * 0.04;
+      const borderAlpha = alpha + 0.01;
+      el.style.background = `rgba(244,246,248,${alpha})`;
+      el.style.border = `1px solid rgba(244,246,248,${borderAlpha})`;
+      el.style.animation = `minimalMoteDrift ${driftDur}s ease-in-out infinite`;
+      el.style.animationDelay = (Math.random() * -driftDur) + 's';
+      el.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (this.classList.contains('rippling')) return;
+        this.classList.add('rippling');
+        sfx(300 + Math.random() * 200, 0.04, 'sine', 0.02);
+        setTimeout(() => { this.classList.remove('rippling'); }, 700);
+      });
+      document.body.appendChild(el);
+      return el;
+    }
+    function seedMinimalMotes() {
+      if (!isMinimalFaceActive() || document.querySelectorAll('.minimal-mote').length) return;
+      const count = 14;
+      for (let i = 0; i < count; i++) moteTimers.push(setTimeout(spawnMote, i * 120));
+      seedMinimalSpecks();
+    }
+    function spawnSpeck() {
+      if (!isMinimalFaceActive()) return null;
+      const el = document.createElement('div'); el.className = 'minimal-speck';
+      const size = 1 + Math.random() * 1.5;
+      el.style.width = size + 'px'; el.style.height = size + 'px';
+      el.style.left = (1 + Math.random() * 89) + '%';
+      el.style.top = (3 + Math.random() * 85) + '%';
+      el.style.background = `rgba(244,246,248,${0.02 + Math.random() * 0.03})`;
+      el.style.animationDelay = (Math.random() * -4) + 's';
+      el.style.animationDuration = (3 + Math.random() * 4) + 's';
+      document.body.appendChild(el);
+      return el;
+    }
+    function seedMinimalSpecks() {
+      if (!isMinimalFaceActive() || document.querySelectorAll('.minimal-speck').length) return;
+      const count = 22;
+      for (let i = 0; i < count; i++) setTimeout(spawnSpeck, i * 40);
+    }
+    function clearMinimalSpecks() {
+      document.querySelectorAll('.minimal-speck').forEach(el => el.remove());
+    }
+    function clearMinimalMotes() {
+      moteTimers.forEach(t => clearTimeout(t));
+      moteTimers = [];
+      document.querySelectorAll('.minimal-mote').forEach(el => el.remove());
     }
 
     function showAbout() {
@@ -3005,7 +4066,7 @@
     function updateHS(name) {
       const k = name.toLowerCase();
       if (!highScores[k]) highScores[k] = 0;
-      if (score > highScores[k]) { highScores[k] = score; localStorage.setItem('chromaScores', JSON.stringify(highScores)); return true; }
+      if (score > highScores[k]) { highScores[k] = score; writeStoredJson('chromaScores', highScores); return true; }
       return false;
     }
     function getHS(name) { return highScores[name.toLowerCase()] || 0; }
@@ -3120,7 +4181,7 @@
       }
       ssTitle.textContent = info.name;
       ssInst.innerHTML = inst; startScreen.classList.remove('hide');
-      mobileTip.style.display = isMobileControls() && localStorage.getItem('chromaFullscreenHintSeen') !== '1' ? 'block' : 'none';
+      mobileTip.style.display = isMobileControls() && !readStoredFlag('chromaFullscreenHintSeen') ? 'block' : 'none';
       document.getElementById('instText').innerHTML = inst;
       updateInstPanel();
       updateMobileControls();
@@ -3265,6 +4326,8 @@
     touchPause.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(hapticPatterns.pause); togglePause(); });
     touchRestart.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(hapticPatterns.restart); startGameplay(); });
     touchFullscreen.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(hapticPatterns.fullscreen); toggleFullscreen(); });
+    touchFace.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(12); toggleFaceMode(); });
+    touchLight.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(12); toggleLightMode(); });
     touchAudio.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(12); toggleAudio(); });
     touchGalaxy.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(hapticPatterns.galaxy); toggleGalaxyMode(); });
     touchAbout.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(10); showAbout(); });
@@ -3273,12 +4336,16 @@
     // desktop utils
     const deskAudio = document.getElementById('deskAudio');
     const deskGalaxy = document.getElementById('deskGalaxy');
+    const deskFace = document.getElementById('deskFace');
+    const deskLight = document.getElementById('deskLight');
     const deskAbout = document.getElementById('deskAbout');
     const deskFullscreen = document.getElementById('deskFullscreen');
-    deskAudio.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleAudio(); deskAudio.textContent = audioMuted ? '🔊 MUTE' : '🔊 SND'; deskAudio.classList.toggle('is-muted', audioMuted); });
-    deskGalaxy.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleGalaxyMode(); deskGalaxy.textContent = galaxyMode ? '🌌 GALAXY' : '🌌 NEBULA'; deskGalaxy.classList.toggle('is-galaxy', galaxyMode); });
+    deskAudio.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleAudio(); });
+    deskGalaxy.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleGalaxyMode(); });
+    deskFace.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleFaceMode(); });
+    deskLight.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleLightMode(); });
     deskAbout.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); showAbout(); });
-    deskFullscreen.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleFullscreen(); deskFullscreen.classList.toggle('is-full', !!getFullscreenElement()); });
+    deskFullscreen.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleFullscreen(); });
     aboutOverlay.addEventListener('pointerdown', e => { if (e.target === aboutOverlay) hideAbout(); });
     instHelpBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); haptic(10); showInstructionHelp(); });
     gamesBtn.addEventListener('click', e => {
@@ -3291,7 +4358,7 @@
       const btn = e.target.closest('.mode-btn');
       if (!btn) return;
       snakeClassic = btn.dataset.mode === 'classic';
-      localStorage.setItem('chromaSnakeClassic', snakeClassic ? '1' : '0');
+      writeStoredFlag('chromaSnakeClassic', snakeClassic);
       document.getElementById('modeToggle').querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b === btn));
       showStart();
     });
@@ -3304,6 +4371,8 @@
     window.addEventListener('focus', () => { pageFocused = true; syncBgMusicState(); });
     updateAudioButton();
     updateGalaxyButton();
+    updateFaceButton();
+    updateLightButton();
 
     function startSiteAudioOnce() { siteAudioUnlocked = true; }
     document.addEventListener('pointerdown', startSiteAudioOnce, { once: true });
@@ -3335,6 +4404,7 @@
       count = count || 8;
       for (let i = 0; i < count; i++) {
         const el = document.createElement('div');
+        el.className = 'dom-particle';
         el.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:5px;height:5px;border-radius:50%;background:${colors[i%colors.length]};pointer-events:none;z-index:9999;`;
         document.body.appendChild(el);
         const angle = Math.random() * Math.PI * 2;
@@ -3424,6 +4494,7 @@
 
     // click background for sparks
     document.addEventListener('click', e => {
+      if (isMinimalFaceActive()) return;
       retroTryHit(e.clientX, e.clientY);
       if (e.target.closest('.title') || e.target.closest('.game-card') || e.target.closest('.deco') || e.target.closest('.ss-go') || e.target.closest('.go-restart') || e.target.closest('.about-overlay') || e.target.closest('.inst-help-overlay') || e.target.closest('.mobile-quick-row') || e.target.closest('.orb') || e.target.closest('.mobile-controls') || e.target.closest('.utility-row') || e.target.closest('.desktop-utils') || e.target.closest('.stat-beads') || e.target.closest('.bead') || e.target.closest('.shooting-star')) return;
       cursorBurst(e.clientX, e.clientY, 15);
@@ -3431,6 +4502,7 @@
     });
 
     document.addEventListener('touchstart', e => {
+      if (isMinimalFaceActive()) return;
       if (e.target.closest('.title') || e.target.closest('.game-card') || e.target.closest('.deco') || e.target.closest('.ss-go') || e.target.closest('.go-restart') || e.target.closest('.about-overlay') || e.target.closest('.inst-help-overlay') || e.target.closest('.mobile-quick-row') || e.target.closest('.orb') || e.target.closest('.mobile-controls') || e.target.closest('.utility-row') || e.target.closest('.desktop-utils') || e.target.closest('.stat-beads') || e.target.closest('.bead') || e.target.closest('.shooting-star')) return;
       const t = e.changedTouches && e.changedTouches[0];
       if (!t) return;
@@ -4904,8 +5976,19 @@
     }
 
     // ==================== CURSOR ANIMATION LOOP ====================
+    let cursorLoopActive = false;
+    function startCursorLoop() {
+      if (cursorLoopActive || window.matchMedia('(pointer: coarse)').matches || isMinimalFaceActive()) return;
+      cursorLoopActive = true;
+      cursorTime = 0;
+      requestAnimationFrame(cursorLoop);
+    }
     function cursorLoop(timestamp) {
-      if (window.matchMedia('(pointer: coarse)').matches) return;
+      if (!cursorLoopActive || window.matchMedia('(pointer: coarse)').matches) { cursorLoopActive = false; return; }
+      if (isMinimalFaceActive()) {
+        cursorLoopActive = false;
+        return;
+      }
       if (!cursorTime) cursorTime = timestamp;
       const dt = Math.min((timestamp - cursorTime) / 1000, 0.05); cursorTime = timestamp;
       updateCursor(dt);
@@ -4915,7 +5998,34 @@
 
     // ==================== GAME LOOP (background) ====================
     // The cursor loop runs independently
-    if (!window.matchMedia('(pointer: coarse)').matches) requestAnimationFrame(cursorLoop);
+    function clearMinimalDecor() {
+      orbSpawnTimers.forEach(timer => clearTimeout(timer));
+      orbSpawnTimers = [];
+      sparkContainer.textContent = '';
+      orbContainer.textContent = '';
+      orbs = [];
+      stopShootingStars();
+      clearMinimalMotes();
+      clearMinimalSpecks();
+      document.querySelectorAll('.d-msg, .dom-particle').forEach(el => el.remove());
+      cursorTrail.length = 0;
+      retroState.particles = [];
+      retroState.flashes = [];
+      retroState.comboText = [];
+    }
+    function syncFaceDecorativeLoops() {
+      clearMinimalDecor();
+      if (isMinimalFaceActive()) {
+        seedMinimalMotes();
+        return;
+      }
+      seedSparkles();
+      seedOrbs();
+      scheduleShootingStar(2000);
+      startRetroLoop();
+      startCursorLoop();
+    }
+    syncFaceDecorativeLoops();
 
     // ==================== BOOT ====================
     showStart();
