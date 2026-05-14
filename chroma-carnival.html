@@ -8,6 +8,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800&display=swap"
     rel="stylesheet">
   <style>
+    :root {
+      --fluid-gap: clamp(7px, 1.8vw, 12px);
+      --fluid-pad: clamp(8px, 2.2vw, 18px);
+      --touch-size: clamp(54px, 15vw, 66px);
+      --touch-gap: clamp(8px, 2.1vw, 12px);
+      --panel-radius: clamp(14px, 3vw, 22px);
+      --ui-font-sm: clamp(0.42rem, 1.55vw, 0.58rem);
+      --ui-font-md: clamp(0.62rem, 2.2vw, 0.92rem)
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -21,6 +31,7 @@
       overflow-x: hidden;
       cursor: none;
       min-height: 100vh;
+      min-height: 100svh;
       user-select: none
     }
 
@@ -455,7 +466,8 @@
 
     .start-screen.hide {
       opacity: 0;
-      pointer-events: none
+      pointer-events: none;
+      transition-duration: 0s
     }
 
     .ss-icon {
@@ -1042,7 +1054,7 @@
       justify-content: center;
       margin: 5px auto 8px;
       padding: 3px 6px;
-      max-width: 520px;
+      max-width: 640px;
       border-radius: 12px;
       background: rgba(13, 2, 33, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.05);
@@ -1083,6 +1095,15 @@
       color: #4dc9f6
     }
 
+    .desktop-utils .d-btn.is-saver,
+    .quick-saver.is-saver,
+    .auto-fire-btn.active {
+      background: linear-gradient(135deg, rgba(46, 204, 113, 0.34), rgba(77, 201, 246, 0.2));
+      border-color: rgba(46, 204, 113, 0.72);
+      color: #9dffc8;
+      box-shadow: 0 0 18px rgba(46, 204, 113, 0.32)
+    }
+
     .desktop-utils .d-btn.is-full {
       background: rgba(255, 221, 74, 0.18);
       border-color: rgba(255, 221, 74, 0.35);
@@ -1110,6 +1131,31 @@
       background: rgba(77, 201, 246, 0.18);
       border-color: rgba(77, 201, 246, 0.35);
       color: #4dc9f6
+    }
+
+    .quick-saver {
+      display: none;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(46, 204, 113, 0.5);
+      background: radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.24), rgba(46, 204, 113, 0.2) 36%, rgba(77, 201, 246, 0.14));
+      color: #c4ffd8;
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.62rem;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 18px rgba(46, 204, 113, 0.22);
+      cursor: none
+    }
+
+    .shooter-options {
+      display: flex;
+      justify-content: center;
+      margin: 4px 0
+    }
+
+    .auto-fire-btn {
+      min-width: 116px
     }
 
     body.galaxy-mode .utility-row {
@@ -1320,9 +1366,9 @@
 
     .touch-dpad {
       display: grid;
-      grid-template-columns: repeat(3, 62px);
-      grid-template-rows: repeat(3, 62px);
-      gap: 9px
+      grid-template-columns: repeat(3, var(--touch-size));
+      grid-template-rows: repeat(3, var(--touch-size));
+      gap: var(--touch-gap)
     }
 
     .touch-btn {
@@ -1369,17 +1415,17 @@
 
     .touch-actions {
       display: grid;
-      grid-template-columns: repeat(2, 62px);
-      gap: 12px;
+      grid-template-columns: repeat(2, var(--touch-size));
+      gap: var(--touch-gap);
       align-items: center;
       justify-content: end
     }
 
     .touch-action {
-      width: 62px;
-      height: 62px;
+      width: var(--touch-size);
+      height: var(--touch-size);
       border-radius: 50%;
-      font-size: 0.92rem;
+      font-size: var(--ui-font-md);
       background: linear-gradient(135deg, #ff6b9d, #c44dff)
     }
 
@@ -1411,9 +1457,9 @@
     }
 
     .touch-small {
-      height: 48px;
+      height: clamp(42px, 11vw, 48px);
       border-radius: 15px;
-      font-size: 0.66rem;
+      font-size: clamp(0.58rem, 1.8vw, 0.66rem);
       background: rgba(255, 255, 255, 0.08);
       letter-spacing: 0.5px
     }
@@ -1487,6 +1533,40 @@
       user-select: none;
       -webkit-user-select: none;
       -webkit-tap-highlight-color: transparent
+    }
+
+    body:not(.landscape-active) .mobile-controls[data-layout="aliens"] {
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      gap: 8px
+    }
+
+    body:not(.landscape-active) .mobile-controls[data-layout="aliens"] .touch-dpad {
+      width: 100%;
+      grid-template-columns: 1fr;
+      grid-template-rows: clamp(96px, 28vw, 132px);
+      gap: 0
+    }
+
+    body:not(.landscape-active) .mobile-controls[data-layout="aliens"] .touch-dpad .touch-btn {
+      display: none
+    }
+
+    body:not(.landscape-active) .mobile-controls[data-layout="aliens"] .touch-actions {
+      width: 100%;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: clamp(42px, 11vw, 48px);
+      gap: 8px;
+      justify-content: stretch
+    }
+
+    body:not(.landscape-active) .mobile-controls[data-layout="aliens"] .touch-actions .touch-action {
+      display: none
+    }
+
+    body:not(.landscape-active) .mobile-controls[data-layout="aliens"] .touch-actions .touch-small {
+      height: 100%
     }
 
     .mobile-controls[data-layout="horizontal"] .touch-up,
@@ -1746,7 +1826,8 @@
         place-items: center
       }
 
-      .quick-face {
+      .quick-face,
+      .quick-saver {
         display: grid;
         place-items: center
       }
@@ -1879,7 +1960,8 @@
       .inst-help-btn,
       .quick-fullscreen,
       .quick-games,
-      .quick-face {
+      .quick-face,
+      .quick-saver {
         display: grid;
         place-items: center
       }
@@ -2416,7 +2498,8 @@
     body.theme-minimal .inst-help-btn,
     body.theme-minimal .quick-fullscreen,
     body.theme-minimal .quick-games,
-    body.theme-minimal .quick-face {
+    body.theme-minimal .quick-face,
+    body.theme-minimal .quick-saver {
       background: transparent;
       border: none;
       color: rgba(255, 255, 255, 0.3);
@@ -2437,7 +2520,8 @@
     body.theme-minimal .inst-help-btn:hover,
     body.theme-minimal .quick-fullscreen:hover,
     body.theme-minimal .quick-games:hover,
-    body.theme-minimal .quick-face:hover {
+    body.theme-minimal .quick-face:hover,
+    body.theme-minimal .quick-saver:hover {
       background: rgba(255, 255, 255, 0.06);
       color: #e8eaed;
       transform: none;
@@ -2457,7 +2541,8 @@
     body.theme-minimal .util-btn.is-galaxy,
     body.theme-minimal .util-btn.is-full,
     body.theme-minimal .quick-fullscreen.is-fullscreen,
-    body.theme-minimal .quick-face.is-minimal {
+    body.theme-minimal .quick-face.is-minimal,
+    body.theme-minimal .quick-saver.is-saver {
       background: rgba(244, 246, 248, 0.12);
       color: #e8eaed;
       animation: none;
@@ -3164,7 +3249,8 @@
     body.theme-minimal-light .inst-help-btn,
     body.theme-minimal-light .quick-fullscreen,
     body.theme-minimal-light .quick-games,
-    body.theme-minimal-light .quick-face {
+    body.theme-minimal-light .quick-face,
+    body.theme-minimal-light .quick-saver {
       background: transparent;
       border: none;
       color: rgba(0, 0, 0, 0.3);
@@ -3185,7 +3271,8 @@
     body.theme-minimal-light .inst-help-btn:hover,
     body.theme-minimal-light .quick-fullscreen:hover,
     body.theme-minimal-light .quick-games:hover,
-    body.theme-minimal-light .quick-face:hover {
+    body.theme-minimal-light .quick-face:hover,
+    body.theme-minimal-light .quick-saver:hover {
       background: rgba(0, 0, 0, 0.04);
       color: #1a1c20;
       transform: none;
@@ -3205,7 +3292,8 @@
     body.theme-minimal-light .util-btn.is-galaxy,
     body.theme-minimal-light .util-btn.is-full,
     body.theme-minimal-light .quick-fullscreen.is-fullscreen,
-    body.theme-minimal-light .quick-face.is-minimal {
+    body.theme-minimal-light .quick-face.is-minimal,
+    body.theme-minimal-light .quick-saver.is-saver {
       background: rgba(0, 0, 0, 0.08);
       color: #1a1c20;
       animation: none;
@@ -3537,6 +3625,7 @@
       .quick-games,
       .quick-face,
       .quick-light,
+      .quick-saver,
       .utility-row .util-btn {
         border-bottom-color: rgba(255, 255, 255, 0.08);
         box-shadow: 0 5px 0 rgba(0, 0, 0, 0.42), 0 8px 16px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.16);
@@ -3549,6 +3638,7 @@
       .quick-games:active,
       .quick-face:active,
       .quick-light:active,
+      .quick-saver:active,
       .utility-row .util-btn:active {
         transform: translateY(4px);
         box-shadow: 0 1px 0 rgba(0, 0, 0, 0.38), 0 4px 10px rgba(0, 0, 0, 0.22)
@@ -3602,6 +3692,7 @@
       body.theme-minimal .quick-games,
       body.theme-minimal .quick-face,
       body.theme-minimal .quick-light,
+      body.theme-minimal .quick-saver,
       body.theme-minimal .utility-row .util-btn {
         background: rgba(244, 246, 248, 0.12);
         box-shadow: none
@@ -3641,10 +3732,67 @@
       body.theme-minimal-light .quick-games,
       body.theme-minimal-light .quick-face,
       body.theme-minimal-light .quick-light,
+      body.theme-minimal-light .quick-saver,
       body.theme-minimal-light .utility-row .util-btn {
         background: #eef1f5;
         box-shadow: none
       }
+    }
+
+    body.battery-saver .bg,
+    body.battery-saver .bg::before,
+    body.battery-saver .shape,
+    body.battery-saver .spark,
+    body.battery-saver .orb,
+    body.battery-saver .title-logo,
+    body.battery-saver .bead,
+    body.battery-saver .deco {
+      animation: none !important;
+      transition: opacity 0.12s, transform 0.12s, background 0.12s, color 0.12s !important
+    }
+
+    body.battery-saver .game-card {
+      animation: none !important;
+      backdrop-filter: none !important;
+      box-shadow: none !important;
+      transition: opacity 0.12s, transform 0.12s, background 0.12s, color 0.12s !important
+    }
+
+    body.battery-saver #retroBgCanvas,
+    body.battery-saver #cursorCanvas,
+    body.battery-saver .orbs,
+    body.battery-saver .sparkles,
+    body.battery-saver .shooting-star,
+    body.battery-saver .bg-shapes {
+      display: none !important
+    }
+
+    body.battery-saver .desktop-utils,
+    body.battery-saver .utility-row,
+    body.battery-saver .screen-frame,
+    body.battery-saver .touch-btn,
+    body.battery-saver .touch-small,
+    body.battery-saver .about-card,
+    body.battery-saver .inst-help-card,
+    body.battery-saver .start-screen,
+    body.battery-saver .game-over-overlay {
+      backdrop-filter: none !important;
+      box-shadow: none !important
+    }
+
+    body.battery-saver .screen-border,
+    body.battery-saver .screen-frame::before,
+    body.battery-saver .screen-inner::after {
+      animation: none !important;
+      transition: opacity 0.12s !important;
+      opacity: 0.35 !important;
+      filter: none !important
+    }
+
+    body.battery-saver .touch-btn:active,
+    body.battery-saver .touch-btn.pressed {
+      transform: translateY(2px);
+      box-shadow: none
     }
 
 
@@ -3653,6 +3801,10 @@
 
       html,
       body.landscape-active {
+        --land-btn: clamp(48px, min(13.2dvh, 9.2vw), 60px);
+        --land-gap: clamp(4px, 1.4dvh, 7px);
+        --land-pad: clamp(5px, 1.8dvh, 8px);
+        --side-col: calc(var(--land-btn) + var(--land-btn) + var(--land-btn) + var(--land-gap) + var(--land-gap) + var(--land-pad) + var(--land-pad));
         height: 100%;
         overflow: hidden;
         overscroll-behavior: none
@@ -3665,7 +3817,7 @@
         margin: 0;
         padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
         display: grid;
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns: var(--side-col) minmax(0, 1fr) var(--side-col);
         grid-template-rows: auto 1fr auto;
         gap: 0 4px;
         overflow: hidden
@@ -3753,7 +3905,7 @@
         top: calc(2px + env(safe-area-inset-top));
         right: calc(4px + env(safe-area-inset-right));
         display: flex;
-        gap: 3px;
+        gap: 2px;
         margin: 0
       }
 
@@ -3781,17 +3933,38 @@
       }
 
       body.landscape-active .inst-help-btn,
+      body.landscape-active .quick-saver,
       body.landscape-active .quick-fullscreen {
+        display: grid;
+        place-items: center;
         width: 24px;
         height: 24px;
         font-size: 0.58rem
       }
 
+      body.landscape-active .quick-face {
+        display: grid;
+        place-items: center;
+        min-width: 32px
+      }
+
       body.landscape-active .quick-face,
       body.landscape-active .quick-light {
         height: 24px;
-        padding: 0 7px;
+        padding: 0 5px;
         font-size: 0.45rem
+      }
+
+      body.landscape-active .quick-saver {
+        width: 32px;
+        height: 24px;
+        padding: 0;
+        font-size: 0.48rem
+      }
+
+      body.landscape-active .quick-saver.is-saver {
+        border-color: rgba(46, 204, 113, 0.9);
+        box-shadow: 0 0 12px rgba(46, 204, 113, 0.36)
       }
 
       body.landscape-active .screen-wrap {
@@ -3901,6 +4074,18 @@
         font-size: 0.5rem
       }
 
+      body.landscape-active .shooter-options {
+        margin: 1px 0 3px;
+        min-height: 0
+      }
+
+      body.landscape-active .auto-fire-btn {
+        min-width: 86px;
+        padding: 3px 9px;
+        font-size: 0.44rem;
+        line-height: 1
+      }
+
       body.landscape-active .char-picker {
         margin: 2px 0
       }
@@ -3923,12 +4108,12 @@
         grid-column: 1;
         grid-row: 2;
         align-self: center;
-        padding: 8px;
-        padding-left: max(8px, env(safe-area-inset-left));
-        width: 210px;
-        grid-template-columns: repeat(3, 60px);
-        grid-template-rows: repeat(3, 60px);
-        gap: 7px
+        padding: var(--land-pad);
+        padding-left: max(var(--land-pad), env(safe-area-inset-left));
+        width: var(--side-col);
+        grid-template-columns: repeat(3, var(--land-btn));
+        grid-template-rows: repeat(3, var(--land-btn));
+        gap: var(--land-gap)
       }
 
       body.landscape-active .touch-btn {
@@ -3936,39 +4121,49 @@
         font-size: 1rem
       }
 
-      body.landscape-active .touch-actions {
-        grid-column: 3;
-        grid-row: 2;
-        align-self: center;
-        padding: 8px calc(8px + env(safe-area-inset-right)) 8px 8px;
-        grid-template-columns: repeat(2, 60px);
-        grid-template-rows: repeat(2, 60px);
-        gap: 10px;
-        align-items: stretch
-      }
+body.landscape-active .touch-actions {
+         grid-column: 3;
+         grid-row: 2;
+         align-self: center;
+         justify-self: center;
+         padding: var(--land-pad) max(var(--land-pad), env(safe-area-inset-right)) var(--land-pad) var(--land-pad);
+         grid-template-columns: repeat(2, var(--land-btn));
+         grid-template-rows: repeat(2, var(--land-btn));
+         gap: calc(var(--land-gap) + 1px);
+         align-items: stretch;
+         justify-items: stretch
+       }
 
-      body.landscape-active .touch-action {
-        width: 60px;
-        height: 60px;
-        border-radius: 22px;
-        font-size: 0.88rem
-      }
+body.landscape-active .touch-action {
+         width: 100%;
+         height: 100%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         border-radius: 20px;
+         font-size: 0.92rem
+       }
 
       body.landscape-active[data-game="shooter"] .touch-action {
-        width: 120px;
-        height: 80px;
+        width: min(120px, calc(var(--land-btn) + var(--land-btn) + var(--land-gap)));
+        height: min(clamp(64px, 16.5dvh, 80px), var(--land-btn));
         border-radius: 28px;
-        font-size: 1.1rem;
+        font-size: 0.98rem;
         grid-column: 1 / -1;
         align-self: center;
         justify-self: center
       }
 
-      body.landscape-active .touch-small {
-        height: auto;
-        font-size: 0.6rem;
-        border-radius: 16px
-      }
+body.landscape-active .touch-small {
+         width: 100%;
+         height: 100%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         font-size: 0.72rem;
+         border-radius: 20px;
+         letter-spacing: 0.15px
+       }
 
       body.landscape-active .mobile-controls:not([data-layout="aliens"]) .alien-drag-pad {
         display: none
@@ -4073,6 +4268,49 @@
       }
     }
 
+    @media (orientation: landscape) and (pointer: coarse) and (max-height:420px) {
+      body.landscape-active {
+        --land-btn: clamp(42px, 12dvh, 50px);
+        --land-gap: 4px;
+        --land-pad: 4px
+      }
+
+      body.landscape-active .game-hud {
+        font-size: 0.5rem;
+        padding: 3px 8px
+      }
+
+      body.landscape-active .start-screen,
+      body.landscape-active .game-over-overlay {
+        padding: 5px
+      }
+
+body.landscape-active .ss-icon {
+         font-size: 1.8rem;
+         margin-bottom: 2px
+       }
+
+      body.landscape-active .ss-title,
+      body.landscape-active .go-title {
+        font-size: 1rem;
+        margin-bottom: 2px
+      }
+
+      body.landscape-active .ss-inst,
+      body.landscape-active .go-score,
+      body.landscape-active .go-high {
+        font-size: 0.55rem;
+        line-height: 1.22;
+        margin-bottom: 3px
+      }
+
+      body.landscape-active .ss-go,
+      body.landscape-active .go-restart {
+        padding: 6px 16px;
+        font-size: 0.62rem
+      }
+    }
+
     /* custom cursor for minimal face */
     body.theme-minimal {
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='6' fill='none' stroke='rgba(255,255,255,0.8)' stroke-width='2'/%3E%3C/svg%3E") 12 12, auto
@@ -4086,7 +4324,10 @@
 
 <body>
   <script>
-    try { if (localStorage.getItem('chromaMinimalFace') === '1') { document.body.classList.add('theme-minimal'); if (localStorage.getItem('chromaMinimalLight') === '1') document.body.classList.add('theme-minimal-light'); } } catch (e) { }
+    try {
+      if (localStorage.getItem('chromaBatterySaver') === '1') document.body.classList.add('battery-saver');
+      if (localStorage.getItem('chromaMinimalFace') === '1') { document.body.classList.add('theme-minimal'); if (localStorage.getItem('chromaMinimalLight') === '1') document.body.classList.add('theme-minimal-light'); }
+    } catch (e) { }
   </script>
 
   <div class="bg"></div>
@@ -4107,6 +4348,7 @@
     <div class="desktop-utils" id="desktopUtils">
       <button class="d-btn" id="deskAudio" aria-label="Audio">🔊 SND</button>
       <button class="d-btn" id="deskGalaxy" aria-label="Visual Mode">🌌 NEBULA</button>
+      <button class="d-btn" id="deskSaver" aria-label="Battery Saver">⚡ SAVE</button>
       <button class="d-btn" id="deskFace" aria-label="Switch Website Face">◇ FACE</button>
       <button class="d-btn" id="deskLight" aria-label="Toggle Light Mode">☀ LIGHT</button>
       <button class="d-btn is-about" id="deskAbout" aria-label="About Retro Galaxy">ℹ️ ABOUT</button>
@@ -4133,6 +4375,9 @@
             <div class="char-picker" id="charPicker" style="display:none">
               <div class="char-picker-label">CHARACTER</div>
               <div class="char-options" id="charOptions"></div>
+            </div>
+            <div class="shooter-options" id="shooterOptions" style="display:none">
+              <button class="mode-btn auto-fire-btn" id="autoFireBtn">AUTO FIRE OFF</button>
             </div>
             <div class="mobile-tip" id="mobileTip">Tip: FULL PLAY gives the cleanest mobile arcade view.</div>
             <div class="ss-actions">
@@ -4190,6 +4435,7 @@
       <button class="quick-games" id="gamesBtn" aria-label="Pick a game">GAMES</button>
       <button class="quick-face" id="touchFace" aria-label="Switch Website Face">FACE</button>
       <button class="quick-light" id="touchLight" aria-label="Toggle Light Mode">LIGHT</button>
+      <button class="quick-saver" id="touchSaver" aria-label="Battery Saver">⚡</button>
       <button class="quick-fullscreen" id="touchFullscreen" aria-label="Fullscreen">⛶</button>
     </div>
 
@@ -4256,8 +4502,10 @@
   <script>
     // ==================== SPARKLE FIELD ====================
     const sparkContainer = document.getElementById('sparkles');
+    let batterySaver = (() => { try { return localStorage.getItem('chromaBatterySaver') === '1'; } catch (e) { return false; } })();
+    function isDecorativeEffectsOff() { return batterySaver || isMinimalFaceActive(); }
     function seedSparkles() {
-      if (isMinimalFaceActive() || sparkContainer.children.length) return;
+      if (isDecorativeEffectsOff() || sparkContainer.children.length) return;
       for (let i = 0; i < 50; i++) {
         const s = document.createElement('div'); s.className = 'spark';
         s.style.left = Math.random() * 100 + '%'; s.style.top = Math.random() * 100 + '%';
@@ -4276,7 +4524,7 @@
     let orbs = [];
     let orbSpawnTimers = [];
     function spawnOrb() {
-      if (isMinimalFaceActive()) return null;
+      if (isDecorativeEffectsOff()) return null;
       const el = document.createElement('div'); el.className = 'orb';
       const size = 30 + Math.random() * 50; const i = Math.floor(Math.random() * orbColors.length);
       el.style.width = size + 'px'; el.style.height = size + 'px';
@@ -4298,7 +4546,7 @@
       return el;
     }
     function seedOrbs() {
-      if (isMinimalFaceActive()) return;
+      if (isDecorativeEffectsOff()) return;
       for (let i = orbs.length; i < 10; i++)orbSpawnTimers.push(setTimeout(spawnOrb, i * 200));
     }
 
@@ -4309,12 +4557,12 @@
       document.querySelectorAll('.shooting-star').forEach(star => star.remove());
     }
     function scheduleShootingStar(delay) {
-      if (window.matchMedia('(pointer: coarse)').matches || isMinimalFaceActive()) return;
+      if (window.matchMedia('(pointer: coarse)').matches || isDecorativeEffectsOff()) return;
       if (starSpawnTimer) clearTimeout(starSpawnTimer);
       starSpawnTimer = setTimeout(spawnShootingStar, delay || 2000);
     }
     function spawnShootingStar() {
-      if (isMinimalFaceActive() || window.matchMedia('(pointer: coarse)').matches) { starSpawnTimer = null; return; }
+      if (isDecorativeEffectsOff() || window.matchMedia('(pointer: coarse)').matches) { starSpawnTimer = null; return; }
       const star = document.createElement('div');
       star.className = 'shooting-star';
       const startX = 50 + Math.random() * (window.innerWidth - 100);
@@ -4740,10 +4988,10 @@
       if (!retroLoopActive) return;
       if (!retroLast) retroLast = ts;
       const dt = Math.min((ts - retroLast) / 1000, 0.05); retroLast = ts;
-      if (isMinimalFaceActive()) {
-        retroLoopActive = false;
-        return;
-      }
+if (isMinimalFaceActive()) {
+         retroLoopActive = false;
+         return;
+       }
       retroUpdate(dt, ts);
       retroDraw(ts);
       requestAnimationFrame(retroLoop);
@@ -4753,7 +5001,7 @@
     window.addEventListener('resize', retroResize);
     document.addEventListener('mousemove', e => {
       retroState.mouse.x = e.clientX; retroState.mouse.y = e.clientY;
-      if (!isMinimalFaceActive() && !window.matchMedia('(pointer: coarse)').matches) {
+      if (!isDecorativeEffectsOff() && !window.matchMedia('(pointer: coarse)').matches) {
         document.querySelectorAll('.orb').forEach(orb => {
           const r = orb.getBoundingClientRect();
           const ox = r.left + r.width / 2, oy = r.top + r.height / 2;
@@ -4791,11 +5039,12 @@
     });
 
     document.addEventListener('click', e => {
-      if (isMinimalFaceActive()) return;
+      if (isDecorativeEffectsOff()) return;
       cursorBurst(e.clientX, e.clientY, 20);
     });
 
     function cursorBurst(x, y, n) {
+      if (batterySaver) return;
       for (let i = 0; i < (n || 15); i++) {
         const angle = Math.random() * Math.PI * 2;
         const spd = 120 + Math.random() * 220;
@@ -5039,7 +5288,9 @@
     const touchLight = document.getElementById('touchLight');
     const touchAudio = document.getElementById('touchAudio');
     const touchGalaxy = document.getElementById('touchGalaxy');
+    const touchSaver = document.getElementById('touchSaver');
     const touchAbout = document.getElementById('touchAbout');
+    const autoFireBtn = document.getElementById('autoFireBtn');
     const aboutOverlay = document.getElementById('aboutOverlay');
     const aboutClose = document.getElementById('aboutClose');
     const instHelpBtn = document.getElementById('instHelpBtn');
@@ -5067,14 +5318,10 @@
 function resizeCanvas() {
        applyLandscapeMode();
        const r = canvas.parentElement.getBoundingClientRect();
-       if (useDesktopCanvasRatio()) {
+       if (isLandscapeMobile()) {
          canvas.width = DESKTOP_CANVAS_W; canvas.height = DESKTOP_CANVAS_H;
-       } else if (isLandscapeMobile()) {
-         let w = r.width, h = r.height;
-         const ratio = 684 / 610;
-         if (w / h > ratio) w = h * ratio; else h = w / ratio;
-         canvas.width = Math.max(320, Math.round(w));
-         canvas.height = Math.max(180, Math.round(h));
+       } else if (useDesktopCanvasRatio()) {
+         canvas.width = DESKTOP_CANVAS_W; canvas.height = DESKTOP_CANVAS_H;
        } else {
          canvas.width = r.width * 0.96; canvas.height = r.height * 0.96;
        }
@@ -5088,6 +5335,7 @@ function resizeCanvas() {
     let shooterTouch = { active: false, x: 0, y: 0, fire: false };
     let breakoutTouch = { active: false, x: 0 };
     let snakeClassic = readStoredFlag('chromaSnakeClassic');
+    let shooterAutoFire = readStoredFlag('chromaShooterAutoFire');
     let highScores = readStoredJson('chromaScores', {});
     let selectedAstroChar = (() => { try { const v = localStorage.getItem('chromaAstroChar'); return ['astro', 'nova', 'cosmo', 'orbit'].includes(v) ? v : 'astro'; } catch (e) { return 'astro'; } })();
     let lastTime = 0, cursorTime = 0, lastHapticAt = 0;
@@ -5095,7 +5343,7 @@ function resizeCanvas() {
     const gameInfo = {
       snake: { name: 'NEON SNAKE', icon: '🐍', inst: 'Arrow Keys / WASD to move\nEat food to grow! Avoid walls & yourself\n★ +3 Bonus  \u{1F7E2} Shrink  \u{1FAB8} Ghost  \u{1F49C} +5 Bomb' },
       pong: { name: 'COSMIC PONG', icon: '🏓', inst: '↑↓ / W S to move paddle\nFirst to 5 wins! Ball speeds up\nAngle changes on paddle hit' },
-      shooter: { name: 'GALAXY SHOOTER', icon: '👾', inst: 'Arrow Keys / WASD to move\nSPACE to shoot • Stage difficulty rises\nPower-ups: RAPID, SPREAD, SHIELD, BOMB, LIFE' },
+      shooter: { name: 'GALAXY SHOOTER', icon: '👾', inst: 'Arrow Keys / WASD to move\nSPACE to shoot • F toggles AUTO FIRE\nPower-ups: RAPID, SPREAD, SHIELD, BOMB, LIFE' },
       dino: { name: 'ASTRO RUNNER', icon: '👨‍🚀', inst: 'SPACE / ↑ / W to jump\nDodge debris & birds\nCollect stars for bonus points!\nPower-ups: SHIELD, MAGNET, BOOST, SLOWMO' },
       breakout: { name: 'CRYSTAL BREAKOUT', icon: '🧱', inst: '← → / A D to move paddle\nBreak all crystals to win!\n3 lives • Ball speeds up' },
       flappy: { name: 'RAINBOW BIRD', icon: '🐤', inst: 'SPACE / ↑ / W to flap\nFly through pipe gaps\nDon\'t hit pipes or ground!' },
@@ -5117,7 +5365,7 @@ function resizeCanvas() {
     const mobileInst = {
       snake: 'Use the D-pad to move<br>Eat food to grow! Avoid walls & yourself<br>★ +3 Bonus &nbsp;🟢 Shrink &nbsp;👻 Ghost &nbsp;💜 +5 Bomb',
       pong: 'Use ↑ ↓ buttons to move paddle<br>First to 5 wins! Ball speeds up',
-      shooter: 'Drag inside the game to move anywhere<br>Hold FIRE or tap the game to shoot<br>Collect power-ups and clear each stage!',
+      shooter: 'Drag inside the game to move anywhere<br>Hold FIRE or enable AUTO FIRE<br>Collect power-ups and clear each stage!',
       dino: 'Tap JUMP or the game to jump<br>Dodge cacti & birds<br>Collect stars for bonus +25 points!<br>Power-ups: SHIELD, MAGNET, BOOST, SLOWMO',
       breakout: 'Drag on the game or use ← → buttons<br>Break all crystals to win!<br>3 lives • Ball speeds up',
       flappy: 'Tap FLAP or the game to flap<br>Fly through pipe gaps<br>Don\'t hit pipes or ground!',
@@ -5286,6 +5534,31 @@ function resizeCanvas() {
       updateGalaxyButton();
     }
 
+    function updateSaverButton() {
+      document.body.classList.toggle('battery-saver', batterySaver);
+      touchSaver.textContent = batterySaver ? 'ON' : '⚡';
+      touchSaver.classList.toggle('is-saver', batterySaver);
+      if (deskSaver) { deskSaver.textContent = deskLabel('⚡', batterySaver ? 'SAVE ON' : 'SAVE', minimalFace); deskSaver.classList.toggle('is-saver', batterySaver); }
+    }
+    function toggleBatterySaver() {
+      batterySaver = !batterySaver;
+      writeStoredFlag('chromaBatterySaver', batterySaver);
+      updateSaverButton();
+      syncFaceDecorativeLoops();
+    }
+
+    function updateAutoFireButton() {
+      autoFireBtn.textContent = shooterAutoFire ? 'AUTO FIRE ON' : 'AUTO FIRE OFF';
+      autoFireBtn.classList.toggle('active', shooterAutoFire);
+    }
+    function toggleShooterAutoFire() {
+      shooterAutoFire = !shooterAutoFire;
+      writeStoredFlag('chromaShooterAutoFire', shooterAutoFire);
+      updateAutoFireButton();
+      hapticEvent(hapticPatterns.power, 0);
+      sfx(shooterAutoFire ? 760 : 380, 0.05, 'sine', 0.04);
+    }
+
     function updateFaceButton() {
       document.body.classList.toggle('theme-minimal', minimalFace);
       if (!minimalFace) document.body.classList.remove('theme-minimal-light');
@@ -5295,6 +5568,7 @@ function resizeCanvas() {
       if (minimalFace) updateLightButton();
       updateAudioButton();
       updateGalaxyButton();
+      updateSaverButton();
       updateFullscreenButton();
     }
     function toggleFaceMode() {
@@ -5529,6 +5803,8 @@ function resizeCanvas() {
         ssIconText.textContent = info.icon;
         document.getElementById('charPicker').style.display = 'none';
       }
+      document.getElementById('shooterOptions').style.display = currentGame === 'shooter' ? 'flex' : 'none';
+      if (currentGame === 'shooter') updateAutoFireButton();
       if (currentGame === 'snake') {
         modeToggle.style.display = 'flex';
         modeToggle.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', (b.dataset.mode === 'classic') === snakeClassic));
@@ -5566,6 +5842,7 @@ function resizeCanvas() {
 
     function startGameplay() {
       startScreen.classList.add('hide'); gameOverEl.classList.remove('show', 'is-win');
+      ctx.clearRect(0, 0, CW, CH);
       ssGoBtn.blur(); ssFullBtn.blur(); goRestartBtn.blur();
       clearInputState();
       updateMobileControls();
@@ -5652,8 +5929,9 @@ function resizeCanvas() {
         else if (!startScreen.classList.contains('hide')) startGameplay();
       }
       if (e.key === 'p' || e.key === 'P') togglePause();
+      if ((e.key === 'f' || e.key === 'F') && currentGame === 'shooter') toggleShooterAutoFire();
       if (!window.matchMedia('(pointer: coarse)').matches) {
-        const keyMap = { '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', 'r': 'R', 'R': 'R', 'p': 'P', 'P': 'P' };
+        const keyMap = { '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', 'r': 'R', 'R': 'R', 'p': 'P', 'P': 'P', 'f': 'F', 'F': 'F' };
         const k = keyMap[e.key];
         if (k) {
           document.querySelectorAll('.keycap').forEach(el => {
@@ -5697,18 +5975,22 @@ function resizeCanvas() {
     touchLight.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(20); toggleLightMode(); });
     touchAudio.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(18); toggleAudio(); });
     touchGalaxy.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(hapticPatterns.galaxy); toggleGalaxyMode(); });
+    touchSaver.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(18); toggleBatterySaver(); });
     touchAbout.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); haptic(18); showAbout(); });
+    autoFireBtn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleShooterAutoFire(); });
     aboutClose.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); hideAbout(); });
 
     // desktop utils
     const deskAudio = document.getElementById('deskAudio');
     const deskGalaxy = document.getElementById('deskGalaxy');
+    const deskSaver = document.getElementById('deskSaver');
     const deskFace = document.getElementById('deskFace');
     const deskLight = document.getElementById('deskLight');
     const deskAbout = document.getElementById('deskAbout');
     const deskFullscreen = document.getElementById('deskFullscreen');
     deskAudio.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleAudio(); });
     deskGalaxy.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleGalaxyMode(); });
+    deskSaver.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleBatterySaver(); });
     deskFace.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleFaceMode(); });
     deskLight.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); toggleLightMode(); });
     deskAbout.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); showAbout(); });
@@ -5742,8 +6024,10 @@ function resizeCanvas() {
     window.addEventListener('focus', () => { pageFocused = true; syncBgMusicState(); });
     updateAudioButton();
     updateGalaxyButton();
+    updateSaverButton();
     updateFaceButton();
     updateLightButton();
+    updateAutoFireButton();
 
     function startSiteAudioOnce() { siteAudioUnlocked = true; }
     document.addEventListener('pointerdown', startSiteAudioOnce, { once: true });
@@ -5772,6 +6056,7 @@ function resizeCanvas() {
 
     // ==================== DECOR ====================
     function spawnDomParticles(x, y, colors, count) {
+      if (batterySaver) return;
       count = count || 8;
       for (let i = 0; i < count; i++) {
         const el = document.createElement('div');
@@ -6368,7 +6653,7 @@ function resizeCanvas() {
 
         shotTimer += dt;
         const cd = rapid ? 0.1 : 0.25;
-        if ((keys[' '] || shooterTouch.fire) && shotTimer >= cd) {
+        if ((keys[' '] || shooterTouch.fire || shooterAutoFire) && shotTimer >= cd) {
           shotTimer = 0;
           if (spread) {
             bullets.push({ x: px + 10, y: py - 8, w: 4, h: 8, vx: -80, vy: -600 });
@@ -7497,14 +7782,14 @@ function resizeCanvas() {
     // ==================== CURSOR ANIMATION LOOP ====================
     let cursorLoopActive = false;
     function startCursorLoop() {
-      if (cursorLoopActive || window.matchMedia('(pointer: coarse)').matches || isMinimalFaceActive()) return;
+      if (cursorLoopActive || window.matchMedia('(pointer: coarse)').matches || isDecorativeEffectsOff()) return;
       cursorLoopActive = true;
       cursorTime = 0;
       requestAnimationFrame(cursorLoop);
     }
     function cursorLoop(timestamp) {
       if (!cursorLoopActive || window.matchMedia('(pointer: coarse)').matches) { cursorLoopActive = false; return; }
-      if (isMinimalFaceActive()) {
+      if (isDecorativeEffectsOff()) {
         cursorLoopActive = false;
         return;
       }
@@ -7534,6 +7819,7 @@ function resizeCanvas() {
     }
     function syncFaceDecorativeLoops() {
       clearMinimalDecor();
+      if (batterySaver) return;
       if (isMinimalFaceActive()) {
         seedMinimalMotes();
         return;
