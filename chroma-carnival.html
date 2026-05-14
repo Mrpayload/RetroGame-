@@ -578,6 +578,49 @@
       color: #ff6b9d
     }
 
+    .char-picker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      margin: 4px 0
+    }
+
+    .char-picker-label {
+      font-size: 0.45rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      opacity: 0.4
+    }
+
+    .char-options {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      justify-content: center
+    }
+
+    .char-opt {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      background: transparent;
+      color: rgba(255,255,255,0.3);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.48rem;
+      font-weight: 800;
+      cursor: none;
+      transition: all 0.2s;
+      min-width: 50px;
+      text-align: center
+    }
+
+    .char-opt.active {
+      border-color: #4dc9f6;
+      color: #fff;
+      background: rgba(77,201,246,0.12)
+    }
+
     /* game over */
     .game-over-overlay {
       position: absolute;
@@ -3782,14 +3825,10 @@
       body.landscape-active .screen-inner {
         max-width: 100%;
         max-height: 100%;
-        width: min(80vw, calc(75dvh * 684/610));
+        width: 100%;
+        height: auto;
         aspect-ratio: 684/610;
         border-radius: 11px
-      }
-
-      body.landscape-active[data-game="dino"] .screen-inner {
-        width: 100%;
-        height: auto
       }
 
       body.landscape-active #gameCanvas {
@@ -3805,7 +3844,8 @@
       body.landscape-active .start-screen,
       body.landscape-active .game-over-overlay {
         padding: 8px;
-        background: rgba(13, 2, 33, 0.78)
+        background: rgba(13, 2, 33, 0.78);
+        overflow-y: auto
       }
 
       body.landscape-active .ss-icon {
@@ -3832,6 +3872,16 @@
         margin-bottom: 4px
       }
 
+      body.landscape-active .ss-title,
+      body.landscape-active .go-title,
+      body.landscape-active .ss-inst,
+      body.landscape-active .go-score,
+      body.landscape-active .go-high {
+        max-width: 92%;
+        text-align: center;
+        overflow-wrap: anywhere
+      }
+
       body.landscape-active .ss-go,
       body.landscape-active .go-restart {
         padding: 8px 22px;
@@ -3851,25 +3901,18 @@
         font-size: 0.5rem
       }
 
-
-
-      body.landscape-active .mobile-tip {
-        display: none !important
-      }
-
-      body.landscape-active .mode-toggle {
+      body.landscape-active .char-picker {
         margin: 2px 0
       }
 
-      body.landscape-active .mode-btn {
-        padding: 4px 12px;
-        font-size: 0.5rem
+      body.landscape-active .char-picker-label {
+        font-size: 0.4rem
       }
 
-      body.landscape-active .ss-go,
-      body.landscape-active .go-restart {
-        padding: 10px 28px;
-        font-size: 0.85rem
+      body.landscape-active .char-opt {
+        padding: 2px 6px;
+        font-size: 0.42rem;
+        min-width: 38px
       }
 
       body.landscape-active .mobile-controls {
@@ -3909,6 +3952,16 @@
         height: 60px;
         border-radius: 22px;
         font-size: 0.88rem
+      }
+
+      body.landscape-active[data-game="shooter"] .touch-action {
+        width: 120px;
+        height: 80px;
+        border-radius: 28px;
+        font-size: 1.1rem;
+        grid-column: 1 / -1;
+        align-self: center;
+        justify-self: center
       }
 
       body.landscape-active .touch-small {
@@ -4076,6 +4129,10 @@
             <div class="mode-toggle" id="modeToggle" style="display:none">
               <button class="mode-btn active" data-mode="modern">MODERN</button>
               <button class="mode-btn" data-mode="classic">CLASSIC</button>
+            </div>
+            <div class="char-picker" id="charPicker" style="display:none">
+              <div class="char-picker-label">CHARACTER</div>
+              <div class="char-options" id="charOptions"></div>
             </div>
             <div class="mobile-tip" id="mobileTip">Tip: FULL PLAY gives the cleanest mobile arcade view.</div>
             <div class="ss-actions">
@@ -5032,13 +5089,14 @@ function resizeCanvas() {
     let breakoutTouch = { active: false, x: 0 };
     let snakeClassic = readStoredFlag('chromaSnakeClassic');
     let highScores = readStoredJson('chromaScores', {});
+    let selectedAstroChar = (() => { try { const v = localStorage.getItem('chromaAstroChar'); return ['astro', 'nova', 'cosmo', 'orbit'].includes(v) ? v : 'astro'; } catch (e) { return 'astro'; } })();
     let lastTime = 0, cursorTime = 0, lastHapticAt = 0;
 
     const gameInfo = {
       snake: { name: 'NEON SNAKE', icon: '🐍', inst: 'Arrow Keys / WASD to move\nEat food to grow! Avoid walls & yourself\n★ +3 Bonus  \u{1F7E2} Shrink  \u{1FAB8} Ghost  \u{1F49C} +5 Bomb' },
       pong: { name: 'COSMIC PONG', icon: '🏓', inst: '↑↓ / W S to move paddle\nFirst to 5 wins! Ball speeds up\nAngle changes on paddle hit' },
       shooter: { name: 'GALAXY SHOOTER', icon: '👾', inst: 'Arrow Keys / WASD to move\nSPACE to shoot • Stage difficulty rises\nPower-ups: RAPID, SPREAD, SHIELD, BOMB, LIFE' },
-      dino: { name: 'ASTRO RUNNER', icon: '👨‍🚀', inst: 'SPACE / ↑ / W to jump\nDodge debris & birds\nCollect stars for bonus points!' },
+      dino: { name: 'ASTRO RUNNER', icon: '👨‍🚀', inst: 'SPACE / ↑ / W to jump\nDodge debris & birds\nCollect stars for bonus points!\nPower-ups: SHIELD, MAGNET, BOOST, SLOWMO' },
       breakout: { name: 'CRYSTAL BREAKOUT', icon: '🧱', inst: '← → / A D to move paddle\nBreak all crystals to win!\n3 lives • Ball speeds up' },
       flappy: { name: 'RAINBOW BIRD', icon: '🐤', inst: 'SPACE / ↑ / W to flap\nFly through pipe gaps\nDon\'t hit pipes or ground!' },
       aliens: { name: 'ALIEN SLINGSHOT', icon: '👽', inst: 'DRAG & RELEASE on screen to launch aliens!\n4 ALIEN TYPES with unique physics\nDestroy all enemy pods to clear the level!' }
@@ -5048,11 +5106,19 @@ function resizeCanvas() {
     const mobileActionText = { snake: 'A', pong: 'A', shooter: 'FIRE', dino: 'JUMP', breakout: 'A', flappy: 'FLAP', aliens: 'DRAG' };
     const touchAliases = { ArrowUp: ['ArrowUp', 'w', 'up'], ArrowDown: ['ArrowDown', 's', 'down'], ArrowLeft: ['ArrowLeft', 'a', 'left'], ArrowRight: ['ArrowRight', 'd', 'right'], ' ': [' '] };
 
+    const astroCharacters = [
+      { id: 'astro', name: 'ASTRO', desc: 'Balanced', accent: '#4dc9f6', bodyColor: '#e8e8f0', jumpVel: -500, speedBonus: 0, magnetRange: 16, shieldDur: 5 },
+      { id: 'nova', name: 'NOVA', desc: 'High Jump', accent: '#ff6b9d', bodyColor: '#ffd0e0', jumpVel: -600, speedBonus: 0, magnetRange: 16, shieldDur: 5 },
+      { id: 'cosmo', name: 'COSMO', desc: 'Fast Run', accent: '#ffdd4a', bodyColor: '#ffe8a0', jumpVel: -500, speedBonus: 35, magnetRange: 16, shieldDur: 5 },
+      { id: 'orbit', name: 'ORBIT', desc: 'Magnet', accent: '#c44dff', bodyColor: '#e0c0ff', jumpVel: -500, speedBonus: 0, magnetRange: 28, shieldDur: 7 }
+    ];
+    function getAstroChar() { return astroCharacters.find(c => c.id === selectedAstroChar) || astroCharacters[0]; }
+
     const mobileInst = {
       snake: 'Use the D-pad to move<br>Eat food to grow! Avoid walls & yourself<br>★ +3 Bonus &nbsp;🟢 Shrink &nbsp;👻 Ghost &nbsp;💜 +5 Bomb',
       pong: 'Use ↑ ↓ buttons to move paddle<br>First to 5 wins! Ball speeds up',
       shooter: 'Drag inside the game to move anywhere<br>Hold FIRE or tap the game to shoot<br>Collect power-ups and clear each stage!',
-      dino: 'Tap JUMP or the game to jump<br>Dodge cacti & birds<br>Collect stars for +25 points!',
+      dino: 'Tap JUMP or the game to jump<br>Dodge cacti & birds<br>Collect stars for bonus +25 points!<br>Power-ups: SHIELD, MAGNET, BOOST, SLOWMO',
       breakout: 'Drag on the game or use ← → buttons<br>Break all crystals to win!<br>3 lives • Ball speeds up',
       flappy: 'Tap FLAP or the game to flap<br>Fly through pipe gaps<br>Don\'t hit pipes or ground!',
       aliens: 'Use the DRAG PAD like a mouse pad<br>Hold, drag, and release to launch aliens<br>4 ALIEN TYPES with unique physics!'
@@ -5371,6 +5437,7 @@ function resizeCanvas() {
       const c = typeof el === 'string' ? document.getElementById(el) : el;
       if (!c) return;
       scale = scale || 1;
+      const ch = getAstroChar();
       const cx = c.getContext('2d');
       cx.clearRect(0, 0, c.width, c.height);
       cx.save();
@@ -5383,11 +5450,11 @@ function resizeCanvas() {
       cx.fillStyle = '#e0e0e8';
       cx.fillRect(-12, -10, 3, 10);
       cx.fillRect(9, -10, 3, 10);
-      // Body
-      cx.fillStyle = '#e8e8f0';
+      // Body - character color
+      cx.fillStyle = ch.bodyColor;
       cx.fillRect(-9, -14, 18, 24);
       // Emblem
-      cx.fillStyle = '#4dc9f6';
+      cx.fillStyle = ch.accent;
       cx.fillRect(-5, -9, 10, 4);
       cx.fillStyle = '#ffdd4a';
       cx.fillRect(-3.5, -8, 7, 2);
@@ -5402,8 +5469,8 @@ function resizeCanvas() {
       cx.arc(0, -17, 10, 0, Math.PI * 2);
       cx.fill();
       // Visor
-      cx.fillStyle = '#4dc9f6';
-      cx.shadowColor = '#4dc9f6';
+      cx.fillStyle = ch.accent;
+      cx.shadowColor = ch.accent;
       cx.shadowBlur = 4;
       cx.beginPath();
       cx.ellipse(3, -16, 5, 4, 0, 0, Math.PI * 2);
@@ -5436,10 +5503,31 @@ function resizeCanvas() {
         ssIconText.classList.add('hide');
         astroLogo.classList.add('show');
         drawAstroLogo(astroLogo);
+        const cp = document.getElementById('charPicker');
+        cp.style.display = 'flex';
+        const co = document.getElementById('charOptions');
+        co.innerHTML = '';
+        astroCharacters.forEach(c => {
+          const b = document.createElement('button');
+          b.className = 'char-opt' + (c.id === selectedAstroChar ? ' active' : '');
+          b.textContent = c.name;
+          b.dataset.charId = c.id;
+          b.addEventListener('click', (e) => {
+            e.stopPropagation();
+            selectedAstroChar = c.id;
+            try { localStorage.setItem('chromaAstroChar', c.id); } catch (e) { }
+            co.querySelectorAll('.char-opt').forEach(el => el.classList.remove('active'));
+            b.classList.add('active');
+            drawAstroLogo(astroLogo);
+            sfx(660, 0.04, 'sine', 0.04);
+          });
+          co.appendChild(b);
+        });
       } else {
         ssIconText.classList.remove('hide');
         astroLogo.classList.remove('show');
         ssIconText.textContent = info.icon;
+        document.getElementById('charPicker').style.display = 'none';
       }
       if (currentGame === 'snake') {
         modeToggle.style.display = 'flex';
@@ -6470,12 +6558,22 @@ function resizeCanvas() {
 
     // ==================== ASTRO RUNNER (dt) ====================
     function initDino() {
-      let dy = CH - 44, dvy = 0, sc = 0, alive = true, spawnT = 0, coinT = 0, jumping = false;
+      const ch = getAstroChar();
+      let dy = CH - 44, dvy = 0, sc = 0, alive = true, spawnT = 0, coinT = 0, jumping = false, powerT = 0;
       let obstacles = [], coins = [], groundY = CH - 24, frame = 0, distance = 0, scoreCarry = 0;
-      let particles = [], popups = [], momentum = 1;
+      let particles = [], popups = [], momentum = 1, powers = [];
+      let shielded = false, shieldTimer = 0, magnet = false, magnetTimer = 0, boost = false, boostTimer = 0, slowmo = false, slowmoTimer = 0;
       let shakeX = 0, shakeY = 0, shakeDur = 0;
       const clouds = [];
+      let heroes = [];
       for (let i = 0; i < 4; i++)clouds.push({ x: Math.random() * CW, y: 20 + Math.random() * 40, spd: 20 + Math.random() * 30 });
+      const parodyHeroes = [
+        { name: 'Sir Byte', bodyColor: '#6a7a9a', hatColor: '#c0c0c0', accentColor: '#ff6b9d', w: 22, h: 30 },
+        { name: 'Flux the Fox', bodyColor: '#4dc9f6', hatColor: '#2e86b3', accentColor: '#ffdd4a', w: 20, h: 26 },
+        { name: 'Mushroom Mage', bodyColor: '#e8d0a0', hatColor: '#ff4444', accentColor: '#66bb6a', w: 20, h: 30 },
+        { name: 'Astro Bot 64', bodyColor: '#9a9aaa', hatColor: '#6a6a7a', accentColor: '#c44dff', w: 22, h: 28 }
+      ];
+      let heroSpawnT = 8 + Math.random() * 4;
 
       function spawnParticles(x, y, count, hue, spread, grav) {
         for (let i = 0; i < count; i++) {
@@ -6518,11 +6616,11 @@ function resizeCanvas() {
         if (!gameActive) return;
         frame++;
         const difficulty = Math.min(1, distance / 5500);
-        const runSpeed = 210 + difficulty * 170;
+        const runSpeed = (200 + Math.pow(difficulty, 0.65) * 200) * (1 + ch.speedBonus / 210) * (boost ? 1.35 : 1) * (slowmo ? 0.5 : 1);
         const spawnInterval = Math.max(0.85, 1.55 - difficulty * 0.55);
         dvy += 900 * dt; dy += dvy * dt;
         if (dy > CH - 44) { dy = CH - 44; dvy = 0; jumping = false; }
-        if ((keys[' '] || keys['ArrowUp'] || keys['w']) && !jumping) { dvy = -500; jumping = true; hapticEvent(hapticPatterns.score, 160); sfx(330, 0.03, 'sine', 0.04); }
+        if ((keys[' '] || keys['ArrowUp'] || keys['w']) && !jumping) { dvy = ch.jumpVel; jumping = true; hapticEvent(hapticPatterns.score, 160); sfx(330, 0.03, 'sine', 0.04); }
 
         momentum = 1 + Math.floor(difficulty * 5);
 
@@ -6563,25 +6661,81 @@ function resizeCanvas() {
         obstacles = obstacles.filter(o => o.x > -30);
         coins.forEach(c => c.x -= runSpeed * dt);
         coins = coins.filter(c => !c.hit && c.x > -20);
+        powers.forEach(p => p.x -= runSpeed * (slowmo ? 0.5 : 1) * dt);
+        powers = powers.filter(p => !p.hit && p.x > -20);
+        heroes.forEach(h => { h.x -= runSpeed * dt * 0.3; h.timer -= dt; });
+        heroes = heroes.filter(h => h.x > -60);
         obstacles.forEach(o => {
           if (34 < o.x + o.w - 4 && 48 > o.x + 4 && dy + 4 < o.y + o.h - 3 && dy + 28 > o.y + 3) {
+            if (shielded) {
+              shielded = false; shieldTimer = 0;
+              spawnParticles(38, dy + 15, 12, 200, 100, 60);
+              triggerShake(0.15);
+              sfx(660, 0.06, 'triangle', 0.05);
+              o.x = -40;
+              return;
+            }
             spawnParticles(38, dy + 15, 18, 0, 150, 100);
             triggerShake(0.4);
             alive = false; const nw = updateHS('dino'); showGameOver(sc, nw); return;
           }
         });
         if (!alive) return;
+        const magnetR = magnet ? 42 : ch.magnetRange;
         coins.forEach(c => {
           const dx = 41 - c.x, cy = (dy + 15) - c.y;
-          if (Math.sqrt(dx * dx + cy * cy) < c.r + 16) {
-            c.hit = true;
-            const bonus = 25 * momentum;
-            sc += bonus;
-            spawnParticles(c.x, c.y, 12, 45, 80, 40);
-            popups.push({ x: c.x, y: c.y, t: '+' + bonus, life: 1, c: '255,221,74' });
-            hapticEvent(hapticPatterns.power, 0); sfx(760, 0.05, 'sine', 0.05);
+          if (Math.sqrt(dx * dx + cy * cy) < c.r + magnetR) {
+            if (magnet) {
+              c.x += (41 - c.x) * dt * 4;
+              c.y += (dy + 15 - c.y) * dt * 4;
+            }
+            if (Math.sqrt(dx * dx + cy * cy) < c.r + 16) {
+              c.hit = true;
+              const bonus = 25 * momentum * (boost ? 2 : 1);
+              sc += bonus;
+              spawnParticles(c.x, c.y, 12, 45, 80, 40);
+              popups.push({ x: c.x, y: c.y, t: '+' + bonus, life: 1, c: '255,221,74' });
+              hapticEvent(hapticPatterns.power, 0); sfx(760, 0.05, 'sine', 0.05);
+            }
           }
         });
+
+        // Power-up pickup
+        powers.forEach(p => {
+          const dx = 41 - p.x, cy = (dy + 15) - p.y;
+          if (Math.sqrt(dx * dx + cy * cy) < 20) {
+            p.hit = true;
+            if (p.type === 'shield') { shielded = true; shieldTimer = ch.shieldDur; }
+            if (p.type === 'magnet') { magnet = true; magnetTimer = 5; }
+            if (p.type === 'boost') { boost = true; boostTimer = 4; }
+            if (p.type === 'slowmo') { slowmo = true; slowmoTimer = 4; }
+            spawnParticles(p.x, p.y, 10, p.type === 'shield' ? 200 : p.type === 'magnet' ? 45 : p.type === 'boost' ? 30 : 280, 80, 50);
+            hapticEvent(hapticPatterns.power, 0); sfx(880, 0.05, 'sine', 0.05);
+          }
+        });
+
+        // Power-up timers
+        if (shieldTimer > 0) { shieldTimer -= dt; if (shieldTimer <= 0) { shieldTimer = 0; shielded = false; } }
+        if (magnetTimer > 0) { magnetTimer -= dt; if (magnetTimer <= 0) { magnetTimer = 0; magnet = false; } }
+        if (boostTimer > 0) { boostTimer -= dt; if (boostTimer <= 0) { boostTimer = 0; boost = false; } }
+        if (slowmoTimer > 0) { slowmoTimer -= dt; if (slowmoTimer <= 0) { slowmoTimer = 0; slowmo = false; } }
+
+        // Power-up spawn
+        powerT += dt;
+        if (powerT > 3.5 + Math.random() * 2) {
+          const types = ['shield', 'magnet', 'boost', 'slowmo'];
+          powers.push({ x: CW + 10, y: CH - 80 - Math.random() * 40, type: types[Math.floor(Math.random() * types.length)], hit: false });
+          powerT = 0;
+        }
+
+        // Hero NPC spawn
+        heroSpawnT -= dt;
+        if (heroSpawnT <= 0) {
+          const h = parodyHeroes[Math.floor(Math.random() * parodyHeroes.length)];
+          heroes.push({ x: CW + 20, y: CH - 30 - h.h, hero: h, timer: 2.5 + Math.random() * 1 });
+          heroSpawnT = 6 + Math.random() * 5;
+        }
+
         distance += runSpeed * dt;
         scoreCarry += runSpeed * dt * 0.08 * momentum;
         if (scoreCarry >= 1) { const add = Math.floor(scoreCarry); sc += add; scoreCarry -= add; }
@@ -6612,6 +6766,15 @@ function resizeCanvas() {
         });
 
         // === ASTRONAUT CHARACTER ===
+        // Shield visual
+        if (shielded) {
+          ctx.strokeStyle = `rgba(77,201,246,${0.4 + Math.sin(timestamp * 0.008) * 0.2})`;
+          ctx.lineWidth = 2.5;
+          ctx.shadowColor = '#4dc9f6'; ctx.shadowBlur = 10;
+          ctx.beginPath(); ctx.arc(41, dy + 14, 26, 0, Math.PI * 2); ctx.stroke();
+          ctx.shadowBlur = 0;
+        }
+
         // Jetpack (behind body)
         ctx.fillStyle = '#6a6a7a';
         ctx.fillRect(28, dy + 1, 6, 18);
@@ -6632,14 +6795,14 @@ function resizeCanvas() {
         ctx.fillRect(29, dy + 6, 3, 10);
         ctx.fillRect(50, dy + 6, 3, 10);
 
-        // Body (spacesuit)
-        ctx.fillStyle = '#e8e8f0';
-        ctx.shadowColor = '#4dc9f6'; ctx.shadowBlur = 4;
+        // Body (spacesuit) - character color
+        ctx.fillStyle = ch.bodyColor;
+        ctx.shadowColor = ch.accent; ctx.shadowBlur = 4;
         ctx.fillRect(32, dy + 2, 18, 24);
         ctx.shadowBlur = 0;
 
         // Suit details - chest emblem
-        ctx.fillStyle = '#4dc9f6';
+        ctx.fillStyle = ch.accent;
         ctx.fillRect(36, dy + 7, 10, 4);
         ctx.fillStyle = '#ffdd4a';
         ctx.fillRect(37.5, dy + 8, 7, 2);
@@ -6652,7 +6815,7 @@ function resizeCanvas() {
 
         // Helmet
         ctx.fillStyle = '#d0d0dc';
-        ctx.shadowColor = '#4dc9f6'; ctx.shadowBlur = 3;
+        ctx.shadowColor = ch.accent; ctx.shadowBlur = 3;
         ctx.beginPath(); ctx.arc(41, dy - 1, 10, 0, Math.PI * 2); ctx.fill();
         ctx.shadowBlur = 0;
 
@@ -6691,6 +6854,47 @@ function resizeCanvas() {
           }
         });
 
+        // Power-ups
+        powers.forEach(p => {
+          const pc = { shield: '#4dc9f6', magnet: '#ffdd4a', boost: '#ff6b3d', slowmo: '#c44dff' }[p.type] || '#fff';
+          const pulse = Math.sin(timestamp * 0.01 + p.x) * 0.2 + 1;
+          ctx.fillStyle = pc; ctx.shadowColor = pc; ctx.shadowBlur = 12 * pulse;
+          ctx.fillRect(p.x, p.y, 14, 14);
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = '#fff'; ctx.font = 'bold 8px "Nunito"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText({ shield: 'S', magnet: 'M', boost: 'B', slowmo: 'W' }[p.type] || '?', p.x + 7, p.y + 8);
+        });
+
+        // Parody heroes
+        heroes.forEach(h => {
+          const bobY = Math.sin(timestamp * 0.003 + h.x) * 2;
+          const hx = h.x, hy = h.y + bobY;
+          const hr = h.hero;
+          // Body
+          ctx.fillStyle = hr.bodyColor;
+          ctx.fillRect(hx, hy, hr.w, hr.h - 8);
+          // Head
+          ctx.fillStyle = hr.hatColor;
+          ctx.beginPath(); ctx.arc(hx + hr.w / 2, hy - 6, 8, 0, Math.PI * 2); ctx.fill();
+          // Hat/accessory
+          ctx.fillStyle = hr.hatColor;
+          ctx.fillRect(hx + 2, hy - 14, hr.w - 4, 6);
+          // Eyes
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(hx + 6, hy - 8, 3, 3); ctx.fillRect(hx + hr.w - 9, hy - 8, 3, 3);
+          // Accent
+          ctx.fillStyle = hr.accentColor;
+          ctx.fillRect(hx + 2, hy + 4, hr.w - 4, 4);
+          // Speech bubble
+          if (h.timer > 1) {
+            const ba = Math.min(1, (h.timer - 1) * 2);
+            ctx.font = `700 ${8 + ba * 2}px "Nunito"`;
+            ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+            ctx.fillStyle = `rgba(255,255,255,${ba * 0.5})`;
+            ctx.fillText('✦ HI! ✦', hx + hr.w / 2, hy - 16);
+          }
+        });
+
         // Particles
         updateParticles(dt);
 
@@ -6721,8 +6925,28 @@ function resizeCanvas() {
           ctx.shadowBlur = 0;
         }
 
+        // Power-up HUD
+        const activePowers = [];
+        if (shielded) activePowers.push({ label: 'SHIELD', t: shieldTimer, max: ch.shieldDur, color: '#4dc9f6' });
+        if (magnet) activePowers.push({ label: 'MAGNET', t: magnetTimer, max: 5, color: '#ffdd4a' });
+        if (boost) activePowers.push({ label: 'BOOST', t: boostTimer, max: 4, color: '#ff6b3d' });
+        if (slowmo) activePowers.push({ label: 'SLOWMO', t: slowmoTimer, max: 4, color: '#c44dff' });
+        let py = 20;
+        activePowers.forEach(pw => {
+          const bx = CW - 68, bw = 60, bh = 3;
+          ctx.fillStyle = 'rgba(255,255,255,0.06)';
+          ctx.fillRect(bx, py, bw, bh);
+          ctx.fillStyle = pw.color;
+          ctx.fillRect(bx, py, (pw.t / pw.max) * bw, bh);
+          ctx.font = '6px "Nunito"';
+          ctx.fillStyle = pw.color;
+          ctx.textAlign = 'right';
+          ctx.fillText(pw.label, bx - 2, py + 3);
+          py += 6;
+        });
+
         ctx.font = '9px "Nunito"'; ctx.fillStyle = 'rgba(255,255,255,0.14)'; ctx.textAlign = 'right';
-        ctx.fillText('SPD ' + Math.round(runSpeed), CW - 8, 14);
+        ctx.fillText('SPD ' + Math.round(runSpeed * (slowmo ? 0.5 : 1)), CW - 8, 14);
 
         // Restore from shake
         if (shakeDur > 0 || Math.abs(shakeX) > 0.5 || Math.abs(shakeY) > 0.5) ctx.restore();
